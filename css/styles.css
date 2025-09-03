@@ -1,0 +1,52 @@
+/* Reset general: quita márgenes, rellenos y asegura que el tamaño de los elementos incluya padding y border */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*Estilo del body */
+body {
+  color: rgb(0, 0, 0);
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.barra-superior {
+  display: flex;
+  justify-content: flex-start;
+  background: #48ff00;
+  margin: 10px 0;
+}
+
+.logo-web {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgb(13, 226, 59);
+  color: rgb(0, 0, 0);
+}
+
+.nav-iconos {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #dbdbdb;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+}
+
+.nav-item:hover {
+  color: #1e90ff;
+}
