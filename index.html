@@ -1,85 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Level-Up Gamer</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <!--Libreria de iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Librería de iconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
-    <!--Contenedor principal-->
+    <!-- Contenedor principal -->
     <div class="main-container">
-        <!--Barra superior-->
-        <div class="barra-superior">
-          <div class="Redes">
-            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-          </div>
-          <h4>Siguenos en Redes sociales  </h4>
+      <!-- Barra superior -->
+      <header class="barra-superior">
+        <div class="redes-sociales">
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fab fa-facebook"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fab fa-twitter"></i
+          ></a>
         </div>
-        
-        <!--Encabezado global-->  
-      <header class="main-header"> <!--Aqui se aloja el h1 y los botones nav-->
-        <!--Logo-->
-        <div class="logo-web">
-            <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer">
-        </div>
-
-        <!--Navegacion con iconos-->
-        <nav class="nav-iconos">
-          <a href="#" class="nav-item"> 
-            <i class="fa fa-user-plus"> </i>
-            <span>Registrar</span>
-
-          </a>         
-          <a href="#" class="nav-item">
-            <i class=" fa fa-shopping-cart"></i>
-            <scan>Carrito</scan>
-          </a>
-          
-          <a href="#" class="nav-item">
-            <i class="fa fa-th-large"></i>
-            <span>Catalogo</span>
-          </a>
-
-          </a>
-        </nav>
+        <h4>Síguenos en Redes Sociales</h4>
       </header>
 
-      <!--Contenido principal-->
-      <main>
-        <!--Bienvenida / mision-->
-        <section class="Bienvenida">
-            <h1>Bienvenido a Level-Up Gamer</h1>
-            <p>
-                Somos la tienda gamer online en Chile. Nuestra misión: ofrecer productos 
-                de alta calidad con una experiencia única y personalizada.
-            </p>
-        </section>
-        <!--Seccion de catalogo destacado-->
-        <section class="catalogo-destacado">
-            <h2>Productos destacados</h2>
-            <article class="producto">
-                <h3>PlayStation 5</h3>
-                <p>Precio: $600.000 CLP</p>
-                <button>Añadir al Carro</button>
-            </article>
-        </section>
-        <!--Aside de contenido secundario-->
-        <aside>
-            <h2>Noticias gamer</h2>
-            <p>Proximo torneo de Cell</p>
-        </aside>
+      <!-- Encabezado global -->
+      <header class="header-principal">
+        <!-- Logo -->
+        <div class="logo-web">
+          <img
+            src="img/logo_level_up-removebg-preview.png"
+            alt="Logo Level-Up Gamer"
+            width="140"
+            height="140"
+          />
+        </div>
+        <nav class="nav-bar">
+          <a href="#" class="nav-item">
+            <i class="fa fa-house"></i>
+            <span>Home</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Productos</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa fa-user"></i>
+            <span>Nosotros</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa fa-file-lines"></i>
+            <span>Blogs</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa fa-envelope"></i>
+            <span>Contacto</span>
+          </a>
+        </nav>
 
+        <nav class="nav-carrito">
+          <a href="#" class="nav-item">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Carrito</span>
+          </a>
+        </nav>
+        <!-- Navegación con iconos -->
+        <!--<nav class="nav-iconos">
+            <a href="#" class="nav-item"> 
+              <i class="fa fa-user-plus"></i>
+              <span>Registrar</span>
+            </a>         
+            <a href="#" class="nav-item">
+              <i class="fa fa-shopping-cart"></i>
+              <span>Carrito</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa fa-th-large"></i>
+              <span>Catalógo</span>
+            </a>
+          </nav> -->
+      </header>
+
+      <!-- Contenido principal -->
+      <main>
+        <!-- Bienvenida / Misión -->
+        <section class="Bienvenida">
+          <h1>Bienvenido a Level-Up Gamer</h1>
+          <p>
+            Somos la tienda gamer online en Chile. Nuestra misión: ofrecer
+            productos de alta calidad con una experiencia única y personalizada.
+          </p>
+        </section>
+
+        <!-- Sección de catálogo destacado -->
+        <section class="main-catalogo">
+          <h2>Productos destacados</h2>
+
+          <article class="producto">
+            <img
+              src="img/ps5-pro_front.webp"
+              alt="producto"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">PlayStation 5 Pro</h3>
+            <div class="detalle-producto">
+              <span class="precio-producto">$ 600.000</span>
+              <button class="btn-agregar">Añadir al Carrito</button>
+            </div>
+          </article>
+
+          <article class="producto">
+            <img
+              src="img/ps5-pro_front.webp"
+              alt="producto"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">PlayStation 5 Pro</h3>
+            <div class="detalle-producto">
+              <span class="precio-producto">$ 600.000</span>
+              <button class="btn-agregar">Añadir al Carrito</button>
+            </div>
+          </article>
+
+          <article class="producto">
+            <img
+              src="img/ps5-pro_front.webp"
+              alt="producto"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">PlayStation 5 Pro</h3>
+            <div class="detalle-producto">
+              <span class="precio-producto">$ 600.000</span>
+              <button class="btn-agregar">Añadir al Carrito</button>
+            </div>
+          </article>
+
+          <article class="producto">
+            <img
+              src="img/ps5-pro_front.webp"
+              alt="producto"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">PlayStation 5 Pro</h3>
+            <div class="detalle-producto">
+              <span class="precio-producto">$ 600.000</span>
+              <button class="btn-agregar">Añadir al Carrito</button>
+            </div>
+          </article>
+        </section>
+
+        <!-- Aside de contenido secundario -->
+        <aside>
+          <h2>Noticias gamer</h2>
+          <p>Próximo torneo de Cell</p>
+        </aside>
       </main>
-      
-      </div>
+
+      <!-- Pie de página -->
       <footer>
-        <p>Copyright &copy; 2027 by Gabo1454.</p>
-        <p>Siguenos en redes sociales</p>
+        <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
+        <p>Síguenos en redes sociales</p>
       </footer>
     </div>
   </body>
