@@ -5,34 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Level-Up Gamer</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <!-- Librería de iconos -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
   </head>
   <body>
-    <!-- Contenedor principal -->
     <div class="main-container">
-      <!-- Barra superior -->
-      <header class="barra-superior">
-        <div class="redes-sociales">
-          <a href="https://facebook.com" target="_blank"
-            ><i class="fab fa-facebook"></i
-          ></a>
-          <a href="https://instagram.com" target="_blank"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a href="https://twitter.com" target="_blank"
-            ><i class="fab fa-twitter"></i
-          ></a>
-        </div>
-        <h4>Síguenos en Redes Sociales</h4>
-      </header>
-
+      
       <!-- Encabezado global -->
       <header class="header-principal">
-        <!-- Logo -->
+        <!-- 🎮 Logo -->
         <div class="logo-web">
           <img
             src="img/logo_level_up-removebg-preview.png"
@@ -41,55 +24,29 @@
             height="140"
           />
         </div>
+
+        <!-- 📁 Menú principal -->
         <nav class="nav-bar">
-          <a href="#" class="nav-item">
-            <i class="fa fa-house"></i>
-            <span>Home</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-shopping-cart"></i>
-            <span>Productos</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-user"></i>
-            <span>Nosotros</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-file-lines"></i>
-            <span>Blogs</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-envelope"></i>
-            <span>Contacto</span>
-          </a>
+          <a href="#" class="nav-item"><i class="fa fa-house"></i><span>Home</span></a>
+          <a href="#" class="nav-item"><i class="fa fa-shopping-cart"></i><span>Productos</span></a>
+          <a href="#" class="nav-item"><i class="fa fa-user"></i><span>Nosotros</span></a>
+          <a href="#" class="nav-item"><i class="fa fa-file-lines"></i><span>Blogs</span></a>
+          <a href="#" class="nav-item"><i class="fa fa-envelope"></i><span>Contacto</span></a>
         </nav>
 
+        <!-- 🛒 Carrito + 🔍 Buscador pegado -->
         <nav class="nav-carrito">
-          <a href="#" class="nav-item">
-            <i class="fa fa-shopping-cart"></i>
-            <span>Carrito</span>
-          </a>
+          <div class="busqueda-wrapper">
+            <i class="fa fa-search icono-lupa" onclick="toggleBusqueda()"></i>
+            <input type="text" class="barra-busqueda" placeholder="Buscar productos..." />
+          </div>
+
+          <a href="#" class="nav-item"><i class="fa fa-shopping-cart"></i><span>Carrito</span></a>
         </nav>
-        <!-- Navegación con iconos -->
-        <!--<nav class="nav-iconos">
-            <a href="#" class="nav-item"> 
-              <i class="fa fa-user-plus"></i>
-              <span>Registrar</span>
-            </a>         
-            <a href="#" class="nav-item">
-              <i class="fa fa-shopping-cart"></i>
-              <span>Carrito</span>
-            </a>
-            <a href="#" class="nav-item">
-              <i class="fa fa-th-large"></i>
-              <span>Catalógo</span>
-            </a>
-          </nav> -->
       </header>
 
       <!-- Contenido principal -->
       <main>
-        <!-- Bienvenida / Misión -->
         <section class="Bienvenida">
           <h1>Bienvenido a Level-Up Gamer</h1>
           <p>
@@ -98,68 +55,55 @@
           </p>
         </section>
 
-        <!-- Sección de catálogo destacado -->
+        <h2 class="titulo-destacados">Artículos destacados</h2>
+
         <section class="main-catalogo">
-          <h2>Productos destacados</h2>
-
           <article class="producto">
-            <img
-              src="img/ps5-pro_front.webp"
-              alt="producto"
-              width="200"
-              height="200"
-            />
+            <img src="img/ps5-pro_front.webp" alt="producto" width="200" height="200" />
             <h3 class="nombre-producto">PlayStation 5 Pro</h3>
             <div class="detalle-producto">
-              <span class="precio-producto">$ 600.000</span>
+              <span class="precio-producto">
+                <span class="precio-descuento">$549.990</span> <del>$600.000</del>
+              </span>
+              <button class="btn-agregar">Añadir al Carrito</button>
+            </div>
+          </article>
+
+          <!-- Repite los artículos según sea necesario -->
+          <article class="producto">
+            <img src="img/ps5-pro_front.webp" alt="producto" width="200" height="200" />
+            <h3 class="nombre-producto">PlayStation 5 Pro</h3>
+            <div class="detalle-producto">
+              <span class="precio-producto">
+                <span class="precio-descuento">$549.990</span> <del>$600.000</del>
+              </span>
               <button class="btn-agregar">Añadir al Carrito</button>
             </div>
           </article>
 
           <article class="producto">
-            <img
-              src="img/ps5-pro_front.webp"
-              alt="producto"
-              width="200"
-              height="200"
-            />
+            <img src="img/ps5-pro_front.webp" alt="producto" width="200" height="200" />
             <h3 class="nombre-producto">PlayStation 5 Pro</h3>
             <div class="detalle-producto">
-              <span class="precio-producto">$ 600.000</span>
+              <span class="precio-producto">
+                <span class="precio-descuento">$549.990</span> <del>$600.000</del>
+              </span>
               <button class="btn-agregar">Añadir al Carrito</button>
             </div>
           </article>
 
           <article class="producto">
-            <img
-              src="img/ps5-pro_front.webp"
-              alt="producto"
-              width="200"
-              height="200"
-            />
+            <img src="img/ps5-pro_front.webp" alt="producto" width="200" height="200" />
             <h3 class="nombre-producto">PlayStation 5 Pro</h3>
             <div class="detalle-producto">
-              <span class="precio-producto">$ 600.000</span>
-              <button class="btn-agregar">Añadir al Carrito</button>
-            </div>
-          </article>
-
-          <article class="producto">
-            <img
-              src="img/ps5-pro_front.webp"
-              alt="producto"
-              width="200"
-              height="200"
-            />
-            <h3 class="nombre-producto">PlayStation 5 Pro</h3>
-            <div class="detalle-producto">
-              <span class="precio-producto">$ 600.000</span>
+              <span class="precio-producto">
+                <span class="precio-descuento">$549.990</span> <del>$600.000</del>
+              </span>
               <button class="btn-agregar">Añadir al Carrito</button>
             </div>
           </article>
         </section>
 
-        <!-- Aside de contenido secundario -->
         <aside>
           <h2>Noticias gamer</h2>
           <p>Próximo torneo de Cell</p>
@@ -168,9 +112,18 @@
 
       <!-- Pie de página -->
       <footer>
-        <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
-        <p>Síguenos en redes sociales</p>
-      </footer>
+  <div class="footer-contenido">
+    <h4>Síguenos en redes sociales</h4>
+    <div class="redes-sociales">
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
     </div>
+    <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+    <!-- Script de interacción -->
+    <script src="js/scripts.js"></script>
   </body>
 </html>
