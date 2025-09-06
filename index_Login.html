@@ -3,46 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro | Level-Up Gamer</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>Login | Level-Up Gamer</title>
+
+  <!-- Tipografías requeridas -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="cssLogin/styles_Login.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
   <div class="login-wrapper">
     <div class="logo-login">
-      <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="100" height="100" />
+      <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="120" height="120" />
     </div>
 
-    <h2>Registro de Persona</h2>
+    <h2 class="encabezado">Registro</h2>
 
     <form id="formulario-registro">
-      <label for="apellido">Apellido</label>
-      <input type="text" id="apellido" required />
-
       <label for="nombre">Nombre</label>
       <input type="text" id="nombre" required />
 
-      <label for="edad">Edad</label>
-      <select id="edad" required>
-        <option value="">Selecciona edad</option>
-        <option>18</option>
-        <option>19</option>
-        <option>20</option>
-        <option>21+</option>
-      </select>
+      <label for="apellido">Apellido</label>
+      <input type="text" id="apellido" required />
 
       <label for="fecha">Fecha de Nacimiento</label>
       <input type="date" id="fecha" required />
 
-      <label for="direccion">Dirección</label>
-      <input type="text" id="direccion" required />
+      <label for="correo">Correo electrónico</label>
+      <input type="email" id="correo" required placeholder="ejemplo@duoc.cl" />
 
-      <button type="button" onclick="agregarPersona()">Agregar Persona</button>
+      <label for="referido">Código de Referido (opcional)</label>
+      <input type="text" id="referido" placeholder="Ej: ABC123" />
+
+      <button type="button" onclick="agregarPersona()">Registrarse</button>
     </form>
 
     <p>Total de Personas: <span id="contador">0</span></p>
 
     <div id="lista-personas"></div>
+    <div id="mensaje-descuento" class="descuento-oculto"></div>
   </div>
 
   <script src="JsLogin/ScriptsLogin.js"></script>
