@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro | Level-Up Gamer</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="logo-login">
+      <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="100" height="100" />
+    </div>
+
+    <h2>Registro de Persona</h2>
+
+    <form id="formulario-registro">
+      <label for="apellido">Apellido</label>
+      <input type="text" id="apellido" required />
+
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" required />
+
+      <label for="edad">Edad</label>
+      <select id="edad" required>
+        <option value="">Selecciona edad</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21+</option>
+      </select>
+
+      <label for="fecha">Fecha de Nacimiento</label>
+      <input type="date" id="fecha" required />
+
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" required />
+
+      <button type="button" onclick="agregarPersona()">Agregar Persona</button>
+    </form>
+
+    <p>Total de Personas: <span id="contador">0</span></p>
+
+    <div id="lista-personas"></div>
+  </div>
+
+  <script src="JsLogin/ScriptsLogin.js"></script>
+</body>
+</html>

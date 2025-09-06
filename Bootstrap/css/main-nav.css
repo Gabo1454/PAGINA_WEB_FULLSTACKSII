@@ -1,0 +1,14 @@
+.il-nav-item:hover,
+.il-nav-item:active {
+  background-color: #f0c22f;
+  border-radius: 6px;
+  color: #000000;
+}
+
+.il-active {
+  color: #f0c22f;
+}
+
+.il-nav-item:link {
+  color: #f7f7f7;
+}
