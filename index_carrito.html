@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carrito | Level-Up Gamer</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="cssTienda/carrito.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="main-container">
+    <header class="header-principal">
+      <div class="logo-web">
+        <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="120" height="140" />
+      </div>
+      <nav class="nav-bar">
+        <a href="index.html" class="nav-item"><i class="fa fa-house"></i><span>Home</span></a>
+        <a href="nosotros.html" class="nav-item"><i class="fa fa-user"></i><span>Nosotros</span></a>
+        <a href="blogs.html" class="nav-item"><i class="fa fa-file-lines"></i><span>Blogs</span></a>
+        <a href="contacto.html" class="nav-item"><i class="fa fa-envelope"></i><span>Contacto</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="Bienvenida">
+        <h1 class="encabezado">Tu Carrito de Compras</h1>
+        <p class="puntos">Puntos LevelUp: <span id="puntos-usuario">0</span></p>
+      </section>
+
+      <section id="carrito-contenido" class="carrito-grid"></section>
+
+      <section class="resumen-compra">
+        <h2>Resumen</h2>
+        <p>Total: <span id="total-compra">$0 CLP</span></p>
+        <button id="btn-finalizar" class="btn-carrito">Finalizar Compra</button>
+        <button id="btn-limpiar" class="btn-carrito limpiar">Limpiar Carrito</button>
+        </section>
+    </main>
+
+    <footer>
+      <div class="footer-contenido">
+        <h4>Síguenos en redes sociales</h4>
+        <div class="redes-sociales">
+          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="JsCarrito/ScriptsCarrito.js"></script>
+</body>
+</html>

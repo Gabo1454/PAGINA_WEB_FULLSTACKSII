@@ -32,10 +32,11 @@
           <input type="text" id="busqueda" class="barra-busqueda" placeholder="Buscar productos..." />
           <i class="fa fa-search icono-lupa" onclick="toggleBusqueda()"></i>
         </div>
-        <a href="carrito.html" class="nav-item">
-          <i class="fa fa-shopping-cart"></i>
-          <span>Carrito (<span id="contador-carrito">0</span>)</span>
+        <a href="index_carrito.html" class="nav-item">
+        <i class="fa fa-shopping-cart"></i>
+        <span>Carrito (<span id="contador-carrito">0</span>)</span>
         </a>
+
       </nav>
     </header>
 
@@ -47,107 +48,106 @@
       </section>
 
       <section class="main-catalogo">
-        <!-- Productos del PDF -->
-        <article class="producto">
-          <img src="img/catan.jpg" alt="Catan" width="200" height="200" />
-          <h3 class="nombre-producto">Catan</h3>
-          <p class="descripcion-producto">Juego de estrategia para colonizar la isla de Catan. Ideal para 3-4 jugadores.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$29.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/catan.jpg" alt="Catan" width="200" height="200" />
+    <h3 class="nombre-producto">Catan</h3>
+    <p class="descripcion-producto">Juego de estrategia para colonizar la isla de Catan. Ideal para 3-4 jugadores.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$29.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('JM001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Carcassonne.webp" alt="Carcassonne" width="200" height="200" />
-          <h3 class="nombre-producto">Carcassonne</h3>
-          <p class="descripcion-producto">Construye paisajes medievales con fichas. Ideal para 2-5 jugadores.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$24.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/Carcassonne.webp" alt="Carcassonne" width="200" height="200" />
+    <h3 class="nombre-producto">Carcassonne</h3>
+    <p class="descripcion-producto">Construye paisajes medievales con fichas. Ideal para 2-5 jugadores.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$24.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('JM002')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Controlador Xbox Series X.webp" alt="Controlador Xbox Series X" width="200" height="200" />
-          <h3 class="nombre-producto">Controlador Xbox Series X</h3>
-          <p class="descripcion-producto">Botones mapeables y respuesta táctil mejorada. Compatible con Xbox y PC.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$59.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/Controlador Xbox Series X.webp" alt="Controlador Xbox Series X" width="200" height="200" />
+    <h3 class="nombre-producto">Controlador Xbox Series X</h3>
+    <p class="descripcion-producto">Botones mapeables y respuesta táctil mejorada. Compatible con Xbox y PC.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$59.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('AC001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Auriculares HyperX Cloud II.webp" alt="Auriculares HyperX Cloud II" width="200" height="200" />
-          <h3 class="nombre-producto">Auriculares HyperX Cloud II</h3>
-          <p class="descripcion-producto">Sonido envolvente, micrófono desmontable y almohadillas de espuma viscoelástica.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$79.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/Auriculares HyperX Cloud II.webp" alt="Auriculares HyperX Cloud II" width="200" height="200" />
+    <h3 class="nombre-producto">Auriculares HyperX Cloud II</h3>
+    <p class="descripcion-producto">Sonido envolvente, micrófono desmontable y almohadillas de espuma viscoelástica.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$79.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('AC002')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/ps5-pro_front.webp" alt="PlayStation 5" width="200" height="200" />
-          <h3 class="nombre-producto">PlayStation 5</h3>
-          <p class="descripcion-producto">Gráficos impresionantes y tiempos de carga ultrarrápidos para una experiencia inmersiva.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$549.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/ps5-pro_front.webp" alt="PlayStation 5" width="200" height="200" />
+    <h3 class="nombre-producto">PlayStation 5</h3>
+    <p class="descripcion-producto">Gráficos impresionantes y tiempos de carga ultrarrápidos para una experiencia inmersiva.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$549.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('CO001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/PC Gamer ASUS ROG Strix.webp" alt="PC Gamer ASUS ROG Strix" width="200" height="200" />
-          <h3 class="nombre-producto">PC Gamer ASUS ROG Strix</h3>
-          <p class="descripcion-producto">Rendimiento extremo con los últimos componentes para gamers exigentes.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$1.299.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/PC Gamer ASUS ROG Strix.webp" alt="PC Gamer ASUS ROG Strix" width="200" height="200" />
+    <h3 class="nombre-producto">PC Gamer ASUS ROG Strix</h3>
+    <p class="descripcion-producto">Rendimiento extremo con los últimos componentes para gamers exigentes.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$1.299.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('CG001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Silla Gamer Secretlab Titan.jpg" alt="Silla Gamer Secretlab Titan" width="200" height="200" />
-          <h3 class="nombre-producto">Silla Gamer Secretlab Titan</h3>
-          <p class="descripcion-producto">Soporte ergonómico y personalización ajustable para sesiones prolongadas.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$349.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/Silla Gamer Secretlab Titan.jpg" alt="Silla Gamer Secretlab Titan" width="200" height="200" />
+    <h3 class="nombre-producto">Silla Gamer Secretlab Titan</h3>
+    <p class="descripcion-producto">Soporte ergonómico y personalización ajustable para sesiones prolongadas.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$349.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('SG001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Mouse Logitech G502 HERO.jpg" alt="Mouse Logitech G502 HERO" width="200" height="200" />
-          <h3 class="nombre-producto">Mouse Logitech G502 HERO</h3>
-          <p class="descripcion-producto">Sensor de alta precisión y botones personalizables para control total.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$49.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/Mouse Logitech G502 HERO.jpg" alt="Mouse Logitech G502 HERO" width="200" height="200" />
+    <h3 class="nombre-producto">Mouse Logitech G502 HERO</h3>
+    <p class="descripcion-producto">Sensor de alta precisión y botones personalizables para control total.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$49.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('MS001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Mousepad Razer Goliathus.jpg" alt="Mousepad Razer Goliathus" width="200" height="200" />
-          <h3 class="nombre-producto">Mousepad Razer Goliathus</h3>
-          <p class="descripcion-producto">Superficie amplia con iluminación RGB personalizable para precisión gamer.</p>
-          <div class="detalle-producto">
-            <span class="precio-producto">$29.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
+  <article class="producto">
+    <img src="img/Mousepad Razer Goliathus.jpg" alt="Mousepad Razer Goliathus" width="200" height="200" />
+    <h3 class="nombre-producto">Mousepad Razer Goliathus</h3>
+    <p class="descripcion-producto">Superficie amplia con iluminación RGB personalizable para precisión gamer.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$29.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('MP001')">Añadir al Carrito</button>
+    </div>
+  </article>
 
-        <article class="producto">
-          <img src="img/Polera Gamer Level-Up.jpg" alt="Polera Gamer 'Level-Up'" width="200" height="200" />
-          <h3 class="nombre-producto">Polera Gamer 'Level-Up'</h3>
-          <p class="descripcion-producto">Camiseta cómoda y personalizable
-                    <div class="detalle-producto">
-            <span class="precio-producto">$14.990 CLP</span>
-            <button class="btn-agregar">Añadir al Carrito</button>
-          </div>
-        </article>
-      </section>
+  <article class="producto">
+    <img src="img/Polera Gamer Level-Up.jpg" alt="Polera Gamer 'Level-Up'" width="200" height="200" />
+    <h3 class="nombre-producto">Polera Gamer 'Level-Up'</h3>
+    <p class="descripcion-producto">Camiseta cómoda y personalizable con tu gamer tag o diseño favorito.</p>
+    <div class="detalle-producto">
+      <span class="precio-producto">$14.990 CLP</span>
+      <button class="btn-agregar" onclick="agregarAlCarrito('PP001')">Añadir al Carrito</button>
+    </div>
+  </article>
+</section>
 
       <aside>
         <h2>Noticias gamer</h2>
@@ -174,21 +174,26 @@
   <script>
     // Mostrar nombre y puntos del usuario
     document.addEventListener("DOMContentLoaded", () => {
-      const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const nombreSpan = document.getElementById("nombre-usuario");
-      const puntosSpan = document.getElementById("puntos-usuario");
-      if (usuarioActivo) {
-        if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre;
-        if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos;
-      }
+    let usuarioActivo = null;
+    const data = sessionStorage.getItem("usuarioActivo");
 
-      // Inicializar contador del carrito
-      const contadorCarrito = document.getElementById("contador-carrito");
-      if (contadorCarrito) {
-        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        contadorCarrito.textContent = carrito.length;
+    if (data) {
+      try {
+        usuarioActivo = JSON.parse(data);
+      } catch (e) {
+        console.error("Error al parsear usuarioActivo:", e);
       }
-    });
+    }
+
+    const nombreSpan = document.getElementById("nombre-usuario");
+    const puntosSpan = document.getElementById("puntos-usuario");
+
+    if (usuarioActivo) {
+      if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre || "";
+      if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos || 0;
+    }
+  });
+
 
     // Función para mostrar/ocultar barra de búsqueda y filtrar productos
     function toggleBusqueda() {
@@ -206,5 +211,33 @@
       }
     }
   </script>
+  <script>
+  function agregarAlCarrito(codigo) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.push(codigo);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    actualizarContadorCarrito();
+    alert("Producto agregado al carrito 🎮");
+  }
+
+  function actualizarContadorCarrito() {
+    const contador = document.getElementById("contador-carrito");
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    if (contador) contador.textContent = carrito.length;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+    const nombreSpan = document.getElementById("nombre-usuario");
+    const puntosSpan = document.getElementById("puntos-usuario");
+    if (usuarioActivo) {
+      if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre;
+      if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos;
+    }
+
+    actualizarContadorCarrito();
+  });
+</script>
 </body>
 </html>
