@@ -1,18 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Obtener datos del usuario desde sessionStorage
-  const nombreUsuario = localStorage.getItem("usuarioNombre");
-  const puntosUsuario = localStorage.getItem("usuarioPuntos");
+  // Obtener usuario activo desde localStorage
+  const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
 
   // Verificar que los elementos existen antes de insertar contenido
   const nombreSpan = document.getElementById("nombre-usuario");
   const puntosSpan = document.getElementById("puntos-usuario");
+  const bienvenida = document.getElementById("bienvenida");
 
-  if (nombreUsuario && nombreSpan) {
-    nombreSpan.textContent = nombreUsuario;
-  }
+  if (usuarioActivo) {
+    if (nombreSpan) {
+      nombreSpan.textContent = usuarioActivo.nombre;
+    }
 
-  if (puntosUsuario && puntosSpan) {
-    puntosSpan.textContent = puntosUsuario;
+    if (puntosSpan) {
+      puntosSpan.textContent = usuarioActivo.puntos;
+    }
+
+    if (bienvenida) {
+      bienvenida.textContent = `¡Bienvenido, ${usuarioActivo.nombre}!`;
+    }
   }
 
   // Función para mostrar/ocultar la barra de búsqueda

@@ -8,12 +8,11 @@
   <!-- Fuentes requeridas -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="cssTienda/tienda.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
   <div class="main-container">
-
-    <!-- Encabezado global -->
     <header class="header-principal">
       <div class="logo-web">
         <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="120" height="140" />
@@ -21,7 +20,6 @@
 
       <nav class="nav-bar">
         <a href="index.html" class="nav-item"><i class="fa fa-house"></i><span>Home</span></a>
-        <a href="productos.html" class="nav-item"><i class="fa fa-gamepad"></i><span>Productos</span></a>
         <a href="nosotros.html" class="nav-item"><i class="fa fa-user"></i><span>Nosotros</span></a>
         <a href="blogs.html" class="nav-item"><i class="fa fa-file-lines"></i><span>Blogs</span></a>
         <a href="contacto.html" class="nav-item"><i class="fa fa-envelope"></i><span>Contacto</span></a>
@@ -31,7 +29,7 @@
 
       <nav class="nav-carrito">
         <div class="busqueda-wrapper">
-          <input type="text" class="barra-busqueda" placeholder="Buscar productos..." />
+          <input type="text" id="busqueda" class="barra-busqueda" placeholder="Buscar productos..." />
           <i class="fa fa-search icono-lupa" onclick="toggleBusqueda()"></i>
         </div>
         <a href="carrito.html" class="nav-item">
@@ -41,7 +39,6 @@
       </nav>
     </header>
 
-    <!-- Contenido principal -->
     <main>
       <section class="Bienvenida">
         <h1 class="encabezado">Bienvenido <span id="nombre-usuario"></span> a Level-Up Gamer</h1>
@@ -49,20 +46,107 @@
         <p>Somos la tienda gamer online en Chile. Nuestra misión: ofrecer productos de alta calidad con una experiencia única y personalizada.</p>
       </section>
 
-      <h2 class="titulo-destacados">Artículos destacados</h2>
-
       <section class="main-catalogo">
+        <!-- Productos del PDF -->
         <article class="producto">
-          <img src="img/ps5-pro_front.webp" alt="PlayStation 5 Pro" width="200" height="200" />
-          <h3 class="nombre-producto">PlayStation 5 Pro</h3>
+          <img src="img/catan.jpg" alt="Catan" width="200" height="200" />
+          <h3 class="nombre-producto">Catan</h3>
+          <p class="descripcion-producto">Juego de estrategia para colonizar la isla de Catan. Ideal para 3-4 jugadores.</p>
           <div class="detalle-producto">
-            <span class="precio-producto">
-              <span class="precio-descuento">$549.990</span> <del>$600.000</del>
-            </span>
+            <span class="precio-producto">$29.990 CLP</span>
             <button class="btn-agregar">Añadir al Carrito</button>
           </div>
         </article>
-        <!-- Más productos aquí -->
+
+        <article class="producto">
+          <img src="img/Carcassonne.webp" alt="Carcassonne" width="200" height="200" />
+          <h3 class="nombre-producto">Carcassonne</h3>
+          <p class="descripcion-producto">Construye paisajes medievales con fichas. Ideal para 2-5 jugadores.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$24.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/Controlador Xbox Series X.webp" alt="Controlador Xbox Series X" width="200" height="200" />
+          <h3 class="nombre-producto">Controlador Xbox Series X</h3>
+          <p class="descripcion-producto">Botones mapeables y respuesta táctil mejorada. Compatible con Xbox y PC.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$59.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/Auriculares HyperX Cloud II.webp" alt="Auriculares HyperX Cloud II" width="200" height="200" />
+          <h3 class="nombre-producto">Auriculares HyperX Cloud II</h3>
+          <p class="descripcion-producto">Sonido envolvente, micrófono desmontable y almohadillas de espuma viscoelástica.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$79.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/ps5-pro_front.webp" alt="PlayStation 5" width="200" height="200" />
+          <h3 class="nombre-producto">PlayStation 5</h3>
+          <p class="descripcion-producto">Gráficos impresionantes y tiempos de carga ultrarrápidos para una experiencia inmersiva.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$549.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/PC Gamer ASUS ROG Strix.webp" alt="PC Gamer ASUS ROG Strix" width="200" height="200" />
+          <h3 class="nombre-producto">PC Gamer ASUS ROG Strix</h3>
+          <p class="descripcion-producto">Rendimiento extremo con los últimos componentes para gamers exigentes.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$1.299.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/Silla Gamer Secretlab Titan.jpg" alt="Silla Gamer Secretlab Titan" width="200" height="200" />
+          <h3 class="nombre-producto">Silla Gamer Secretlab Titan</h3>
+          <p class="descripcion-producto">Soporte ergonómico y personalización ajustable para sesiones prolongadas.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$349.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/Mouse Logitech G502 HERO.jpg" alt="Mouse Logitech G502 HERO" width="200" height="200" />
+          <h3 class="nombre-producto">Mouse Logitech G502 HERO</h3>
+          <p class="descripcion-producto">Sensor de alta precisión y botones personalizables para control total.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$49.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/Mousepad Razer Goliathus.jpg" alt="Mousepad Razer Goliathus" width="200" height="200" />
+          <h3 class="nombre-producto">Mousepad Razer Goliathus</h3>
+          <p class="descripcion-producto">Superficie amplia con iluminación RGB personalizable para precisión gamer.</p>
+          <div class="detalle-producto">
+            <span class="precio-producto">$29.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
+
+        <article class="producto">
+          <img src="img/Polera Gamer Level-Up.jpg" alt="Polera Gamer 'Level-Up'" width="200" height="200" />
+          <h3 class="nombre-producto">Polera Gamer 'Level-Up'</h3>
+          <p class="descripcion-producto">Camiseta cómoda y personalizable
+                    <div class="detalle-producto">
+            <span class="precio-producto">$14.990 CLP</span>
+            <button class="btn-agregar">Añadir al Carrito</button>
+          </div>
+        </article>
       </section>
 
       <aside>
@@ -74,7 +158,6 @@
       </aside>
     </main>
 
-    <!-- Pie de página -->
     <footer>
       <div class="footer-contenido">
         <h4>Síguenos en redes sociales</h4>
@@ -86,10 +169,42 @@
         <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
       </div>
     </footer>
-
   </div>
 
-  <!-- Script para mostrar nombre y puntos del usuario -->
-  <script src="js/scripts.js"></script>
+  <script>
+    // Mostrar nombre y puntos del usuario
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const nombreSpan = document.getElementById("nombre-usuario");
+      const puntosSpan = document.getElementById("puntos-usuario");
+      if (usuarioActivo) {
+        if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre;
+        if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos;
+      }
+
+      // Inicializar contador del carrito
+      const contadorCarrito = document.getElementById("contador-carrito");
+      if (contadorCarrito) {
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        contadorCarrito.textContent = carrito.length;
+      }
+    });
+
+    // Función para mostrar/ocultar barra de búsqueda y filtrar productos
+    function toggleBusqueda() {
+      const barra = document.getElementById("busqueda");
+      if (barra.style.display === "none" || barra.style.display === "") {
+        barra.style.display = "inline-block";
+        barra.focus();
+      } else {
+        const texto = barra.value.toLowerCase();
+        const productos = document.querySelectorAll(".producto");
+        productos.forEach((producto) => {
+          const nombre = producto.querySelector(".nombre-producto").textContent.toLowerCase();
+          producto.style.display = nombre.includes(texto) ? "block" : "none";
+        });
+      }
+    }
+  </script>
 </body>
 </html>

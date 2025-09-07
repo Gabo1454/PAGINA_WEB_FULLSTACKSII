@@ -1,0 +1,73 @@
+.barra-busqueda {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #222;
+  color: #fff;
+  width: 180px;
+  display: none;
+}
+
+.icono-lupa {
+  font-size: 1.2em;
+  color: #fff;
+  cursor: pointer;
+}
+
+.main-catalogo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.producto {
+  background-color: #1a1a1a;
+  padding: 15px;
+  border-radius: 8px;
+  width: 220px;
+  box-shadow: 0 0 10px #00f2ff;
+  text-align: center;
+}
+
+.producto img {
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.nombre-producto {
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  margin: 10px 0;
+}
+
+.precio-producto {
+  color: #39FF14;
+  font-weight: bold;
+}
+
+.btn-agregar {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #00f2ff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-agregar:hover {
+  background-color: #00d4e0;
+}
+
+.producto img {
+  width: 100%;
+  height: auto;
+  max-width: 200px;
+  border-radius: 6px;
+  object-fit: contain;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 10px;
+}

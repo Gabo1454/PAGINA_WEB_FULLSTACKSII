@@ -17,7 +17,7 @@ function agregarPersona() {
   // Validación de edad mínima
   const fechaNacimiento = new Date(fecha);
   const hoy = new Date();
-  const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
   const mes = hoy.getMonth() - fechaNacimiento.getMonth();
   if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
     edad--;
@@ -28,10 +28,28 @@ function agregarPersona() {
     return;
   }
 
-  // Guardar datos en localStorage
-  localStorage.setItem("usuarioNombre", nombre);
-  localStorage.setItem("usuarioPuntos", referido ? "50" : "0");
-  localStorage.setItem("usuarioClave", clave);
+  // Obtener usuarios existentes
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  // Verificar si el nombre ya está registrado
+  const existe = usuarios.some((u) => u.nombre === nombre);
+  if (existe) {
+    alert("Ese nombre de usuario ya está registrado.");
+    return;
+  }
+
+  // Crear nuevo usuario
+  const nuevoUsuario = {
+    nombre: nombre,
+    clave: clave,
+    correo: correo,
+    puntos: referido ? 50 : 0,
+    referido: referido
+  };
+
+  // Agregar al array y guardar
+  usuarios.push(nuevoUsuario);
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
   // Actualizar contador
   let contador = parseInt(contadorSpan.textContent);

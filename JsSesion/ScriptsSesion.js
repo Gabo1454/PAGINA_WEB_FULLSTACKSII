@@ -5,14 +5,28 @@ document.getElementById("formLogin").addEventListener("submit", function (e) {
   const claveIngresada = document.getElementById("claveUsuario").value.trim();
   const mensajeError = document.getElementById("mensajeError");
 
-  // Obtener datos guardados en localStorage
-  const nombreGuardado = localStorage.getItem("usuarioNombre");
-  const claveGuardada = localStorage.getItem("usuarioClave");
+  // Validación de campos vacíos
+  if (!nombreIngresado || !claveIngresada) {
+    mensajeError.textContent = "Por favor completa todos los campos.";
+    return;
+  }
 
-  // Validar credenciales
-  if (nombreIngresado === nombreGuardado && claveIngresada === claveGuardada) {
-    mensajeError.textContent = ""; // Limpiar mensaje de error
-    window.location.href = "../index.html"; // Redirigir al menú
+  // Obtener lista de usuarios registrados
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  // Buscar coincidencia exacta
+  const usuarioValido = usuarios.find(
+    (u) => u.nombre === nombreIngresado && u.clave === claveIngresada
+  );
+
+  if (usuarioValido) {
+    mensajeError.textContent = "";
+
+    // Guardar sesión activa
+    localStorage.setItem("usuarioActivo", JSON.stringify(usuarioValido));
+
+    // Redirigir al menú principal
+    window.location.href = "../index.html";
   } else {
     mensajeError.textContent = "Usuario o contraseña incorrectos.";
   }
