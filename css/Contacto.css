@@ -40,3 +40,31 @@ body {
   z-index: -1;
   object-fit: cover;
 }
+.frase-gamer {
+    position: absolute;
+    bottom: 20px;
+    width: 80%;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: white;
+    z-index: 100;
+  }
+
+  .letra {
+    opacity: 0;
+    animation: aparecer 0.05s ease-in-out forwards;
+    animation-delay: calc(var(--i) * 0.05s);
+    display: inline-block;
+  }
+
+  @keyframes aparecer {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
