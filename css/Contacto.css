@@ -1,0 +1,42 @@
+body {
+  margin: 180px;
+  font-family: "Roboto", sans-serif;
+  background-color: #111;
+  color: #5fd63a;
+  
+}
+.footer-contenido {
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.7); /* Negro con 70% opacidad */
+  max-width: 800px; /* Ajusta según tu diseño */
+  margin: 0 auto;   /* Centra horizontalmente */
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  color: white;
+
+
+}
+.redes-sociales a {
+  color: #fff;
+  margin: 10px;
+  font-size: 1.6em;
+}
+
+.redes-sociales a:hover {
+  color: #00f2ff;
+}
+
+#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  object-fit: cover;
+}
