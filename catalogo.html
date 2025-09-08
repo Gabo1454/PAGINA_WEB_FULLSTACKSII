@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Catalogo</title>
+    <title>Catálogo</title>
+
+    <!-- Fuentes requeridas -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/styles.css" />
-    <!--Libreria de iconos -->
+    <link rel="stylesheet" href="cssTienda/tienda.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -13,8 +19,413 @@
   </head>
   <body>
     <div class="main-container">
-      <!--Barra superior-->
-      <div class="barra-superior">
+      <!-- Encabezado global -->
+      <header class="header-principal">
+        <!-- Logo -->
+        <div class="logo-web">
+          <img
+            src="img/logo_level_up-removebg-preview.png"
+            alt="Logo Level-Up Gamer"
+            width="120"
+            height="140"
+          />
+        </div>
+
+        <!-- Navegación principal -->
+        <nav class="nav-bar">
+          <a href="index.html" class="nav-item"
+            ><i class="fa fa-house"></i><span>Home</span></a
+          >
+          <a href="catalogo.html" class="nav-item"
+            ><i class="fa fa-gamepad"></i><span>Productos</span></a
+          >
+          <a href="nosotros.html" class="nav-item"
+            ><i class="fa fa-user"></i><span>Nosotros</span></a
+          >
+          <a href="blogs.html" class="nav-item"
+            ><i class="fa fa-file-lines"></i><span>Blogs</span></a
+          >
+          <a href="contacto.html" class="nav-item"
+            ><i class="fa fa-envelope"></i><span>Contacto</span></a
+          >
+          <a href="Index_Iniciar_sesion.html" class="nav-item"
+            ><i class="fa fa-right-to-bracket"></i
+            ><span>Iniciar Sesión</span></a
+          >
+          <a href="index_Login.html" class="nav-item"
+            ><i class="fa fa-user-plus"></i><span>Registrarse</span></a
+          >
+        </nav>
+
+        <!-- Carrito y búsqueda -->
+        <nav class="nav-carrito">
+          <div class="busqueda-wrapper">
+            <input
+              type="text"
+              id="busqueda"
+              class="barra-busqueda"
+              placeholder="Buscar productos..."
+            />
+            <i class="fa fa-search icono-lupa" onclick="toggleBusqueda()"></i>
+          </div>
+          <a href="index_carrito.html" class="nav-item">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Carrito (<span id="contador-carrito">0</span>)</span>
+          </a>
+        </nav>
+      </header>
+    </div>
+    <!--Slider section-->
+    <section class="banner-slider">
+      <div class="slider">
+        <div class="sliader-active">
+          <img src="img/elden-ring-slider-banner.webp" alt="Banner juego 1" />
+        </div>
+      </div>
+    </section>
+    <!-- Contenido principal: filtros + productos -->
+    <section class="catalogo-container">
+      <!-- Filtros -->
+      <aside class="filtros">
+        <h2>Filtrar por</h2>
+        <div class="filtro-categoria">
+          <h3>Categorías</h3>
+          <ul>
+            <li>
+              <input type="checkbox" id="juegos" />
+              <label for="juegos">Juegos</label>
+            </li>
+            <li>
+              <input type="checkbox" id="consolas" />
+              <label for="consolas">Consolas</label>
+            </li>
+            <li>
+              <input type="checkbox" id="notebooks-gamers" />
+              <label for="notebooks-gamers">Notebooks Gamers</label>
+            </li>
+            <li>
+              <input type="checkbox" id="pc-escritorio" />
+              <label for="pc-escritorio">PC de Escritorio</label>
+            </li>
+            <li>
+              <input type="checkbox" id="perifericos" />
+              <label for="perifericos">Periféricos</label>
+            </li>
+            <li>
+              <input type="checkbox" id="sillas-gamer" />
+              <label for="sillas-gamer">Sillas Gamer</label>
+            </li>
+            <li>
+              <input type="checkbox" id="ropa" />
+              <label for="ropa">Ropa</label>
+            </li>
+            <li>
+              <input type="checkbox" id="figuras" />
+              <label for="figuras">Figuras</label>
+            </li>
+            <li>
+              <input type="checkbox" id="codigos" />
+              <label for="codigos">Códigos</label>
+            </li>
+            <li>
+              <input type="checkbox" id="juegos-mesa" />
+              <label for="juegos-mesa">Juegos de Mesa</label>
+            </li>
+          </ul>
+        </div>
+
+        <div class="filtro-precio">
+          <h3>Precio</h3>
+          <input type="range" min="0" max="2000000" step="50000" />
+        </div>
+      </aside>
+
+      <!-- Catálogo de productos -->
+      <main class="main-catalogo">
+        <section class="catalogo-productos">
+          <!-- Notebook -->
+          <article class="producto" data-categoria="Notebook">
+            <img
+              src="img/hp-omEn_front.avif"
+              alt="Notebook HP OMEN 15 RTX 4080"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Notebook HP OMEN 15 RTX 4080</h3>
+            <span class="precio-producto">$ 1.500.000</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('NB001')">
+              Agregar al carrito
+            </button>
+          </article>
+
+          <!-- Juegos -->
+          <article class="producto" data-categoria="Juegos">
+            <div class="etiqueta etiqueta-estreno">Estreno</div>
+            <img
+              src="img/Metal-Gear-Delta_ps5.webp"
+              alt="Metal Gear Delta ps5"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Metal Gear Delta PS5</h3>
+            <span class="precio-producto">$59.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('JU001')">
+              Agregar al carrito
+            </button>
+          </article>
+
+          <!-- Consolas -->
+          <article class="producto" data-categoria="Consolas">
+            <img
+              src="img/ps5-pro_front.webp"
+              alt="PlayStation 5"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">PlayStation 5</h3>
+            <span class="precio-producto">$549.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('CO001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <article class="producto" data-categoria="Consolas">
+            <img
+              src="img/xbox-serie-x.webp"
+              alt="Xbox Series"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Xbox Series X 1 TB</h3>
+            <span class="precio-producto">$780.000 CLP </span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('CO002')">
+              Agregar al carrito
+            </button>
+          </article>
+
+          <!-- PC de Escritorio -->
+          <article class="producto" data-categoria="PC de Escritorio">
+            <img
+              src="img/PC Gamer ASUS ROG Strix.webp"
+              alt="PC Gamer ASUS ROG Strix"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">PC Gamer ASUS ROG Strix</h3>
+            <span class="precio-producto">$1.299.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('CG001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <!-- Notebooks Gamers -->
+          <article class="producto" data-categoria="Notebooks">
+            <img
+              src="img/legion-5.webp"
+              alt="Lenovo Legion 5"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Notebook Lenovo Legion 5</h3>
+            <span class="precio-producto">$1.200.000</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('NB002')">
+              Agregar al carrito
+            </button>
+          </article>
+
+          <!-- Periféricos -->
+          <article class="producto" data-categoria="Periféricos">
+            <img
+              src="img/Controlador Xbox Series X.webp"
+              alt="Controlador Xbox Series X"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Controlador Xbox Series X</h3>
+            <span class="precio-producto">$59.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('AC001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <article class="producto" data-categoria="Periféricos">
+            <img
+              src="img/Auriculares HyperX Cloud II.webp"
+              alt="Auriculares HyperX Cloud II"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Auriculares HyperX Cloud II</h3>
+            <span class="precio-producto">$79.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('AC002')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <article class="producto" data-categoria="Periféricos">
+            <img
+              src="img/Mouse Logitech G502 HERO.jpg"
+              alt="Mouse Logitech G502 HERO"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Mouse Logitech G502 HERO</h3>
+            <span class="precio-producto">$49.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('MS001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <article class="producto" data-categoria="Periféricos">
+            <img
+              src="img/Mousepad Razer Goliathus.jpg"
+              alt="Mousepad Razer Goliathus"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Mousepad Razer Goliathus</h3>
+            <span class="precio-producto">$29.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('MP001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <!-- Sillas Gamer -->
+          <article class="producto" data-categoria="Sillas Gamer">
+            <img
+              src="img/Silla Gamer Secretlab Titan.jpg"
+              alt="Silla Gamer Secretlab Titan"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Silla Gamer Secretlab Titan</h3>
+            <span class="precio-producto">$349.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('SG001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <!-- Ropa -->
+          <article class="producto" data-categoria="Ropa">
+            <img
+              src="img/Polera Gamer Level-Up.jpg"
+              alt="Polera Gamer 'Level-Up'"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Polera Gamer 'Level-Up'</h3>
+            <span class="precio-producto">$14.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('PP001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <!-- Figuras -->
+          <article class="producto" data-categoria="Figuras">
+            <div class="etiqueta etiqueta-recien-llegado">¡Nuevo!</div>
+            <img
+              src="img/play-art-2b-2.0.jpg"
+              alt="Figura Ejemplo"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">BRING ARTS YoRHa 2B Version 2.0</h3>
+            <span class="precio-producto">$89.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('FG001')">
+              Agregar al carrito
+            </button>
+          </article>
+
+          <!-- Códigos -->
+          <article class="producto" data-categoria="Códigos">
+            <img
+              src="img/10 dolares-psn-usa.avif"
+              alt="Código PS4"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Código 10 dolares PSN USA</h3>
+            <span class="precio-producto">$12.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('CD001')">
+              Agregar al carrito
+            </button>
+          </article>
+
+          <article class="producto" data-categoria="Códigos">
+            <img
+              src="img/20-dolares-steam.png"
+              alt="Código Steam $20"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Código Steam $20 dolares</h3>
+            <span class="precio-producto">$22.000 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('CD002')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <!-- Juegos de Mesa -->
+          <article class="producto" data-categoria="Juegos de Mesa">
+            <img src="img/catan.jpg" alt="Catan" width="200" height="200" />
+            <h3 class="nombre-producto">Catan</h3>
+            <span class="precio-producto">$29.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('JM001')">
+              Añadir al Carrito
+            </button>
+          </article>
+
+          <article class="producto" data-categoria="Juegos de Mesa">
+            <img
+              src="img/Carcassonne.webp"
+              alt="Carcassonne"
+              width="200"
+              height="200"
+            />
+            <h3 class="nombre-producto">Carcassonne</h3>
+            <span class="precio-producto">$24.990 CLP</span>
+            <button class="btn-agregar" onclick="agregarAlCarrito('JM002')">
+              Añadir al Carrito
+            </button>
+          </article>
+        </section>
+      </main>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-contenido">
+        <div class="logo-web">
+          <img
+            src="img/logo_level_up-removebg-preview.png"
+            alt="Logo Level-Up Gamer"
+            width="120"
+            height="140"
+          />
+        </div>
+        <div class="footer-contacto">
+          <h2><strong>Contacto</strong></h2>
+          <p><strong>Direccion:</strong> Av. Brasil 2021, Valparaíso</p>
+          <p><strong>Teléfono</strong> +569 20141234</p>
+          <p><strong>Email</strong> contacto@levelup.cl</p>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="newsletter">
+          <h2>Suscríbete a nuestro Newsletter</h2>
+          <form id="newsletter-form">
+            <input
+              type="email"
+              id="correo-newsletter"
+              placeholder="Ingresa tu correo"
+              required
+            />
+            <button type="submit">Suscribirse</button>
+          </form>
+          <p id="mensaje-newsletter"></p>
+        </div>
+
+        <h4>Síguenos en redes sociales</h4>
         <div class="redes-sociales">
           <a href="https://facebook.com" target="_blank"
             ><i class="fab fa-facebook"></i
@@ -26,140 +437,78 @@
             ><i class="fab fa-twitter"></i
           ></a>
         </div>
-        <h4>Siguenos en Redes Sociales</h4>
+
+        <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
       </div>
-      <!--Encabezado global-->
-      <header class="header-principal">
-        <!-- Logo -->
-        <div class="logo-web">
-          <img
-            src="img/logo_level_up-removebg-preview.png"
-            alt="Logo Level-Up Gamer"
-            width="140"
-            height="140"
-          />
-        </div>
-        <nav class="nav-bar">
-          <a href="#" class="nav-item">
-            <i class="fa fa-house"></i>
-            <span>Home</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-shopping-cart"></i>
-            <span>Productos</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-user"></i>
-            <span>Nosotros</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-file-lines"></i>
-            <span>Blogs</span>
-          </a>
-          <a href="#" class="nav-item">
-            <i class="fa fa-envelope"></i>
-            <span>Contacto</span>
-          </a>
-        </nav>
+    </footer>
+    <script>
+      // Mostrar nombre y puntos del usuario
+      document.addEventListener("DOMContentLoaded", () => {
+        let usuarioActivo = null;
+        const data = sessionStorage.getItem("usuarioActivo");
 
-        <nav class="nav-carrito">
-          <a href="#" class="nav-item">
-            <i class="fa fa-shopping-cart"></i>
-            <span>Carrito</span>
-          </a>
-        </nav>
-      </header>
-    </div>
+        if (data) {
+          try {
+            usuarioActivo = JSON.parse(data);
+          } catch (e) {
+            console.error("Error al parsear usuarioActivo:", e);
+          }
+        }
 
-    <section class="Catalogo">
-      <main class="main-catalogo">
-        <h2>Catalogo</h2>
-        <section class="containerProducto">
-          <div class="producto">
-            <img
-              src="img/hp-omEn_front.avif"
-              alt="hp-omen_front"
-              width="200"
-              height="200"
-            />
-            <div class="descripcionProducto">
-              <h3>Notebook HP OMEN 15 RTX 4080</h3>
-              <span class="precioProducto">$ 1.500.000</span>
-            </div>
-            <button>Agregar al carrito</button>
-          </div>
+        const nombreSpan = document.getElementById("nombre-usuario");
+        const puntosSpan = document.getElementById("puntos-usuario");
 
-          <div class="producto">
-            <img
-              src="img/hp-omEn_front.avif"
-              alt="hp-omen_front"
-              width="200"
-              height="200"
-            />
-            <div class="descripcionProducto">
-              <h3>Notebook HP OMEN 15 RTX 4080</h3>
-              <span class="precioProducto">$ 1.500.000</span>
-            </div>
-            <button>Agregar al carrito</button>
-          </div>
+        if (usuarioActivo) {
+          if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre || "";
+          if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos || 0;
+        }
+      });
 
-          <div class="producto">
-            <img
-              src="img/hp-omEn_front.avif"
-              alt="hp-omen_front"
-              width="200"
-              height="200"
-            />
-            <div class="descripcionProducto">
-              <h3>Notebook HP OMEN 15 RTX 4080</h3>
-              <span class="precioProducto">$ 1.500.000</span>
-            </div>
-            <button>Agregar al carrito</button>
-          </div>
+      // Función para mostrar/ocultar barra de búsqueda y filtrar productos
+      function toggleBusqueda() {
+        const barra = document.getElementById("busqueda");
+        if (barra.style.display === "none" || barra.style.display === "") {
+          barra.style.display = "inline-block";
+          barra.focus();
+        } else {
+          const texto = barra.value.toLowerCase();
+          const productos = document.querySelectorAll(".producto");
+          productos.forEach((producto) => {
+            const nombre = producto
+              .querySelector(".nombre-producto")
+              .textContent.toLowerCase();
+            producto.style.display = nombre.includes(texto) ? "block" : "none";
+          });
+        }
+      }
+    </script>
+    <script>
+      function agregarAlCarrito(codigo) {
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        carrito.push(codigo);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
 
-          <div class="producto">
-            <img
-              src="img/hp-omEn_front.avif"
-              alt="hp-omen_front"
-              width="200"
-              height="200"
-            />
-            <div class="descripcionProducto">
-              <h3>Notebook HP OMEN 15 RTX 4080</h3>
-              <span class="precioProducto">$ 1.500.000</span>
-            </div>
-            <button>Agregar al carrito</button>
-          </div>
+        actualizarContadorCarrito();
+        alert("Producto agregado al carrito 🎮");
+      }
 
-          <div class="producto">
-            <img
-              src="img/hp-omEn_front.avif"
-              alt="hp-omen_front"
-              width="200"
-              height="200"
-            />
-            <div class="descripcionProducto">
-              <h3>Notebook HP OMEN 15 RTX 4080</h3>
-              <span class="precioProducto">$ 1.500.000</span>
-            </div>
-            <button>Agregar al carrito</button>
-          </div>
+      function actualizarContadorCarrito() {
+        const contador = document.getElementById("contador-carrito");
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        if (contador) contador.textContent = carrito.length;
+      }
 
-          <div class="producto">
-            <img
-              src="img/hp-omEn_front.avif"
-              alt="hp-omen_front"
-              width="200"
-              height="200"
-            />
-            <div class="descripcionProducto">
-              <h3>Notebook HP OMEN 15 RTX 4080</h3>
-              <span class="precioProducto">$ 1.500.000</span>
-            </div>
-            <button>Agregar al carrito</button>
-          </div>
-        </section>
-      </main>
-    </section>
+      document.addEventListener("DOMContentLoaded", () => {
+        const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+        const nombreSpan = document.getElementById("nombre-usuario");
+        const puntosSpan = document.getElementById("puntos-usuario");
+        if (usuarioActivo) {
+          if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre;
+          if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos;
+        }
+
+        actualizarContadorCarrito();
+      });
+    </script>
   </body>
 </html>

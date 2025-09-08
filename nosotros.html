@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Level-Up Gamer - Nosotros</title>
+
+    <!-- Fuentes requeridas -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="cssTienda/tienda.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- CSS específico de "Nosotros" -->
+    <link rel="stylesheet" href="css/nosotros.css" />
+  </head>
+  <body class="nosotros-page">
+    <div class="main-container">
+      <!-- Header -->
+      <header class="header-principal">
+        <div class="logo-web">
+          <img
+            src="img/logo_level_up-removebg-preview.png"
+            alt="Logo Level-Up Gamer"
+            width="120"
+            height="140"
+          />
+        </div>
+
+        <nav class="nav-bar">
+          <a href="index.html" class="nav-item"
+            ><i class="fa fa-house"></i><span>Home</span></a
+          >
+          <a href="catalogo.html" class="nav-item"
+            ><i class="fa fa-gamepad"></i><span>Productos</span></a
+          >
+          <a href="nosotros.html" class="nav-item"
+            ><i class="fa fa-user"></i><span>Nosotros</span></a
+          >
+          <a href="blogs.html" class="nav-item"
+            ><i class="fa fa-file-lines"></i><span>Blogs</span></a
+          >
+          <a href="contacto.html" class="nav-item"
+            ><i class="fa fa-envelope"></i><span>Contacto</span></a
+          >
+          <a href="Index_Iniciar_sesion.html" class="nav-item"
+            ><i class="fa fa-right-to-bracket"></i
+            ><span>Iniciar Sesión</span></a
+          >
+          <a href="index_Login.html" class="nav-item"
+            ><i class="fa fa-user-plus"></i><span>Registrarse</span></a
+          >
+        </nav>
+
+        <!-- Carrito y búsqueda -->
+        <nav class="nav-carrito">
+          <div class="busqueda-wrapper">
+            <input
+              type="text"
+              id="busqueda"
+              class="barra-busqueda"
+              placeholder="Buscar productos..."
+            />
+            <i class="fa fa-search icono-lupa" onclick="toggleBusqueda()"></i>
+          </div>
+          <a href="index_carrito.html" class="nav-item">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Carrito (<span id="contador-carrito">0</span>)</span>
+          </a>
+        </nav>
+      </header>
+
+      <!-- Main: Sobre Nosotros -->
+      <main class="pagina-nosotros">
+        <section class="nosotros-intro">
+          <h1>Sobre Level-Up Gamer</h1>
+          <p>
+            Level-Up Gamer nace de la pasión por los videojuegos y la
+            tecnología. Nuestro objetivo es ofrecer a la comunidad gamer chilena
+            productos de alta calidad, desde consolas y periféricos hasta
+            figuras y ropa temática, garantizando una experiencia única y
+            personalizada.
+          </p>
+        </section>
+
+        <section class="nosotros-mision">
+          <h2>Nuestra Misión</h2>
+          <p>
+            Brindar a nuestros clientes un espacio donde puedan encontrar todo
+            lo que necesitan para vivir su pasión por los videojuegos,
+            fomentando la diversión, la competitividad y la conexión entre
+            gamers.
+          </p>
+        </section>
+
+        <section class="nosotros-vision">
+          <h2>Nuestra Visión</h2>
+          <p>
+            Ser la tienda gamer líder en Chile, reconocida por la calidad de sus
+            productos, la atención personalizada y la innovación constante en la
+            experiencia de compra.
+          </p>
+        </section>
+
+        <section class="nosotros-valores">
+          <h2>Valores</h2>
+          <ul>
+            <li>Pasión por los videojuegos</li>
+            <li>Calidad y confiabilidad</li>
+            <li>Innovación constante</li>
+            <li>Compromiso con la comunidad gamer</li>
+          </ul>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-contenido">
+          <div class="logo-web">
+            <img
+              src="img/logo_level_up-removebg-preview.png"
+              alt="Logo Level-Up Gamer"
+              width="120"
+              height="140"
+            />
+          </div>
+
+          <div class="footer-contacto">
+            <h2><strong>Contacto</strong></h2>
+            <p><strong>Dirección:</strong> Av. Brasil 2021, Valparaíso</p>
+            <p><strong>Teléfono:</strong> +569 20141234</p>
+            <p><strong>Email:</strong> contacto@levelup.cl</p>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="newsletter">
+            <h2>Suscríbete a nuestro Newsletter</h2>
+            <form id="newsletter-form">
+              <input
+                type="email"
+                id="correo-newsletter"
+                placeholder="Ingresa tu correo"
+                required
+              />
+              <button type="submit">Suscribirse</button>
+            </form>
+            <p id="mensaje-newsletter"></p>
+          </div>
+
+          <h4>Síguenos en redes sociales</h4>
+          <div class="redes-sociales">
+            <a href="https://facebook.com" target="_blank"
+              ><i class="fab fa-facebook"></i
+            ></a>
+            <a href="https://instagram.com" target="_blank"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="https://twitter.com" target="_blank"
+              ><i class="fab fa-twitter"></i
+            ></a>
+          </div>
+
+          <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      // Mostrar nombre y puntos del usuario
+      document.addEventListener("DOMContentLoaded", () => {
+        let usuarioActivo = null;
+        const data = sessionStorage.getItem("usuarioActivo");
+        if (data) {
+          try {
+            usuarioActivo = JSON.parse(data);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        const nombreSpan = document.getElementById("nombre-usuario");
+        const puntosSpan = document.getElementById("puntos-usuario");
+        if (usuarioActivo) {
+          if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre || "";
+          if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos || 0;
+        }
+
+        // Actualizar contador de carrito
+        const contador = document.getElementById("contador-carrito");
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        if (contador) contador.textContent = carrito.length;
+      });
+
+      // Función para mostrar/ocultar barra de búsqueda y filtrar productos
+      function toggleBusqueda() {
+        const barra = document.getElementById("busqueda");
+        if (barra.style.display === "none" || barra.style.display === "") {
+          barra.style.display = "inline-block";
+          barra.focus();
+        }
+      }
+    </script>
+  </body>
+</html>
