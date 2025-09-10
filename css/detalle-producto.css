@@ -1,0 +1,97 @@
+body.detalle-page {
+  background-color: #000000;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body.detalle-page .detalle-producto-page {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+body.detalle-page .detalle-producto {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  border: 2px solid #00f2ff;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #111;
+
+  body.detalle-page .detalle-producto img {
+  max-width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00f2ff;
+}
+
+body.detalle-page .detalle-producto img {
+  max-width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00f2ff;
+}
+
+body.detalle-page .detalle-info h1 {
+  font-family: "Orbitron", sans-serif;
+  font-size: 2em;
+  color: #00f2ff;
+  margin: 0;
+}
+
+/*pegado*/
+
+body.detalle-page .detalle-info p {
+  font-size: 1em;
+  line-height: 1.5;
+  color: #fff;
+}
+
+body.detalle-page .detalle-info span {
+  font-weight: bold;
+  color: #39ff14;
+  font-size: 1.2em;
+}
+
+body.detalle-page .detalle-info .btn-agregar {
+  padding: 10px 20px;
+  background-color: #00f2ff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: fit-content;
+  transition: transform 0.2s;
+}
+
+body.detalle-page .detalle-info .btn-agregar:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  body.detalle-page .detalle-producto-page {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  body.detalle-page .detalle-producto {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  body.detalle-page .detalle-producto img {
+    max-width: 100%;
+  }
+
+  body.detalle-page .detalle-info {
+    gap: 15px;
+  }
+}

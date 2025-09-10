@@ -26,7 +26,7 @@
 }
 
 .producto-carrito h3 {
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   color: #fff;
   margin: 10px 0;
 }
@@ -47,13 +47,13 @@
 }
 
 .resumen-compra h2 {
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   color: #00f2ff;
 }
 
 #total-compra {
   font-size: 1.5em;
-  color: #39FF14;
+  color: #39ff14;
   font-weight: bold;
 }
 
@@ -81,7 +81,7 @@
 .btn-carrito {
   margin-top: 10px;
   padding: 12px 24px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   font-size: 16px;
   background-color: #00c8ff;
   color: #fff;
