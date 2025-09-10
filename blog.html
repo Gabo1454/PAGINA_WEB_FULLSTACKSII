@@ -1,155 +1,166 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Level-Up Gamer</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Level-Up Gamer - Blog</title>
 
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="cssTienda/tienda.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-</head>
-<body>
-  <div class="main-container">
-    <!-- Header -->
-    <header class="header-principal">
-      <div class="logo-web" id="logo-home">
-        <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="120" height="140" />
-      </div>
-
-      <nav class="nav-bar">
-        <a href="index.html" class="nav-item"><i class="fa fa-house"></i><span>Home</span></a>
-        <a href="catalogo.html" class="nav-item"><i class="fa fa-gamepad"></i><span>Productos</span></a>
-        <a href="nosotros.html" class="nav-item"><i class="fa fa-user"></i><span>Nosotros</span></a>
-        <a href="blogs.html" class="nav-item"><i class="fa fa-file-lines"></i><span>Blogs</span></a>
-        <a href="contacto.html" class="nav-item"><i class="fa fa-envelope"></i><span>Contacto</span></a>
-        <a href="Index_Iniciar_sesion.html" class="nav-item"><i class="fa fa-right-to-bracket"></i><span>Iniciar Sesión</span></a>
-        <a href="index_Login.html" class="nav-item"><i class="fa fa-user-plus"></i><span>Registrarse</span></a>
-      </nav>
-
-      <!-- Carrito y búsqueda -->
-      <nav class="nav-carrito">
-        <div class="busqueda-wrapper">
-          <input type="text" id="busqueda" class="barra-busqueda" placeholder="Buscar productos..." />
-          <i class="fa fa-search icono-lupa" onclick="toggleBusqueda()"></i>
+    <!-- Fuentes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/blog.css" />
+    <link rel="stylesheet" href="cssTienda/tienda.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- Header -->
+      <header class="header-principal">
+        <div class="logo-web" id="logo-home">
+          <img
+            src="img/logo_level_up-removebg-preview.png"
+            alt="Logo Level-Up Gamer"
+            width="120"
+            height="140"
+          />
         </div>
-        <a href="index_carrito.html" class="nav-item">
-          <i class="fa fa-shopping-cart"></i>
-          <span>Carrito (<span id="contador-carrito">0</span>)</span>
-        </a>
-      </nav>
-    </header>
 
-    <!-- Main -->
-    <main>
-      <!-- Bienvenida -->
-      <section class="Bienvenida">
-        <h1 class="encabezado">Bienvenido <span id="nombre-usuario"></span> a Level-Up Gamer</h1>
-        <p class="puntos">Puntos LevelUp: <span id="puntos-usuario">0</span></p>
-      </section>
+        <nav class="nav-bar">
+          <a href="index.html" class="nav-item"
+            ><i class="fa fa-house"></i><span>Home</span></a
+          >
+          <a href="catalogo.html" class="nav-item"
+            ><i class="fa fa-gamepad"></i><span>Productos</span></a
+          >
+          <a href="nosotros.html" class="nav-item"
+            ><i class="fa fa-user"></i><span>Nosotros</span></a
+          >
+          <a href="blog.html" class="nav-item"
+            ><i class="fa fa-file-lines"></i><span>Blogs</span></a
+          >
+          <a href="contacto.html" class="nav-item"
+            ><i class="fa fa-envelope"></i><span>Contacto</span></a
+          >
+        </nav>
+      </header>
 
-      <!-- Sección de Blog -->
-      <section class="blog-principal">
-        <h2>Ultimos Articulos</h2>
-        <div id="lista-articulo" class="blog-grid"> </div>
-      </section>
-      <!--MODAL PARA NOTICIAS-->
-      <div id="modal-noticia" class="modal">
-        <div class="modal-contenido">
+      <!-- Main -->
+      <main>
+        <section class="Bienvenida">
+          <h1 class="encabezado">
+            Bienvenido <span id="nombre-usuario"></span> a Level-Up Gamer
+          </h1>
+          <p class="puntos">
+            Puntos LevelUp: <span id="puntos-usuario">0</span>
+          </p>
+        </section>
+
+        <!-- Blog -->
+        <section class="blog-principal">
+          <h2>Últimas Noticias</h2>
+          <div id="lista-articulos" class="blog-grid"></div>
+        </section>
+
+        <!-- Modal -->
+        <div id="modal-noticia" class="modal">
+          <div class="modal-contenido">
             <span id="cerrar-modal" class="cerrar">&times;</span>
             <img id="modal-imagen" src="" alt="" />
             <h3 id="modal-titulo"></h3>
             <p id="modal-detalle"></p>
+          </div>
         </div>
-      </div>
+      </main>
 
-
-    </main>
-
-    <!-- Footer -->
-    <footer>
-      <div class="footer-contenido">
-        <div class="logo-web">
-          <img src="img/logo_level_up-removebg-preview.png" alt="Logo Level-Up Gamer" width="120" height="140" />
+      <!-- Footer -->
+      <footer>
+        <div class="footer-contenido">
+          <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
         </div>
-        <div class="footer-contacto">
-          <h2><strong>Contacto</strong></h2>
-          <p><strong>Dirección:</strong> Av. Brasil 2021, Valparaíso</p>
-          <p><strong>Teléfono:</strong> +569 20141234</p>
-          <p><strong>Email:</strong> contacto@levelup.cl</p>
-        </div>
-        <div class="newsletter">
-          <h2>Suscríbete a nuestro Newsletter</h2>
-          <form id="newsletter-form">
-            <input type="email" id="correo-newsletter" placeholder="Ingresa tu correo" required />
-            <button type="submit">Suscribirse</button>
-          </form>
-          <p id="mensaje-newsletter"></p>
-        </div>
-        <h4>Síguenos en redes sociales</h4>
-        <div class="redes-sociales">
-          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-        </div>
-        <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
-      </div>
-    </footer>
-  </div>
+      </footer>
+    </div>
 
-  <!-- Scripts -->
-  <script>
-    // Redirigir al home al hacer click en logo
-    const logoHome = document.getElementById("logo-home");
-    if (logoHome) {
-      logoHome.addEventListener("click", () => {
-        window.location.href = "index.html";
-      });
-    }
+    <!-- Scripts -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Artículos
+        const articulos = [
+          {
+            imagen: "img/banner-jinx.jpeg",
+            titulo: "2XKO: La Revolución de los Combates Virtuales",
+            detalle:
+              "Sumérgete en 2XKO, el juego de pelea de Riot Games que redefine la adrenalina, la estrategia y la competencia entre jugadores de todo el mundo. ¡Prepárate para no pestañear!",
+          },
+          {
+            imagen: "img/snake-delta.jpg",
+            titulo: "Metal Gear Delta disponible",
+            detalle:
+              "Ya puedes conseguir Metal Gear Delta en nuestra tienda online.",
+          },
+          {
+            imagen: "img/hollow.jpg",
+            titulo: "Hollow Knight: Silksong desata caos en tiendas digitales",
+            detalle:
+              "El esperado lanzamiento de Silksong provocó una avalancha de usuarios intentando comprar el juego, colapsando Steam, la eShop de Nintendo, la PlayStation Store y la Microsoft Store. Steam reportó más de 100 000 jugadores activos en tan solo 30 minutos. Un fenómeno merecedor de portada.",
+          },
+          {
+            imagen: "img/gta.jpg",
+            titulo: "GTA VI como el primer juego “AAAAA”",
+            detalle:
+              "Rockstar está llevando GTA VI a otro nivel, describiéndolo como el primer título “AAAAA” de la historia — más allá del estándar AAA tradicional — gracias a su producción masiva, realismo extremo e inmersión sin precedentes.",
+          },
+        ];
 
-    // Mostrar nombre y puntos del usuario
-    document.addEventListener("DOMContentLoaded", () => {
-      let usuarioActivo = null;
-      const data = sessionStorage.getItem("usuarioActivo");
+        const contenedor = document.getElementById("lista-articulos");
+        const modal = document.getElementById("modal-noticia");
+        const modalImagen = document.getElementById("modal-imagen");
+        const modalTitulo = document.getElementById("modal-titulo");
+        const modalDetalle = document.getElementById("modal-detalle");
+        const cerrarModal = document.getElementById("cerrar-modal");
 
-      if (data) {
-        try {
-          usuarioActivo = JSON.parse(data);
-        } catch (e) {
-          console.error("Error al parsear usuarioActivo:", e);
-        }
-      }
-
-      const nombreSpan = document.getElementById("nombre-usuario");
-      const puntosSpan = document.getElementById("puntos-usuario");
-
-      if (usuarioActivo) {
-        if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre || "";
-        if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos || 0;
-      }
-    });
-
-    // Toggle búsqueda
-    function toggleBusqueda() {
-      const barra = document.getElementById("busqueda");
-      if (!barra) return;
-
-      if (barra.style.display === "none" || barra.style.display === "") {
-        barra.style.display = "inline-block";
-        barra.focus();
-      } else {
-        const texto = barra.value.toLowerCase();
-        const productos = document.querySelectorAll(".producto");
-        productos.forEach((producto) => {
-          const nombre = producto.querySelector(".nombre-producto").textContent.toLowerCase();
-          producto.style.display = nombre.includes(texto) ? "block" : "none";
+        // Renderizar artículos
+        articulos.forEach((articulo) => {
+          const div = document.createElement("div");
+          div.classList.add("articulo-card");
+          div.innerHTML = `
+          <img src="${articulo.imagen}" alt="${articulo.titulo}" />
+          <h3>${articulo.titulo}</h3>
+          <p>${articulo.detalle.substring(0, 80)}...</p>
+        `;
+          div.addEventListener("click", () => {
+            modalImagen.src = articulo.imagen;
+            modalTitulo.textContent = articulo.titulo;
+            modalDetalle.textContent = articulo.detalle;
+            modal.style.display = "block";
+          });
+          contenedor.appendChild(div);
         });
-      }
-    }
 
-    // Blog dinámico
-    const articulos = [
-      { titulo: "Torneo de Cell", contenido: "Participa y gana puntos LevelUp para canjear en nuestra ti
-      }]
+        // Cerrar modal
+        cerrarModal.addEventListener(
+          "click",
+          () => (modal.style.display = "none")
+        );
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) modal.style.display = "none";
+        });
+
+        // Nombre y puntos de usuario (opcional)
+        const nombreSpan = document.getElementById("nombre-usuario");
+        const puntosSpan = document.getElementById("puntos-usuario");
+        const usuarioActivo =
+          JSON.parse(sessionStorage.getItem("usuarioActivo")) || null;
+        if (usuarioActivo) {
+          if (nombreSpan) nombreSpan.textContent = usuarioActivo.nombre;
+          if (puntosSpan) puntosSpan.textContent = usuarioActivo.puntos || 0;
+        }
+      });
+    </script>
+  </body>
+</html>
