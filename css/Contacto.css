@@ -1,36 +1,13 @@
+/* Fondo general y estilos base */
 body {
-  margin: 180px;
+  margin: 0;
+  padding: 40px 20px;
   font-family: "Roboto", sans-serif;
   background-color: #111;
   color: #5fd63a;
-  
-}
-.footer-contenido {
-  text-align: center;
-  padding: 20px;
-  background-color: #111;
-  color: #ffffff;
-  background-color: rgba(0, 0, 0, 0.7); /* Negro con 70% opacidad */
-  max-width: 800px; /* Ajusta según tu diseño */
-  margin: 0 auto;   /* Centra horizontalmente */
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  color: white;
-
-
-}
-.redes-sociales a {
-  color: #fff;
-  margin: 10px;
-  font-size: 1.6em;
 }
 
-.redes-sociales a:hover {
-  color: #00f2ff;
-}
-
+/* Video de fondo (si estás usando uno) */
 #bgVideo {
   position: fixed;
   top: 0;
@@ -40,31 +17,114 @@ body {
   z-index: -1;
   object-fit: cover;
 }
+
+/* Frase gamer animada */
 .frase-gamer {
-    position: absolute;
-    bottom: 20px;
-    width: 80%;
-    text-align: center;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.2rem;
-    color: white;
-    z-index: 100;
-  }
-
-  .letra {
+  position: absolute;
+  bottom: 20px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: white;
+  z-index: 100;
+}
+.letra {
+  opacity: 0;
+  animation: aparecer 0.05s ease-in-out forwards;
+  animation-delay: calc(var(--i) * 0.05s);
+  display: inline-block;
+}
+@keyframes aparecer {
+  from {
     opacity: 0;
-    animation: aparecer 0.05s ease-in-out forwards;
-    animation-delay: calc(var(--i) * 0.05s);
-    display: inline-block;
+    transform: translateY(10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  @keyframes aparecer {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-  }
+/* Redes sociales */
+.redes-sociales a {
+  color: #fff;
+  margin: 10px;
+  font-size: 1.6em;
+}
+.redes-sociales a:hover {
+  color: #00f2ff;
+}
+
+/* Footer */
+.footer-contenido {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+/* Contenedor del formulario */
+.formulario-contacto {
+  
+  padding: 30px;
+  border-radius: 12px;
+  
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Etiquetas de los campos */
+.formulario-contacto label {
+  font-size: 13px;
+  color: #ffffff;
+  font-family: Orbitron, Roboto, Arial, sans-serif;
+  font-weight: bold;
+  margin-bottom: 2px;
+  display: block;
+  text-align: left;
+}
+
+/* Inputs y textarea */
+.formulario-contacto input,
+.formulario-contacto textarea {
+  width: 100%;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: Roboto, Arial, sans-serif;
+  padding: 6px 2px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: 1.5px solid #ffffff;
+  background-color: transparent;
+  transition: border-color 0.18s;
+}
+
+/* Botón de enviar */
+.enviar-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 11px 0;
+  color: #fdfdfd;
+  font-size: 16px;
+  font-family: 'Orbitron', Roboto, Arial, sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(10, 38, 223, 0.72);
+  box-shadow: 0 2px 8px rgba(4, 97, 196, 0.137);
+  transition: background 0.15s, color 0.15s;
+}
+
+/* Hover del botón */
+.enviar-btn:hover {
+  background-color: rgba(20, 60, 255, 0.85);
+}
