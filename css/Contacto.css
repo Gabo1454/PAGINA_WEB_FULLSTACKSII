@@ -1,10 +1,16 @@
 /* Fondo general y estilos base */
+/* Fondo general y estilos base */
 body {
+  margin: 0;
+  padding: 40px 20px;
   margin: 0;
   padding: 40px 20px;
   font-family: "Roboto", sans-serif;
   background-color: #111;
   color: #5fd63a;
+}
+
+/* Video de fondo (si estás usando uno) */
 }
 
 /* Video de fondo (si estás usando uno) */
@@ -17,6 +23,8 @@ body {
   z-index: -1;
   object-fit: cover;
 }
+
+/* Frase gamer animada */
 
 /* Frase gamer animada */
 .frase-gamer {
