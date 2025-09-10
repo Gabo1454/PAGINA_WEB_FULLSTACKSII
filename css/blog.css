@@ -1,0 +1,146 @@
+/* ===============================
+   Contenedor de Blog
+   =============================== */
+.blog-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+/* ===============================
+   Tarjeta de Artículo
+   =============================== */
+.articulo-card {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.articulo-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 2px solid #333;
+}
+
+.articulo-card h3 {
+  font-size: 1.5rem;
+  margin: 12px 0 6px;
+}
+
+.articulo-card p {
+  font-size: 1.1rem;
+  padding: 0 15px 15px;
+  color: #ddd;
+}
+
+.articulo-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* ===============================
+   Modal (ventana emergente)
+   =============================== */
+.modal {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  inset: 0; /* top, right, bottom, left en 0 */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+  justify-content: center; /* centra horizontal */
+  align-items: center; /* centra vertical */
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* Contenido del modal */
+.modal-contenido {
+  background-color: #fff;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  padding: 25px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  animation: modalFadeIn 0.3s ease-out;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+/* Animación modal */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Botón cerrar */
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+.cerrar:hover {
+  color: #000;
+}
+
+/* Imagen dentro del modal */
+#modal-imagen {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Título del modal */
+#modal-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+/* Detalle del modal */
+#modal-detalle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* ===============================
+   Responsive
+   =============================== */
+@media (max-width: 768px) {
+  .articulo-card {
+    width: 90%;
+  }
+}
