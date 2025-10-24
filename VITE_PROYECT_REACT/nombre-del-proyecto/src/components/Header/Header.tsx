@@ -22,6 +22,7 @@ export default function Header() {
         <Link to="/">Inicio</Link>
         <Link to="/products">Productos</Link>
         <Link to="/about-us">Nosotros</Link>
+        <Link to="/blog">Blog</Link>
         <Link to="/contact">Contacto</Link>
       </nav>
 
@@ -39,7 +40,6 @@ export default function Header() {
             className={styles.inputBusquedaVisible}
           />
         )}
-
         <button>🛒 {contadorCarrito}</button>
       </div>
     </header>

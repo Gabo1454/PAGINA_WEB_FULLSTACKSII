@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import logoPage from "../../assets/imgs/logo_level_up-removebg-preview.png";
-/*import "./Footer.css"*/
+import styles from "./Footer.module.css";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -20,74 +28,85 @@ export default function Footer() {
   };
 
   return (
-    <footer>
-      <div className="footer-contenido">
-        <div className="logo-web">
+    <footer className={styles.footer}>
+      <div className={styles.footerContenido}>
+        {/* LOGO */}
+        <div className={styles.logoWeb}>
           <img
             src={logoPage}
             alt="Logo Level-Up Gamer"
             width={120}
             height={140}
           />
-        </div>
 
-        <div className="footer-contacto">
+          {/* REDES SOCIALES */}
+          <div className={styles.redesSocialesContainer}>
+            <h4>Síguenos en redes sociales</h4>
+            <div className={styles.redesSociales}>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaFacebook size={24} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaInstagram size={24} />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter size={24} />
+              </a>
+            </div>
+          </div>
+        </div>
+        {/* CONTACTO */}
+        <div className={styles.footerContacto}>
           <h2>
             <strong>Contacto</strong>
           </h2>
           <p>
-            <strong>Dirección:</strong> Av. Brasil 2021, Valparaíso
+            <FaMapMarkerAlt /> <strong>Dirección:</strong> Av. Brasil 2021,
+            Valparaíso
           </p>
           <p>
-            <strong>Teléfono:</strong> +56 9 2014 1234
+            <FaPhone /> <strong>Teléfono:</strong> +56 9 2014 1234
           </p>
           <p>
-            <strong>Email:</strong> contacto@levelup.cl
+            <FaEnvelope /> <strong>Email:</strong> contacto@levelup.cl
           </p>
         </div>
 
-        <div className="newsletter">
+        {/* NEWSLETTER */}
+        <div className={styles.newsletter}>
           <h2>Suscríbete a nuestro Newsletter</h2>
-          <form id="newsletter-form" onSubmit={handleSubmit}>
+          <form className={styles.newsletterForm} onSubmit={handleSubmit}>
             <input
               type="email"
-              id="correo-newsletter"
+              className={styles.newsletterInput}
               placeholder="Ingresa tu correo"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <button type="submit">Suscribirse</button>
+            <button type="submit" className={styles.newsletterBoton}>
+              Suscribirse
+            </button>
           </form>
-          <p id="mensaje-newsletter">{mensaje}</p>
+          <p className={styles.mensajeNewsletter}>{mensaje}</p>
         </div>
 
-        <h4>Síguenos en redes sociales</h4>
-        <div className="redes-sociales">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-facebook"></i>
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-instagram"></i>
-          </a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-twitter"></i>
-          </a>
-        </div>
-
-        <p>&copy; 2027 Level-Up Gamer. Todos los derechos reservados.</p>
+        {/* COPYRIGHT */}
+        <p className={styles.copyright}>
+          &copy; 2027 Level-Up Gamer. Todos los derechos reservados.
+        </p>
       </div>
     </footer>
   );
