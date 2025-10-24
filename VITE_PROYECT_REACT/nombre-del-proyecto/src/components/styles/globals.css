@@ -1,0 +1,53 @@
+#root {
+  width: 100vw; /* ocupa todo el ancho del viewport */
+  min-height: 100vh; /* ocupa todo el alto visible */
+  margin: 0; /* sin márgenes externos */
+  padding: 0; /* sin padding global */
+  display: flex;
+  flex-direction: column; /* apila Header, Main y Footer verticalmente */
+  align-items: center; /* centra el contenido interno horizontalmente */
+  text-align: center; /* centra el texto si lo deseas */
+  background-color: #242424; /* opcional, mantiene coherencia visual */
+}
+
+/* globals.css */
+main {
+  min-height: 100vh;
+  background-color: #242424; /* mismo color que body */
+  color: rgba(255, 255, 255, 0.87);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #242424;
+  color: var(--color-text-light);
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    color: #213547;
+    background-color: var(--color-bg-light);
+  }
+  a:hover {
+    color: #747bff;
+  }
+}
