@@ -1,12 +1,18 @@
 .contactWrapper {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #2b2b2b;
-  color: #fff;
+  background: linear-gradient(to bottom, #0a0a0a, #111);
+  color: #0ff;
+  padding: 3rem 2rem;
   border-radius: 12px;
-  font-family: 'Segoe UI', sans-serif;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  animation: fadeIn 1s ease-in-out;
+  max-width: 900px;
+  margin: auto;
+  font-family: 'Orbitron', sans-serif;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .header {
@@ -14,31 +20,46 @@
   margin-bottom: 2rem;
 }
 
-.header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: #00bfff;
+.logo {
+  width: 120px;
+  margin-bottom: 1rem;
 }
 
-.form label {
-  display: block;
-  margin-bottom: 1.2rem;
+h1 {
+  font-size: 2.2rem;
+  color: #00f0ff;
+  text-shadow: 0 0 10px #00f0ff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #111;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid #0ff;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
   font-weight: bold;
+  color: #0ff;
 }
 
-.form input,
-.form textarea {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 0.3rem;
+input,
+textarea {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
   border: none;
   border-radius: 6px;
-  font-size: 1rem;
-  background-color: #303030;
+  background-color: #222;
   color: #fff;
+  font-size: 1rem;
 }
 
-.form textarea {
+textarea {
   resize: vertical;
   min-height: 100px;
 }
@@ -47,33 +68,28 @@
   text-align: right;
   font-size: 0.85rem;
   color: #aaa;
-  margin-top: 0.3rem;
+  margin-top: 0.25rem;
 }
 
 button {
-  background-color: #00bfff;
-  color: white;
-  padding: 0.8rem 1.5rem;
+  background-color: #00f0ff;
+  color: #000;
+  padding: 0.75rem;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
+  font-weight: bold;
   font-size: 1rem;
-  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #009acd;
+  background-color: #0ff;
 }
 
 .footer {
   text-align: center;
   margin-top: 2rem;
   font-size: 0.9rem;
-  color: #aaa;
-}
-.logo {
-  display: block;
-  margin: 0 auto 1rem auto;
-  max-width: 120px;
-  height: auto;
+  color: #ffffff;
 }

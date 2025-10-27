@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './Login.module.css';
 import { useUser } from '../pages/UserContext';
 
@@ -21,7 +21,6 @@ export default function Login() {
 
     const { username, password } = formData;
 
-    // Validación básica
     if (username.trim() === '' || password.trim() === '') {
       setNotification('⚠️ Debes completar ambos campos.');
       return;
@@ -32,7 +31,6 @@ export default function Login() {
       return;
     }
 
-    // Recuperar usuarios registrados
     const usuariosGuardados = localStorage.getItem('usuarios');
     if (!usuariosGuardados) {
       setNotification('❌ No hay usuarios registrados.');
@@ -48,7 +46,6 @@ export default function Login() {
       return;
     }
 
-    // Buscar coincidencia exacta
     const usuarioValido = usuarios.find(
       (u) => u.username === username && u.password === password
     );
@@ -58,7 +55,6 @@ export default function Login() {
       return;
     }
 
-    // ✅ Activar sesión
     setUser({ username });
     localStorage.setItem('usuarioActivo', JSON.stringify({ username }));
 
@@ -67,14 +63,15 @@ export default function Login() {
 
   return (
     <div className={styles.loginContainer}>
-      <h2>Iniciar Sesión</h2>
+      <h1 className={styles.title}>🔐 Iniciar Sesión</h1>
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <label>
           Nombre de usuario
           <input
             type="text"
             name="username"
-            placeholder="Ingresa tu nombre de usuario"
+            placeholder="Ingresa tu nombre"
             value={formData.username}
             onChange={handleChange}
             required
@@ -93,7 +90,7 @@ export default function Login() {
           />
         </label>
 
-        <button type="submit">Ingresar</button>
+        <button type="submit">🚀 INGRESAR</button>
       </form>
 
       {notification && <div className={styles.notification}>{notification}</div>}

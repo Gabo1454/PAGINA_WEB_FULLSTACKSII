@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from './Contact.module.css'; // Asegúrate de tener este archivo
+import { useState } from 'react';
+import styles from './Contact.module.css';
 
 export default function Contact() {
   const [message, setMessage] = useState('');
@@ -11,21 +11,18 @@ export default function Contact() {
   };
 
   return (
-
-
     <div className={styles.contactWrapper}>
       <header className={styles.header}>
         <img
-        src="./logo_level_up-removebg-preview.png"
-        alt="Logo Level-Up Gamer"
-        className={styles.logo}
+          src="./logo_level_up-removebg-preview.png"
+          alt="Logo Level-Up Gamer"
+          className={styles.logo}
         />
-
         <h1>LEVEL-UP GAMER</h1>
-        <p>Av. Brasil 2021, Valparaíso</p>
+        <p>📍 Av. Brasil 2021, Valparaíso</p>
         <p>📞 +569 20141234</p>
         <p>📧 contacto@levelup.cl</p>
-        <p>Síguenos en redes sociales</p>
+        <p>🌐 Síguenos en redes sociales</p>
       </header>
 
       <form className={styles.form}>
@@ -51,15 +48,12 @@ export default function Contact() {
           <div className={styles.charCount}>{message.length}/225</div>
         </label>
 
-        <button type="submit">ENVIAR MENSAJE</button>
+        <button type="submit">🚀 ENVIAR MENSAJE</button>
       </form>
 
       <footer className={styles.footer}>
         © 2027 Level-Up Gamer. Todos los derechos reservados.
       </footer>
     </div>
-
-
-
   );
 }

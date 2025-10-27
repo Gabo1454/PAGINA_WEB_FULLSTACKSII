@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './Register.module.css';
 import { useUser } from '../pages/UserContext';
 
@@ -48,7 +48,6 @@ export default function Register() {
     const updatedUsers = [...existingUsers, formData];
     localStorage.setItem('usuarios', JSON.stringify(updatedUsers));
 
-    // ✅ Guardar en contexto y localStorage
     setUser({ username: formData.username });
     localStorage.setItem('usuarioActivo', JSON.stringify({ username: formData.username }));
 
@@ -57,7 +56,8 @@ export default function Register() {
 
   return (
     <div className={styles.registerContainer}>
-      <h2>Crear Cuenta</h2>
+      <h1 className={styles.title}>🧾 Crear Cuenta</h1>
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <label>
           Nombre de usuario
@@ -119,7 +119,7 @@ export default function Register() {
           />
         </label>
 
-        <button type="submit">Crear cuenta</button>
+        <button type="submit">🚀 CREAR CUENTA</button>
       </form>
 
       {notification && <div className={styles.notification}>{notification}</div>}
