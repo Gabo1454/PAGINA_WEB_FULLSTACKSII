@@ -1,35 +1,25 @@
-import { useState } from "react";
-import "./components/styles/globals.css";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
+// src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import Home from "./pages/Home/Home";
+import ProductsIndex from "./pages/Products/ProductsIndex";
+import ProductDetail from "./pages/Products/ProductDetail";
 
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import AboutUs from "./pages/AboutUs";
-import Blog from "./pages/Blog";
-import Contact from "./pages/Contact";
-
-function App() {
-  const [count, setCount] = useState(0);
-
+export default function App() {
   return (
     <Router>
-      {" "}
-      {/* 🔹 Aquí va BrowserRouter */}
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </main>
-      <Footer />
+      <div className="appShell">
+        <Header />
+        <main id="content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<ProductsIndex />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
-
-export default App;
