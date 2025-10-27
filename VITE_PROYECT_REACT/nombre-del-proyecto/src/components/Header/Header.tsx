@@ -6,9 +6,15 @@ import styles from "./Header.module.css";
 export default function Header() {
   const [busquedaVisible, setBusquedaVisible] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-  const [contadorCarrito, setContadorCarrito] = useState(0);
+  
+  
 
   const toggleBusqueda = () => setBusquedaVisible(!busquedaVisible);
+
+  // gregamos la funcionalidad de el boton de usuario
+  const [menuUsuarioVisible, setMenuUsuarioVisible] = useState(false);
+  const toggleMenuUsuario = () => setMenuUsuarioVisible(!menuUsuarioVisible);
+
 
   return (
     <header className={styles.header_principal}>
@@ -40,8 +46,19 @@ export default function Header() {
             className={styles.inputBusquedaVisible}
           />
         )}
-        <button>🛒 {contadorCarrito}</button>
+        
+        <button>🛒</button>
+        <button onClick={toggleMenuUsuario}>👤</button>
+        {/* aqui agrego la funcionalidad como tal del menu de usuario */}
+        {menuUsuarioVisible && (
+        <div className={styles.menuUsuario}>
+        <Link to="/register">Crear cuenta</Link>
+        <Link to="/login">Iniciar sesión</Link>
+        </div>
+        )}
       </div>
     </header>
   );
 }
+
+

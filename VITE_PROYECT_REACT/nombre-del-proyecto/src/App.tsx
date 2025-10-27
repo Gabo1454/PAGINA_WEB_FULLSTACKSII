@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./components/styles/globals.css";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -9,9 +8,13 @@ import Products from "./pages/Products";
 import AboutUs from "./pages/AboutUs";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
-  const [count, setCount] = useState(0);
+  
+ 
+  
 
   return (
     <Router>
@@ -25,6 +28,8 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
       <Footer />
