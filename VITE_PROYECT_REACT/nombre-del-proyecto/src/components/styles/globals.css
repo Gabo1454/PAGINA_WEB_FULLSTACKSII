@@ -1,51 +1,97 @@
-#root {
-  width: 100vw; /* ocupa todo el ancho del viewport */
-  min-height: 100vh; /* ocupa todo el alto visible */
-  margin: 0; /* sin márgenes externos */
-  padding: 0; /* sin padding global */
-  display: flex;
-  flex-direction: column; /* apila Header, Main y Footer verticalmente */
-  align-items: center; /* centra el contenido interno horizontalmente */
-  text-align: center; /* centra el texto si lo deseas */
-  background-color: #242424; /* opcional, mantiene coherencia visual */
+/* ===========================
+   Variables globales
+   =========================== */
+:root {
+  --header-h: 80px; /* fallback hasta que Header mida su altura real */
+  --bs-body-bg: #000; /* color base que usa Bootstrap para el body */
 }
 
-/* globals.css */
+/* ===========================
+   Reset básico + layout raíz
+   =========================== */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #000; /* fondo realmente negro */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Contenedor raíz (NO uses 100vw para evitar desbordes) */
+#root {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* ===========================
+   Compensación por header fijo
+   =========================== */
+body {
+  padding-top: var(--header-h); /* empuja el contenido bajo el header */
+}
+
+/* Evita que anclas (#id) queden ocultas tras el header */
+:target {
+  scroll-margin-top: var(--header-h);
+}
+
+/* ===========================
+   Contenido principal
+   =========================== */
 main {
-  min-height: 100vh;
-  background-color: #242424; /* mismo color que body */
+  flex: 1 0 auto; /* empuja el footer al fondo */
+  background-color: #000; /* mismo color que body */
   color: rgba(255, 255, 255, 0.87);
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-family-base);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: #242424;
-  color: var(--color-text-light);
-}
-
+/* ===========================
+   Tipografía y enlaces
+   =========================== */
 a {
   font-weight: 500;
-  color: var(--color-link);
+  color: var(--color-link, #9aa9ff);
   text-decoration: none;
 }
-
 a:hover {
-  color: var(--color-link-hover);
+  color: var(--color-link-hover, #bfc7ff);
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3.2rem;
   line-height: 1.1;
+  margin: 0; /* evita colapso de márgenes al inicio */
 }
 
+/* ===========================
+   Accesibilidad / movimiento
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}
+
+/* ===========================
+   Modo claro (opcional)
+   =========================== */
 @media (prefers-color-scheme: light) {
   body {
     color: #213547;
-    background-color: var(--color-bg-light);
+    /* Si quieres fondo SIEMPRE negro, deja la línea de abajo comentada */
+    /* background-color: var(--color-bg-light); */
   }
   a:hover {
     color: #747bff;
