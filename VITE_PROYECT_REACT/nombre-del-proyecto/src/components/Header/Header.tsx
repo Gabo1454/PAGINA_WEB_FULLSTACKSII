@@ -82,11 +82,14 @@ export default function Header() {
         )}
       </div>
 
-      {user && (
-        <div className={styles.usuarioActivo}>
-          👋 Bienvenido, <strong>{user.username}</strong>
-        </div>
-      )}
+      {/* 
+{user && (
+  <div className={styles.usuarioActivo}>
+    👋 Bienvenido, <strong>{user.username}</strong>
+  </div>
+)} 
+*/}
+
     </header>
   );
 }
