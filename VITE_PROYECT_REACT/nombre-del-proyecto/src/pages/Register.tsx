@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Register.module.css';
+import { useUser } from '../pages/UserContext';
 
 export default function Register() {
+  const { setUser } = useUser();
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -26,11 +29,30 @@ export default function Register() {
     }
 
     if (formData.referral !== 'Duoc2025') {
-      setNotification('⚠️ Código referido inválido. Usa: "Duoc2025"  jiji');
+      setNotification('⚠️ Código referido inválido. Usa: "Duoc2025"');
       return;
     }
 
-    setNotification('✅ Cuenta creada exitosamente. ¡Bienvenido a Level-Up Gamer!');
+    if (formData.username.length < 3 || formData.password.length < 4) {
+      setNotification('⚠️ El nombre debe tener al menos 3 letras y la contraseña 4.');
+      return;
+    }
+
+    const existingUsers = JSON.parse(localStorage.getItem('usuarios') || '[]');
+
+    if (existingUsers.some((u: any) => u.username === formData.username)) {
+      setNotification('⚠️ Este nombre de usuario ya está registrado.');
+      return;
+    }
+
+    const updatedUsers = [...existingUsers, formData];
+    localStorage.setItem('usuarios', JSON.stringify(updatedUsers));
+
+    // ✅ Guardar en contexto y localStorage
+    setUser({ username: formData.username });
+    localStorage.setItem('usuarioActivo', JSON.stringify({ username: formData.username }));
+
+    setNotification(`✅ Cuenta creada exitosamente. ¡Bienvenido, ${formData.username}!`);
   };
 
   return (
@@ -66,7 +88,7 @@ export default function Register() {
           <input
             type="number"
             name="age"
-            placeholder=" Tu edad"
+            placeholder="Tu edad"
             value={formData.age}
             onChange={handleChange}
             required

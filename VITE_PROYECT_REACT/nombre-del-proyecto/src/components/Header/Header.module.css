@@ -144,3 +144,28 @@
     text-shadow: 0 0 20px var(--verde-neon), 0 0 30px var(--verde-neon);
   }
 }
+.usuarioActivo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #00bfff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.logoutButton {
+  margin-top: 0.5rem;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.logoutButton:hover {
+  background-color: #e60000;
+}

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Login.module.css';
+import { useUser } from '../pages/UserContext';
 
 export default function Login() {
+  const { setUser } = useUser();
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -16,14 +19,50 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const { username, password } = formData;
+
     // Validación básica
-    if (formData.username.trim() === '' || formData.password.trim() === '') {
+    if (username.trim() === '' || password.trim() === '') {
       setNotification('⚠️ Debes completar ambos campos.');
       return;
     }
 
-    // Simulación de éxito
-    setNotification(`✅ Bienvenido, ${formData.username}. Has iniciado sesión correctamente.`);
+    if (username.length < 3 || password.length < 4) {
+      setNotification('⚠️ El nombre debe tener al menos 3 letras y la contraseña 4.');
+      return;
+    }
+
+    // Recuperar usuarios registrados
+    const usuariosGuardados = localStorage.getItem('usuarios');
+    if (!usuariosGuardados) {
+      setNotification('❌ No hay usuarios registrados.');
+      return;
+    }
+
+    let usuarios: { username: string; password: string }[] = [];
+
+    try {
+      usuarios = JSON.parse(usuariosGuardados);
+    } catch (error) {
+      setNotification('❌ Error al leer usuarios registrados.');
+      return;
+    }
+
+    // Buscar coincidencia exacta
+    const usuarioValido = usuarios.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (!usuarioValido) {
+      setNotification('❌ Usuario o contraseña incorrectos.');
+      return;
+    }
+
+    // ✅ Activar sesión
+    setUser({ username });
+    localStorage.setItem('usuarioActivo', JSON.stringify({ username }));
+
+    setNotification(`✅ Bienvenido, ${username}. Has iniciado sesión correctamente.`);
   };
 
   return (
@@ -35,7 +74,7 @@ export default function Login() {
           <input
             type="text"
             name="username"
-            placeholder='Ingresa tu nombre de usuario'
+            placeholder="Ingresa tu nombre de usuario"
             value={formData.username}
             onChange={handleChange}
             required
@@ -47,7 +86,7 @@ export default function Login() {
           <input
             type="password"
             name="password"
-            placeholder='Ingresa tu contraseña'
+            placeholder="Ingresa tu contraseña"
             value={formData.password}
             onChange={handleChange}
             required
