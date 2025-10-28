@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import type { Product, CartItem } from "../../data/types"; // ajusta el path relativo
+import type { Product } from "../../data/types";
 import { useProductStore } from "../../context/ProductContext";
 import { FaShoppingCart, FaCheck } from "react-icons/fa";
 import styles from "./ProductCard.module.css";
+
+const FALLBACK = "/imgs/placeholder.png";
 
 interface ProductCardProps {
   product: Product;
@@ -16,12 +18,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
     dispatch({
       type: "ADD_TO_CART",
       payload: { productId: product.id, quantity: 1 },
     });
-
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
   };
@@ -37,15 +37,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Link to={`/products/${product.id}`} className={styles.card}>
       <div className={styles.cardImageContainer}>
-        {/* 🔥 Etiqueta OFERTA */}
         {product.offer && (
           <span className={`${styles.offerBadge} badge bg-danger`}>OFERTA</span>
         )}
 
         <img
-          src={product.image}
+          src={product.image || FALLBACK}
           alt={product.name}
           className={styles.cardImage}
+          loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = FALLBACK;
+          }}
         />
 
         {!isInStock && <span className={styles.outOfStockBadge}>AGOTADO</span>}
