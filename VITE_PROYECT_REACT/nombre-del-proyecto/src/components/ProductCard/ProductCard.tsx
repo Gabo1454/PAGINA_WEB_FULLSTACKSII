@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type { Product } from "../../data/types";
 import { useProductStore } from "../../context/ProductContext";
 import { FaShoppingCart, FaCheck } from "react-icons/fa";
-import styles from "./ProductCard.module.css";
+import styles from "../../components/ProductCard/ProductCard.module.css";
 
 const FALLBACK = "/imgs/placeholder.png";
 
