@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import styles from './Login.module.css';
-import { useUser } from '../pages/UserContext';
+import { useState } from "react";
+import styles from "./Login.module.css";
+import { useUser } from "../Register/UserContext";
 
 export default function Login() {
   const { setUser } = useUser();
 
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
-  const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,19 +21,21 @@ export default function Login() {
 
     const { username, password } = formData;
 
-    if (username.trim() === '' || password.trim() === '') {
-      setNotification('⚠️ Debes completar ambos campos.');
+    if (username.trim() === "" || password.trim() === "") {
+      setNotification("⚠️ Debes completar ambos campos.");
       return;
     }
 
     if (username.length < 3 || password.length < 4) {
-      setNotification('⚠️ El nombre debe tener al menos 3 letras y la contraseña 4.');
+      setNotification(
+        "⚠️ El nombre debe tener al menos 3 letras y la contraseña 4."
+      );
       return;
     }
 
-    const usuariosGuardados = localStorage.getItem('usuarios');
+    const usuariosGuardados = localStorage.getItem("usuarios");
     if (!usuariosGuardados) {
-      setNotification('❌ No hay usuarios registrados.');
+      setNotification("❌ No hay usuarios registrados.");
       return;
     }
 
@@ -42,7 +44,7 @@ export default function Login() {
     try {
       usuarios = JSON.parse(usuariosGuardados);
     } catch (error) {
-      setNotification('❌ Error al leer usuarios registrados.');
+      setNotification("❌ Error al leer usuarios registrados.");
       return;
     }
 
@@ -51,14 +53,16 @@ export default function Login() {
     );
 
     if (!usuarioValido) {
-      setNotification('❌ Usuario o contraseña incorrectos.');
+      setNotification("❌ Usuario o contraseña incorrectos.");
       return;
     }
 
     setUser({ username });
-    localStorage.setItem('usuarioActivo', JSON.stringify({ username }));
+    localStorage.setItem("usuarioActivo", JSON.stringify({ username }));
 
-    setNotification(`✅ Bienvenido, ${username}. Has iniciado sesión correctamente.`);
+    setNotification(
+      `✅ Bienvenido, ${username}. Has iniciado sesión correctamente.`
+    );
   };
 
   return (
@@ -93,7 +97,9 @@ export default function Login() {
         <button type="submit">🚀 INGRESAR</button>
       </form>
 
-      {notification && <div className={styles.notification}>{notification}</div>}
+      {notification && (
+        <div className={styles.notification}>{notification}</div>
+      )}
     </div>
   );
 }

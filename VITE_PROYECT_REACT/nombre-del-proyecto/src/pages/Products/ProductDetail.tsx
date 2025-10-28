@@ -1,12 +1,11 @@
-// src/pages/Products/ProductDetail.tsx
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { products as productsRepo } from "../../data/db";
 import { useProductStore } from "../../context/ProductContext";
 import type { Product } from "../../data/types";
 import styles from "./ProductDetail.module.css";
 
-const pesoCL = (n: number) =>
+const pesoCL = (n = 0) =>
   n.toLocaleString("es-CL", {
     style: "currency",
     currency: "CLP",
@@ -21,10 +20,6 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { state, dispatch } = useProductStore();
   const [qty, setQty] = useState(1);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, [safeId]);
 
   const product = useMemo<Product | undefined>(() => {
     if (!safeId) return undefined;
@@ -86,7 +81,6 @@ export default function ProductDetail() {
       </nav>
 
       <div className="row g-4">
-        {/* Imagen del producto */}
         <div className="col-12 col-md-6">
           <div className="card bg-dark border-primary position-relative">
             {product.offer && (
@@ -97,7 +91,6 @@ export default function ProductDetail() {
               </span>
             )}
 
-            {/* Contenedor con proporción: imagen siempre visible y centrada */}
             <div
               className={`ratio ${styles.imageBox}`}
               role="button"
@@ -118,7 +111,6 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Modal zoom (opcional) */}
           <div
             className="modal fade"
             id="imageZoomModal"
@@ -152,13 +144,12 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* Detalle del producto */}
         <div className="col-12 col-md-6">
           <h1 className="h3 mb-2">{product.name}</h1>
 
           <div className="d-flex align-items-center gap-2 mb-3">
             <span className="fs-4 fw-bold text-success">
-              {pesoCL(product.price)}
+              {pesoCL(product.price ?? 0)}
             </span>
             {!inStock && <span className="badge bg-secondary">Sin stock</span>}
           </div>

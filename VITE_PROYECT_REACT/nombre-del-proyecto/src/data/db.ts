@@ -98,7 +98,9 @@ export const products = {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return this.all().filter((p) =>
-      [p.name, p.description ?? ""].some((s) => s.toLowerCase().includes(q))
+      [p.name ?? p.title ?? "", p.description ?? ""].some((s) =>
+        (s ?? "").toLowerCase().includes(q)
+      )
     );
   },
 
@@ -212,7 +214,7 @@ export const cart = {
     const prod = products.all();
     return list.reduce((acc, i) => {
       const p = prod.find((pp) => pp.id === i.productId);
-      return acc + (p ? p.price * i.qty : 0);
+      return acc + (p ? (p.price ?? 0) * i.qty : 0);
     }, 0);
   },
 };

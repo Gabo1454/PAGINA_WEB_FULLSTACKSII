@@ -26,9 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => setIsAdded(false), 1500);
   };
 
-  const formattedPrice = product.price.toLocaleString("es-CL", {
-    style: "currency",
-    currency: "CLP",
+  const formattedPrice = (product.price ?? 0).toLocaleString("es-CL", {
     maximumFractionDigits: 0,
   });
 

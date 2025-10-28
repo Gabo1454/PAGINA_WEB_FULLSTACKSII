@@ -51,16 +51,23 @@ function productStoreReducer(
       };
     }
     case "ADD_TO_CART": {
-      const { productId, quantity } = action.payload;
+      // aceptar payload con { quantity } o { qty } (o ninguno -> 1)
+      const payload = (action as any)?.payload ?? {};
+      const productId: string | undefined = payload.productId;
+      const itemQty: number = Number(payload.qty ?? payload.quantity ?? 1);
+
+      if (!productId) return state;
+
       const exists = state.products.some((p) => p.id === productId);
       if (!exists) return state;
 
       const existing = state.cart.find((i) => i.productId === productId);
+
       const cart: CartItem[] = existing
         ? state.cart.map((i) =>
-            i.productId === productId ? { ...i, qty: i.qty + quantity } : i
+            i.productId === productId ? { ...i, qty: i.qty + itemQty } : i
           )
-        : [...state.cart, { productId, qty: quantity }];
+        : [...state.cart, { productId, qty: itemQty }];
 
       return { ...state, cart };
     }

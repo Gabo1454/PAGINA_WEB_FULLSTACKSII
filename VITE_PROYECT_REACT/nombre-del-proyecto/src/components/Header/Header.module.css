@@ -6,6 +6,26 @@
   border-bottom: 2px solid var(--azul-electrico);
 }
 
+.header_principal .container-fluid > .d-flex:first-child,
+.header_principal .container-fluid > .d-none.d-lg-flex {
+  min-width: 220px; /* ajusta este valor si tu logo o botones son más grandes */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* En mobile volvemos al comportamiento normal Bootstrap */
+@media (max-width: 991px) {
+  .header_principal .navbar-nav {
+    position: static;
+    transform: none;
+  }
+}
+
+.container-fluid {
+  position: relative; /* necesario para el posicionamiento absoluto de la nav */
+}
+
 /* Logo */
 .logo {
   cursor: pointer;

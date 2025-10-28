@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import styles from './Register.module.css';
-import { useUser } from '../pages/UserContext';
+import { useState } from "react";
+import styles from "./Register.module.css";
+import { useUser } from "./UserContext";
 
 export default function Register() {
   const { setUser } = useUser();
 
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    age: '',
-    password: '',
-    referral: '',
+    username: "",
+    email: "",
+    age: "",
+    password: "",
+    referral: "",
   });
 
-  const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,34 +24,41 @@ export default function Register() {
 
     const ageNum = parseInt(formData.age);
     if (isNaN(ageNum) || ageNum < 18) {
-      setNotification('⚠️ Debes tener al menos 18 años para registrarte.');
+      setNotification("⚠️ Debes tener al menos 18 años para registrarte.");
       return;
     }
 
-    if (formData.referral !== 'Duoc2025') {
+    if (formData.referral !== "Duoc2025") {
       setNotification('⚠️ Código referido inválido. Usa: "Duoc2025"');
       return;
     }
 
     if (formData.username.length < 3 || formData.password.length < 4) {
-      setNotification('⚠️ El nombre debe tener al menos 3 letras y la contraseña 4.');
+      setNotification(
+        "⚠️ El nombre debe tener al menos 3 letras y la contraseña 4."
+      );
       return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    const existingUsers = JSON.parse(localStorage.getItem("usuarios") || "[]");
 
     if (existingUsers.some((u: any) => u.username === formData.username)) {
-      setNotification('⚠️ Este nombre de usuario ya está registrado.');
+      setNotification("⚠️ Este nombre de usuario ya está registrado.");
       return;
     }
 
     const updatedUsers = [...existingUsers, formData];
-    localStorage.setItem('usuarios', JSON.stringify(updatedUsers));
+    localStorage.setItem("usuarios", JSON.stringify(updatedUsers));
 
     setUser({ username: formData.username });
-    localStorage.setItem('usuarioActivo', JSON.stringify({ username: formData.username }));
+    localStorage.setItem(
+      "usuarioActivo",
+      JSON.stringify({ username: formData.username })
+    );
 
-    setNotification(`✅ Cuenta creada exitosamente. ¡Bienvenido, ${formData.username}!`);
+    setNotification(
+      `✅ Cuenta creada exitosamente. ¡Bienvenido, ${formData.username}!`
+    );
   };
 
   return (
@@ -122,7 +129,9 @@ export default function Register() {
         <button type="submit">🚀 CREAR CUENTA</button>
       </form>
 
-      {notification && <div className={styles.notification}>{notification}</div>}
+      {notification && (
+        <div className={styles.notification}>{notification}</div>
+      )}
     </div>
   );
 }

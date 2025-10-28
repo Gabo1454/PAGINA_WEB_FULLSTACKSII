@@ -1,10 +1,19 @@
-import React from "react";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFilteredProducts } from "../../hooks/useFilteredProducts";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import CatalogFilters from "../../components/CatalogFilters/CatalogFilters";
 import styles from "./Products.module.css";
+import type { Product } from "../../data/types";
+
+function useQuerySearchParam() {
+  return new URLSearchParams(useLocation().search).get("q") ?? "";
+}
 
 export default function ProductsIndex() {
+  const navigate = useNavigate();
+  const qParam = useQuerySearchParam();
+
   const {
     isLoading,
     filteredAndSortedProducts,
@@ -13,17 +22,42 @@ export default function ProductsIndex() {
     setSearchTerm,
   } = useFilteredProducts();
 
+  // Si vienen con ?q= desde la URL (ej: header navegó), inicializamos el filtro
+  useEffect(() => {
+    if (qParam) {
+      setSearchTerm(qParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qParam]); // intencional: solo cuando cambia la query string
+
+  // Escucha evento global product-search emitido por Header.
+  // Si llega un término, navegamos a /products?q=... y actualizamos setSearchTerm.
+  useEffect(() => {
+    const onSearch = (e: Event) => {
+      const term = (e as CustomEvent<string>).detail ?? "";
+      // navegamos siempre a /products para mostrar resultados
+      navigate(`/products${term ? `?q=${encodeURIComponent(term)}` : ""}`, {
+        replace: false,
+      });
+      setSearchTerm(term);
+    };
+
+    window.addEventListener("product-search", onSearch as EventListener);
+    return () =>
+      window.removeEventListener("product-search", onSearch as EventListener);
+  }, [navigate, setSearchTerm]);
+
   if (isLoading) {
     return <div className={styles.loadingContainer}>Cargando productos...</div>;
   }
 
   return (
     <>
-      {/* 🖼️ Banner full-bleed (borde a borde) */}
+      {/* Banner */}
       <div className={styles.heroBanner}>
         <img
-          src="img/elden-ring-slider-banner.webp"
-          alt="Banner de Elden Ring"
+          src="/imgs/elden-ring-slider-banner.webp"
+          alt="Banner"
           className={styles.heroImage}
           onError={(e) => {
             e.currentTarget.onerror = null;
@@ -33,9 +67,7 @@ export default function ProductsIndex() {
         />
       </div>
 
-      {/* 🛒 Contenido con márgenes laterales (igual que Home) */}
       <section className={`container-fluid text-white ${styles.productsPage}`}>
-        {/* Barra superior sólo en móvil: botón hamburguesa */}
         <div className="d-flex justify-content-between align-items-center mb-3 d-lg-none">
           <button
             className="btn btn-outline-primary"
@@ -50,7 +82,6 @@ export default function ProductsIndex() {
         </div>
 
         <div className={`row g-4 ${styles.productsRow}`}>
-          {/* Sidebar (desktop) */}
           <aside className="col-12 col-lg-3 d-none d-lg-block">
             <div className={styles.sidebarSticky}>
               <CatalogFilters
@@ -61,7 +92,6 @@ export default function ProductsIndex() {
             </div>
           </aside>
 
-          {/* Offcanvas en móvil (usa el mismo componente, el estado persiste en el hook) */}
           <div
             className="offcanvas offcanvas-start bg-dark text-white d-lg-none"
             tabIndex={-1}
@@ -88,11 +118,10 @@ export default function ProductsIndex() {
             </div>
           </div>
 
-          {/* Grid de productos */}
           <div className="col-12 col-lg-9">
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
               {filteredAndSortedProducts.length > 0 ? (
-                filteredAndSortedProducts.map((product) => (
+                filteredAndSortedProducts.map((product: Product) => (
                   <div className="col" key={product.id}>
                     <ProductCard product={product} />
                   </div>

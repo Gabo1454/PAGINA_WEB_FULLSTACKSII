@@ -40,23 +40,25 @@ export const useFilteredProducts = () => {
 
     // --- FILTRADO POR PRECIO ---
     processableProducts = processableProducts.filter(
-      (product) => product.price <= effectiveMaxPrice
+      (product) => (product.price ?? 0) <= effectiveMaxPrice
     );
 
     // --- FILTRADO POR BÚSQUEDA ---
     if (searchTerm) {
       processableProducts = processableProducts.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        (product.name ?? "").toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // --- ORDENAMIENTO ---
     if (sortOption === "price-asc") {
-      processableProducts.sort((a, b) => a.price - b.price);
+      processableProducts.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
     } else if (sortOption === "price-desc") {
-      processableProducts.sort((a, b) => b.price - a.price);
+      processableProducts.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
     } else {
-      processableProducts.sort((a, b) => a.name.localeCompare(b.name));
+      processableProducts.sort((a, b) =>
+        (a.name ?? "").localeCompare(b.name ?? "")
+      );
     }
 
     return processableProducts;

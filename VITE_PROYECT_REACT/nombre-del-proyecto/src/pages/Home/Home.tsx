@@ -71,7 +71,7 @@ export default function Home() {
                     </p>
                   )}
                   <p className="fw-bold text-success mt-auto mb-0">
-                    ${p.price.toLocaleString("es-CL")}
+                    ${(p.price ?? 0).toLocaleString("es-CL")}
                   </p>
                   <Link
                     to={`/products/${p.id}`}

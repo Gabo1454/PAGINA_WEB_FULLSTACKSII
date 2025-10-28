@@ -18,7 +18,7 @@ export default function Offers() {
                   <p className="card-text mb-2">{p.description}</p>
                 )}
                 <p className="fw-bold text-success mt-auto">
-                  ${p.price.toLocaleString()}
+                  ${(p.price ?? 0).toLocaleString("es-CL")}
                 </p>
                 <Link to={`/products/${p.id}`} className="btn btn-primary mt-2">
                   Ver detalle
