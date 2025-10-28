@@ -3,7 +3,8 @@ import { useMemo, useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { products as productsRepo } from "../../data/db";
 import { useProductStore } from "../../context/ProductContext";
-import type { Product, CartItem } from "../../data/types"; // ajusta el path relativo
+import type { Product } from "../../data/types";
+import styles from "./ProductDetail.module.css";
 
 const pesoCL = (n: number) =>
   n.toLocaleString("es-CL", {
@@ -11,6 +12,7 @@ const pesoCL = (n: number) =>
     currency: "CLP",
     maximumFractionDigits: 0,
   });
+
 const fallbackImg = "/imgs/placeholder.png";
 
 export default function ProductDetail() {
@@ -24,7 +26,7 @@ export default function ProductDetail() {
     window.scrollTo({ top: 0 });
   }, [safeId]);
 
-  const product = useMemo(() => {
+  const product = useMemo<Product | undefined>(() => {
     if (!safeId) return undefined;
     const direct = productsRepo.get(safeId);
     if (direct) return direct;
@@ -40,7 +42,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <main className="container py-5 text-white">
+      <div className="container-fluid px-4 py-5 text-white">
         <div className="alert alert-warning bg-transparent border-warning text-warning">
           Producto no encontrado.
         </div>
@@ -50,7 +52,7 @@ export default function ProductDetail() {
         >
           ← Volver
         </button>
-      </main>
+      </div>
     );
   }
 
@@ -64,7 +66,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <main className="container py-4 text-white">
+    <div className="container-fluid px-4 py-4 text-white">
       <nav className="mb-3">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -84,27 +86,76 @@ export default function ProductDetail() {
       </nav>
 
       <div className="row g-4">
+        {/* Imagen del producto */}
         <div className="col-12 col-md-6">
-          <div className="position-relative card bg-dark border-primary">
+          <div className="card bg-dark border-primary position-relative">
             {product.offer && (
-              <span className="badge bg-danger position-absolute top-0 start-0 m-2">
+              <span
+                className={`badge bg-danger position-absolute top-0 start-0 m-2 ${styles.badgeOffer}`}
+              >
                 OFERTA
               </span>
             )}
-            <img
-              src={product.image || fallbackImg}
-              alt={product.name}
-              className="card-img-top"
-              style={{ objectFit: "cover", maxHeight: 420 }}
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = fallbackImg;
-              }}
-            />
+
+            {/* Contenedor con proporción: imagen siempre visible y centrada */}
+            <div
+              className={`ratio ${styles.imageBox}`}
+              role="button"
+              data-bs-toggle="modal"
+              data-bs-target="#imageZoomModal"
+              aria-label="Ver imagen en grande"
+            >
+              <img
+                src={product.image || fallbackImg}
+                alt={product.name}
+                className={styles.imageContain}
+                loading="lazy"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = fallbackImg;
+                }}
+              />
+              <span className={styles.zoomHint}>Click para ampliar</span>
+            </div>
+          </div>
+
+          {/* Modal zoom (opcional) */}
+          <div
+            className="modal fade"
+            id="imageZoomModal"
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered modal-xl">
+              <div className="modal-content bg-black border border-primary">
+                <div className="modal-body p-0">
+                  <img
+                    src={product.image || fallbackImg}
+                    alt={product.name}
+                    className="w-100"
+                    style={{ objectFit: "contain", maxHeight: "85vh" }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = fallbackImg;
+                    }}
+                  />
+                </div>
+                <div className="modal-footer border-0">
+                  <button
+                    type="button"
+                    className="btn btn-outline-light"
+                    data-bs-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
+        {/* Detalle del producto */}
         <div className="col-12 col-md-6">
           <h1 className="h3 mb-2">{product.name}</h1>
+
           <div className="d-flex align-items-center gap-2 mb-3">
             <span className="fs-4 fw-bold text-success">
               {pesoCL(product.price)}
@@ -153,6 +204,6 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -1,13 +1,39 @@
 /* src/pages/Products/Products.module.css */
 
 .productsPage {
-  /* Establece un ancho máximo y centra el contenido en pantallas grandes */
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  min-height: 80vh;
-  /* 💡 FONDO OSCURO PRINCIPAL (Negro/Gris muy oscuro) */
   background-color: #0d0d0d;
+  min-height: 80vh;
+  padding-inline: clamp(2rem, 5vw, 5rem);
+  padding-block: 2rem;
+  box-sizing: border-box;
+}
+
+.heroBanner {
+  width: 100vw; /* ancho total */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: #000;
+}
+
+.heroImage {
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Evita que las columnas de la fila se estiren a la altura del grid */
+.productsRow {
+  align-items: flex-start; /* <-- clave */
+}
+
+/* Sticky simple, sin recortes */
+.sidebarSticky {
+  position: sticky;
+  top: calc(var(--header-h, 80px) + 12px); /* ajusta a tu header */
 }
 
 /* 💡 LAYOUT DE DOS COLUMNAS (Barra Lateral + Productos) */
@@ -15,6 +41,7 @@
   display: flex;
   gap: 2rem;
   margin-top: 1rem;
+  width: 100%;
 }
 
 /* Manejo responsivo para apilar en móvil */
