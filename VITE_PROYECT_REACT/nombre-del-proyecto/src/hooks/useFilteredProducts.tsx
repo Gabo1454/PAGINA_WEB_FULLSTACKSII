@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useProductStore } from "../context/ProductContext";
-import type { Product, CartItem } from "../data/types"; // ajusta el path relativo
+import type { Product, Category } from "../data/types";
 
 export const useFilteredProducts = () => {
   // 1. Obtener datos y filtros del estado global
@@ -33,7 +33,7 @@ export const useFilteredProducts = () => {
 
         // Requiere que TODAS las categorías seleccionadas estén en el producto (Lógica AND).
         return selectedCategories.every((selectedCat) =>
-          productCategories.includes(selectedCat)
+          productCategories.includes(selectedCat as Category)
         );
       });
     }

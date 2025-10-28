@@ -160,7 +160,8 @@ export const cart = {
     const nextQty = Math.max(0, currentQty + qty);
 
     // Respeta stock si está definido (>0). Si stock es 0, no agrega.
-    const cap = product.stock > 0 ? Math.min(nextQty, product.stock) : nextQty;
+    const stock = product.stock ?? 0;
+    const cap = stock > 0 ? Math.min(nextQty, stock) : nextQty;
 
     if (it) {
       it.qty = cap;
@@ -182,7 +183,10 @@ export const cart = {
               ...i,
               qty: Math.max(
                 0,
-                product.stock > 0 ? Math.min(qty, product.stock) : qty
+                (() => {
+                  const stock = product.stock ?? 0;
+                  return stock > 0 ? Math.min(qty, stock) : qty;
+                })()
               ),
             }
           : i
@@ -235,7 +239,7 @@ export const orders = {
       const updated = products.all().map((p) => {
         const dec = map.get(p.id);
         if (!dec) return p;
-        const next = Math.max(0, p.stock - dec);
+        const next = Math.max(0, (p.stock ?? 0) - dec);
         return { ...p, stock: next };
       });
 

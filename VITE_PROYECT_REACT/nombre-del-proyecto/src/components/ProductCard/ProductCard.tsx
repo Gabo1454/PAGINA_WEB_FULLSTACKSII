@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     maximumFractionDigits: 0,
   });
 
-  const isInStock = product.stock > 0;
+  const isInStock = (product.stock ?? 0) > 0;
 
   return (
     <Link to={`/products/${product.id}`} className={styles.card}>
