@@ -1,6 +1,6 @@
 .section {
   margin-top: 2.5rem;
-  margin-bottom: 2.5rem; /* evita que quede pegado al footer */
+  margin-bottom: 2rem;
 }
 
 .sectionTitle {
