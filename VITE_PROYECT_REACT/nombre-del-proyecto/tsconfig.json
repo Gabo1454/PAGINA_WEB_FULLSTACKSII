@@ -1,13 +1,14 @@
 {
+  //Este archivo quita el error de los modules, clases no reconocen su module.css
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
 
     "allowImportingTsExtensions": false,
     "isolatedModules": true,
@@ -15,5 +16,5 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "vite-env.d.ts", "src/types"]
+  "include": ["src", "vite-env.d.ts", "src/types", "global.d.ts"]
 }

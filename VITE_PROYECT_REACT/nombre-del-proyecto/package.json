@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "build": "vite build",
-  "dev": "vite",
-  "preview": "vite preview",
-  "test": "karma start --single-run",
-  "clean": "rimraf dist coverage src/**/*.js src/**/*.jsx src/**/*.js.map src/**/*.d.ts"
-},
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "karma start --single-run",
+    "clean": "rimraf dist coverage src/**/*.js src/**/*.jsx src/**/*.js.map src/**/*.d.ts"
+  },
   "dependencies": {
     "bootstrap": "^5.3.8",
     "react": "^19.1.1",

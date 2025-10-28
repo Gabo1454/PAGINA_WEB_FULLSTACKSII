@@ -14,7 +14,6 @@ export default function Header() {
   const debounceRef = useRef<number | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const el = headerRef.current;
@@ -184,38 +183,46 @@ export default function Header() {
         {/* derecha: search (overlay), cart y auth (desktop) */}
         <div className="d-flex align-items-center gap-2 position-relative">
           {/* Search icon + overlay input (no desplaza) */}
-          <form onSubmit={handleSubmit} className={styles.searchForm} role="search">
-          <button
-            type="button"
-            className={`btn ${styles.iconBtn}`}
-            aria-label="Abrir búsqueda"
-            aria-expanded={searchOpen}
-            onClick={() => {
-              setSearchOpen((v) => !v);
-              //q foco cuando se abre
-              setTimeout(() => {
-                const el = document.getElementById("hdr-search-input") as HTMLInputElement | null;
-                if (el) el.focus();
-              }, 0);
-            }}
+          <form
+            onSubmit={handleSubmit}
+            className={styles.searchForm}
+            role="search"
           >
-            🔍
-          </button>
+            <button
+              type="button"
+              className={`btn ${styles.iconBtn}`}
+              aria-label="Abrir búsqueda"
+              aria-expanded={searchOpen}
+              onClick={() => {
+                setSearchOpen((v) => !v);
+                //q foco cuando se abre
+                setTimeout(() => {
+                  const el = document.getElementById(
+                    "hdr-search-input"
+                  ) as HTMLInputElement | null;
+                  if (el) el.focus();
+                }, 0);
+              }}
+            >
+              🔍
+            </button>
 
-          <input
-            id="hdr-search-input"
-            type="text"
-            aria-label="Buscar productos"
-            value={query}
-            onChange={(e) => onChange(e.target.value)}
-            className={`${styles.searchInput} ${searchOpen ? styles.open : ""}`}
-            placeholder="Buscar productos..."
-            onKeyDown={(e) => {
-              if (e.key === "Escape") setSearchOpen(false);
-              // Enter lo maneja el submit del form
-            }}
-          />
-        </form>
+            <input
+              id="hdr-search-input"
+              type="text"
+              aria-label="Buscar productos"
+              value={query}
+              onChange={(e) => onChange(e.target.value)}
+              className={`${styles.searchInput} ${
+                searchOpen ? styles.open : ""
+              }`}
+              placeholder="Buscar productos..."
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setSearchOpen(false);
+                // Enter lo maneja el submit del form
+              }}
+            />
+          </form>
 
           <Link
             to="/cart"
