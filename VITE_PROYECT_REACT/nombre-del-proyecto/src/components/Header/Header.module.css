@@ -22,6 +22,11 @@
   }
 }
 
+/* (Opcional) animación lateral suave */
+@media (prefers-reduced-motion: no-preference) {
+  .searchInput.open { transform: translateY(-50%); }
+}
+
 .container-fluid {
   position: relative; /* necesario para el posicionamiento absoluto de la nav */
 }
@@ -35,6 +40,43 @@
 .logo:hover {
   transform: scale(1.05);
   filter: drop-shadow(0 0 8px var(--verde-neon));
+}
+
+searchForm {
+  position: relative;
+}
+
+/* Estado CERRADO por defecto */
+.searchInput {
+  position: absolute;
+  right: 100%;                /* se despliega hacia la izquierda desde el botón */
+  top: 40%;
+  transform: translateY(-50%);
+  width: 0;                /* 🔒 cerrado */
+  opacity: 0;
+  visibility: hidden;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+  transition: width .25s ease, opacity .2s ease, padding .2s ease, border .2s ease, visibility 0s .25s;
+  z-index: 10;
+  /* evita que robe foco/click estando cerrado */
+  pointer-events: none;
+}
+
+/* Estado ABIERTO */
+.searchInput.open {
+  width: 220px;            /* 🔓 abierto */
+  opacity: 1;
+  visibility: visible;
+  padding: .6rem;
+  border: 2px solid var(--azul-electrico);
+  transition: width .25s ease, opacity .2s ease, padding .2s ease, border .2s ease, visibility 0s;
+  pointer-events: auto;
 }
 
 /* Links */

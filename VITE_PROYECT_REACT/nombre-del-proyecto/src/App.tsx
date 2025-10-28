@@ -9,6 +9,9 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import Blog from "./pages/Blog/Blog";
 import Contact from "./pages/Contact/Contact";
 import { UserProvider } from "./pages/Register/UserContext";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+import Cart from "./pages/Cart/Cart";
 
 export default function App() {
   return (
@@ -26,6 +29,10 @@ export default function App() {
               <Route path="/aboutus" element={<AboutUs />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/contact" element={<Contact />} />
+
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/cart" element={<Cart />} />
             </Routes>
           </main>
           <Footer />

@@ -1,6 +1,7 @@
 // src/main.tsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { AuthProvider } from "./context/AuthContext";
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,8 +13,10 @@ import { ProductStoreProvider } from "./context/ProductContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ProductStoreProvider>
-      <App />
-    </ProductStoreProvider>
+    <AuthProvider>
+      <ProductStoreProvider>
+        <App />
+      </ProductStoreProvider>
+    </AuthProvider>
   </StrictMode>
 );
