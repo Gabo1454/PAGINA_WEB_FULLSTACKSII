@@ -7,7 +7,7 @@ import styles from "./Header.module.css";
 export default function Header() {
   const [busquedaVisible, setBusquedaVisible] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-  const [contadorCarrito, setContadorCarrito] = useState(0);
+  const [contadorCarrito] = useState(0);
 
   // 🔹 Referencia al header para medir altura
   const headerRef = useRef<HTMLElement | null>(null);
