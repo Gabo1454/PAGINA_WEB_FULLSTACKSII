@@ -1,0 +1,105 @@
+:root {
+  --azul-electrico: #00f0ff;
+  --verde-neon: #39ff14;
+  --gris-claro: #cccccc;
+  --footer-h: 56px;
+}
+
+.footer {
+  background-color: #000;
+  color: #fff;
+  border-top: 2px solid var(--azul-electrico);
+  min-height: var(--footer-h, 56px);
+  padding: 16px 0;
+}
+
+/* Logo */
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+/* Títulos secciones */
+.sectionTitle {
+  color: var(--azul-electrico);
+  margin-bottom: 1rem;
+  font-family: "Orbitron", sans-serif;
+}
+
+/* Contacto */
+.contactList li {
+  line-height: 1.4;
+  color: var(--gris-claro);
+}
+
+/* Redes */
+.redesTitulo {
+  color: #1e90ff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #1e90ff33;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.socialLink:hover {
+  transform: translateY(-2px);
+  background: rgba(57, 255, 20, 0.12);
+  box-shadow: 0 0 12px var(--verde-neon);
+  color: var(--verde-neon);
+}
+
+/* Newsletter */
+.newsletterInput {
+  border: 1px solid var(--azul-electrico);
+  background: #1a1a1a;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+}
+
+.newsletterInput:focus {
+  outline: none;
+  border-color: var(--verde-neon);
+  box-shadow: 0 0 10px var(--verde-neon);
+}
+
+.newsletterBoton {
+  background: var(--azul-electrico);
+  color: #000;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.newsletterBoton:hover {
+  background: var(--verde-neon);
+  box-shadow: 0 0 15px var(--verde-neon);
+  transform: translateY(-2px);
+}
+
+.mensajeNewsletter {
+  color: var(--verde-neon);
+  font-size: 0.9rem;
+  min-height: 1.2rem;
+}
+
+/* Copyright */
+.copyright {
+  border-top: 1px solid #333;
+  color: var(--gris-claro);
+  font-family: "Roboto", sans-serif;
+}

@@ -1,0 +1,15 @@
+src/components/catalog/CategoryCard/CategoryCard.module.css
+src/components/catalog/ProductCard/ProductCard.module.css
+src/components/sections/FeaturedSection/FeaturedSection.module.css
+src/components/layout/FilterSidebar/FilterSidebar.module.css
+src/components/layout/Footer/Footer.module.css
+src/components/layout/Header/Header.module.css
+
+src/pages/About/About.module.css
+src/pages/Auth/Login/Login.module.css
+src/pages/Auth/Register/Register.module.css
+src/pages/Blog/Blog.module.css
+src/pages/Contact/Contact.module.css
+src/pages/Home/Home.module.css
+src/pages/Products/ProductDetail.module.css
+src/pages/Products/Products.module.css

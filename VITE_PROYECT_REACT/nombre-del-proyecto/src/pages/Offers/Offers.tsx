@@ -1,5 +1,5 @@
 // src/pages/Offers/Offers.tsx
-import { products } from "../../data/db";
+import { products } from "../../lib/db";
 import { Link } from "react-router-dom";
 
 export default function Offers() {

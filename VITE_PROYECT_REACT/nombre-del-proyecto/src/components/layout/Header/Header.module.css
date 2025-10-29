@@ -1,0 +1,243 @@
+.header_principal {
+  position: sticky;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(30, 144, 255, 0.3);
+  border-bottom: 2px solid var(--azul-electrico);
+}
+
+.header_principal .container-fluid > .d-flex:first-child,
+.header_principal .container-fluid > .d-none.d-lg-flex {
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* En mobile volvemos al comportamiento normal Bootstrap */
+@media (max-width: 991px) {
+  .header_principal .navbar-nav {
+    position: static;
+    transform: none;
+  }
+}
+
+/* Logo */
+.logo {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 8px var(--verde-neon));
+}
+
+/* ✅ CORREGIDO - agregué el punto */
+.searchForm {
+  position: relative;
+}
+
+/* Estado CERRADO por defecto */
+.searchInput {
+  position: absolute;
+  right: 100%;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+  transition: width 0.25s ease, opacity 0.2s ease, padding 0.2s ease,
+    border 0.2s ease, visibility 0s 0.25s;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Estado ABIERTO */
+.searchInput.open {
+  width: 220px;
+  opacity: 1;
+  visibility: visible;
+  padding: 0.6rem;
+  border: 2px solid var(--azul-electrico);
+  transition: width 0.25s ease, opacity 0.2s ease, padding 0.2s ease,
+    border 0.2s ease, visibility 0s;
+  pointer-events: auto;
+}
+
+/* Links */
+.navLink {
+  color: #fff !important;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.navLink:hover {
+  color: var(--verde-neon) !important;
+  background-color: rgba(57, 255, 20, 0.1);
+  text-shadow: 0 0 10px var(--verde-neon);
+  transform: translateY(-2px);
+}
+
+/* Botones de acción */
+.iconBtn {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  border-radius: 8px;
+  min-width: 45px;
+  min-height: 45px;
+  font-size: 1.5rem;
+}
+
+.iconBtn:hover {
+  background: var(--verde-neon) !important;
+  color: #000;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--verde-neon);
+}
+
+/* Input búsqueda */
+.inputBusquedaVisible {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 2px solid var(--azul-electrico);
+  background: #000000;
+  color: #ffffff;
+  font-size: 1rem;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+  animation: slideIn 0.3s ease;
+  z-index: 10;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+/* pegar aún más el toggler al logo */
+.navbar-toggler {
+  margin-left: -0.25rem;
+}
+
+.usuarioActivo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #00bfff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.logoutButton {
+  margin-top: 0.5rem;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logoutButton:hover {
+  background-color: #e60000;
+}
+
+.userWrapper {
+  position: relative;
+}
+
+.userBtn {
+  color: #fff;
+  background: transparent;
+  border: none;
+  font-weight: 500;
+}
+
+.userMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #333;
+  border-radius: 4px;
+  padding: 0.5rem 0;
+  min-width: 150px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: none;
+}
+
+.userWrapper:hover .userMenu {
+  display: block;
+}
+
+.userMenuItem {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
+.userMenuItem:hover {
+  background: rgba(57, 255, 20, 0.1);
+  color: #39ff14;
+}
+
+.authBtn {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.centerNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* En Header.module.css */
+.navbar-collapse {
+  transition: all 0.3s ease;
+}
+
+/* Opcional: mejorar la apariencia del menú en móvil */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background: #000;
+    margin-top: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--azul-electrico);
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.3);
+  }
+
+  .navbar-nav {
+    padding: 1rem 0;
+  }
+}

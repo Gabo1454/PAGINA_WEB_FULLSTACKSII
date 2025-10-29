@@ -1,15 +1,30 @@
-// src/pages/Home/Home.tsx
 import { Link } from "react-router-dom";
-import styles from "./Home.module.css";
-import logoPage from "../Home/assents/elden-ring-slider-banner.webp";
-import { products } from "../../data/db";
-import FeaturedSection from "../../components/FeaturedSection/FeaturedSection";
+import { products } from "../../lib/db";
+import FeaturedSection from "../../components/sections/FeaturedSection/FeaturedSection";
+/* Replaced missing CSS module import with a local styles map to avoid
+   "Cannot find module './Home.module.css'" TypeScript error.
+   Replace these class names with your real CSS classes or restore the
+   Home.module.css file when available. */
+const styles = {
+  home: "home",
+  hero: "hero",
+  overlay: "overlay",
+  bannerImage: "bannerImage",
+  heroContent: "heroContent",
+  heroTitle: "heroTitle",
+  highlight: "highlight",
+  heroSubtitle: "heroSubtitle",
+  ctaButton: "ctaButton",
+  section: "section",
+  sectionTitle: "sectionTitle",
+} as const;
+
+const logoPage = "/imgs/elden-ring-banner.jpg";
 
 export default function Home() {
   const ofertas = products.offers();
 
   return (
-    // ⬇️ ANTES: <main className={styles.home}>
     <div className={styles.home}>
       {/* HERO BANNER */}
       <section className={styles.hero}>
@@ -42,26 +57,24 @@ export default function Home() {
             Ver catálogo
           </Link>
         </div>
-        {/* añade margen inferior a la grilla */}
+
         <div className="row g-4 mb-4">
           {ofertas.map((p) => (
             <article key={p.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div
-                className={`card h-100 bg-dark text-white border-primary position-relative ${styles.cardGlow}`}
-              >
+              <div className="card h-100 bg-dark text-white border-primary position-relative">
                 {p.offer && (
                   <span className="badge bg-danger position-absolute top-0 start-0 m-2">
                     OFERTA
                   </span>
                 )}
-                {p.image ? (
+                {p.image && (
                   <img
                     src={p.image}
                     alt={p.name}
                     className="card-img-top"
                     style={{ objectFit: "cover", maxHeight: 180 }}
                   />
-                ) : null}
+                )}
 
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title mb-1">{p.name}</h5>
@@ -90,7 +103,8 @@ export default function Home() {
             </p>
           )}
         </div>
-        {/*dentro del return, después de OFERTAS:*/}
+
+        {/* SECCIONES DESTACADAS */}
         <FeaturedSection
           title="Consolas destacadas"
           items={products.featuredByCategory("Consolas", 8)}

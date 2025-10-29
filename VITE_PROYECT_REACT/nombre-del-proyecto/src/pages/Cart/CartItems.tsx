@@ -1,12 +1,12 @@
-import { useCart } from "../../context/CartContext";
-import { products as productsRepo } from "../../data/db";
+import { useCart } from "../../context/CartProvider";
+import { cart, products } from "../../lib/db";
 
 const { cartItems, setQty, removeFromCart, clearCart, total } = useCart();
-const all = productsRepo.all();
+const all = products.all();
 
 const items = cartItems
-  .map(it => {
-    const p = all.find(pp => pp.id === it.productId);
+  .map((it) => {
+    const p = all.find((pp) => pp.id === it.productId);
     if (!p) return null;
     const price = p.price ?? 0;
     const stock = p.stock ?? 0;

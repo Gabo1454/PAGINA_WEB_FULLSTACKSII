@@ -1,68 +1,45 @@
-// src/context/CartContext.tsx
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import { products as productsRepo } from "../data/db"; // para calcular totales
-
-export type CartItem = { productId: string; qty: number };
-
-type CartContextType = {
-  cartItems: CartItem[];
-  addToCart: (productId: string, qty?: number) => void;
-  setQty: (productId: string, qty: number) => void;
-  removeFromCart: (productId: string) => void;
-  clearCart: () => void;
-  total: number;
+import { createContext, useContext, useState, type ReactNode } from "react";
+// 1️⃣ Define el tipo de producto
+type Product = {
+  id: number;
+  name: string;
+  price?: number;
 };
 
+// 2️⃣ Define el tipo del contexto
+type CartContextType = {
+  cartItems: Product[];
+  addToCart: (product: Product) => void;
+  removeFromCart: (id: number) => void;
+};
+
+// 3️⃣ Crea el contexto con tipo
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const KEY_CART = "cart_ctx_v1";
-
+// 4️⃣ Crea el proveedor del contexto
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    try { return JSON.parse(localStorage.getItem(KEY_CART) || "[]"); } catch { return []; }
-  });
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
-  const persist = (next: CartItem[]) => {
-    setCartItems(next);
-    localStorage.setItem(KEY_CART, JSON.stringify(next));
+  const addToCart = (product: Product) => {
+    setCartItems((prev) => [...prev, product]);
   };
 
-  const addToCart = (productId: string, qty = 1) => {
-    persist(
-      cartItems.some(i => i.productId === productId)
-        ? cartItems.map(i => i.productId === productId ? { ...i, qty: i.qty + qty } : i)
-        : [...cartItems, { productId, qty }]
-    );
+  const removeFromCart = (id: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const setQty = (productId: string, qty: number) => {
-    const safe = Math.max(0, Math.floor(qty));
-    persist(
-      cartItems
-        .map(i => i.productId === productId ? { ...i, qty: safe } : i)
-        .filter(i => i.qty > 0)
-    );
-  };
-
-  const removeFromCart = (productId: string) => persist(cartItems.filter(i => i.productId !== productId));
-  const clearCart = () => persist([]);
-
-  // calcula total cruzando con la BD (precio garantizado number)
-  const total = useMemo(() => {
-    const all = productsRepo.all();
-    return cartItems.reduce((acc, it) => {
-      const p = all.find(pp => pp.id === it.productId);
-      const price = p?.price ?? 0;
-      return acc + price * it.qty;
-    }, 0);
-  }, [cartItems]);
-
-  const value: CartContextType = { cartItems, addToCart, setQty, removeFromCart, clearCart, total };
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+      {children}
+    </CartContext.Provider>
+  );
 }
 
+// 5️⃣ Hook para usar el contexto
 export function useCart() {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart debe usarse dentro de CartProvider");
-  return ctx;
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart debe usarse dentro de CartProvider");
+  }
+  return context;
 }

@@ -1,7 +1,7 @@
 // src/components/FeaturedSection/FeaturedSection.tsx
 import { Link } from "react-router-dom";
 import styles from "./FeaturedSection.module.css";
-import type { Product } from "../../types/products";
+import type { Product } from "../../../types/products";
 
 type Props = {
   title: string;

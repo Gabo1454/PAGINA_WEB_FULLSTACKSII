@@ -1,9 +1,14 @@
 import { useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { products as productsRepo } from "../../data/db";
-import { useProductStore } from "../../context/ProductContext";
-import type { Product } from "../../data/types";
-import styles from "./ProductDetail.module.css";
+import { products as productsRepo } from "../../lib/db";
+import { useProductStore } from "../../context/ProductsContext";
+import type { Product } from "../../types/products";
+const styles: { [key: string]: string } = {
+  badgeOffer: "",
+  imageBox: "",
+  imageContain: "",
+  zoomHint: "",
+};
 
 const pesoCL = (n = 0) =>
   n.toLocaleString("es-CL", {

@@ -1,0 +1,24 @@
+.sidebar {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.filterTitle {
+  color: #00f0ff;
+  font-family: "Orbitron", sans-serif;
+}
+
+.categoryCheckbox {
+  accent-color: #00f0ff;
+}
+
+.categoryLabel {
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.categoryLabel:hover {
+  color: #39ff14;
+}

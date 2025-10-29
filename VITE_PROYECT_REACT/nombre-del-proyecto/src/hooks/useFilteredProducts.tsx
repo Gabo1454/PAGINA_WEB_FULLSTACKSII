@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { useProductStore } from "../context/ProductContext";
-import type { Product, Category } from "../data/types";
+import { useProductStore } from "../context/ProductsContext";
+import type { Product, Category } from "../types/products";
 
 export const useFilteredProducts = () => {
   // 1. Obtener datos y filtros del estado global
