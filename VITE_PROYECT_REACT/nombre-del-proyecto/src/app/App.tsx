@@ -16,6 +16,11 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Cart from "../pages/Cart/Cart";
 
+// ✅ NUEVAS IMPORTACIONES Checkout y Payment succes/failed
+import Checkout from "../pages/Checkout/Checkout";
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
+import PaymentFailed from "../pages/PaymentFailed/PaymentFailed";
+
 export default function App() {
   return (
     <AuthProvider>
@@ -31,6 +36,11 @@ export default function App() {
               {/* Rutas de autenticación */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+
+              {/* NUEVAS RUTAS - Checkout */}
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-failed" element={<PaymentFailed />} />
 
               {/* Otras rutas */}
               <Route path="/aboutus" element={<AboutUs />} />
