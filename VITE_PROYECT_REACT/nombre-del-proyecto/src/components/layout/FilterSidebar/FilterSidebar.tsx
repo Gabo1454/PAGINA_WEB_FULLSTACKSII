@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 import { useProductStore } from "../../../context/ProductsContext";
-import styles from "./FilterSidebar.module.css";
+import { FaFilter } from "react-icons/fa"; // Icono de filtro de Bootstrap
+import styles from "./FilterSidebar.module.css"; // Importación del archivo CSS Módulo
 
 const FilterSidebar: React.FC = () => {
   const { state, dispatch } = useProductStore();
   const { products, selectedCategories, maxPrice, initialMaxPrice } = state;
 
-  // Precio máx. del slider (si no hay datos, usa fallback)
+  // Precio máximo del slider (si no hay datos, usa fallback)
   const sliderMax = initialMaxPrice || 2_000_000;
 
   // Categorías únicas (ignora productos sin category)
@@ -36,28 +37,29 @@ const FilterSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`${styles.sidebar} bg-dark text-white p-4 rounded-3 shadow h-fit sticky`}
+      className={`${styles.sidebar} bg-dark text-white p-4 rounded-3 shadow h-100 sticky-top`}
       style={{ top: "var(--header-h, 80px)" }}
     >
-      <h2 className="h5 mb-4 border-bottom border-primary pb-2">Filtrar por</h2>
+      <h2 className={`${styles.filterTitle} h5 mb-4 border-bottom border-primary pb-2 d-flex align-items-center gap-2`}>
+        <FaFilter /> Filtrar por
+      </h2>
 
       {/* Filtro por Categoría */}
       <div className="mb-4">
-        <h3 className={`${styles.filterTitle} h6 mb-3`}>Categorías</h3>
-        <ul className="list-unstyled m-0">
+        <ul className="list-group list-group-flush">
           {uniqueCategories.map((category) => (
-            <li key={category} className="mb-2">
+            <li key={category} className="list-group-item">
               <div className="form-check">
                 <input
                   id={`cat-${category}`}
                   type="checkbox"
-                  className={`form-check-input ${styles.categoryCheckbox}`}
+                  className="form-check-input"
                   checked={selectedCategories.includes(category)}
                   onChange={() => handleCategoryChange(category)}
                 />
                 <label
                   htmlFor={`cat-${category}`}
-                  className={`form-check-label ${styles.categoryLabel}`}
+                  className={`${styles.categoryLabel} form-check-label`}
                 >
                   {category}
                 </label>
@@ -65,7 +67,7 @@ const FilterSidebar: React.FC = () => {
             </li>
           ))}
           {uniqueCategories.length === 0 && (
-            <li className="text-secondary small">
+            <li className="list-group-item text-secondary small">
               No hay categorías disponibles.
             </li>
           )}
@@ -74,8 +76,8 @@ const FilterSidebar: React.FC = () => {
 
       {/* Filtro por Precio */}
       <div>
-        <h3 className={`${styles.filterTitle} h6 mb-3`}>Rango de Precio</h3>
-        <p className="fw-bold text-success mb-2">
+        <h3 className="h6 mb-3">Rango de Precio</h3>
+        <p className={`${styles.fwBold} text-success mb-2`}>
           Hasta: {formatPrice(maxPrice)}
         </p>
         <input

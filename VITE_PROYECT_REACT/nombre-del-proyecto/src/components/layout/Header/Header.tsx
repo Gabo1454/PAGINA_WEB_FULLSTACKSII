@@ -1,4 +1,4 @@
-// src/components/Header/Header.tsx
+// src/components/Header/Header.tsx //ruta antigua
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 export { default as Header } from "./Header";

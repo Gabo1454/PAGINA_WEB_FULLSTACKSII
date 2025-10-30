@@ -3,12 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { products as productsRepo } from "../../lib/db";
 import { useProductStore } from "../../context/ProductsContext";
 import type { Product } from "../../types/products";
-const styles: { [key: string]: string } = {
-  badgeOffer: "",
-  imageBox: "",
-  imageContain: "",
-  zoomHint: "",
-};
+import styles from "./ProductDetail.module.css";
 
 const pesoCL = (n = 0) =>
   n.toLocaleString("es-CL", {
@@ -25,6 +20,7 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { state, dispatch } = useProductStore();
   const [qty, setQty] = useState(1);
+  const [showToast, setShowToast] = useState(false);
 
   const product = useMemo<Product | undefined>(() => {
     if (!safeId) return undefined;
@@ -46,10 +42,7 @@ export default function ProductDetail() {
         <div className="alert alert-warning bg-transparent border-warning text-warning">
           Producto no encontrado.
         </div>
-        <button
-          className="btn btn-outline-primary"
-          onClick={() => navigate(-1)}
-        >
+        <button className="btn btn-outline-primary" onClick={() => navigate(-1)}>
           ← Volver
         </button>
       </div>
@@ -63,21 +56,23 @@ export default function ProductDetail() {
       type: "ADD_TO_CART",
       payload: { productId: product.id, quantity: qty },
     });
+
+    // ✅ Toast 3s
+    setShowToast(true);
+    window.clearTimeout((addToCart as any)._t);
+    (addToCart as any)._t = window.setTimeout(() => setShowToast(false), 3000);
   };
 
   return (
-    <div className="container-fluid px-4 py-4 text-white">
-      <nav className="mb-3">
+    <div className="container-fluid px-4 py-5 text-white">
+      {/* 🧭 MIGAS DE PAN */}
+      <nav className="mb-4">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <Link to="/" className="link-primary">
-              Inicio
-            </Link>
+            <Link to="/" className="link-primary">Inicio</Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to="/products" className="link-primary">
-              Productos
-            </Link>
+            <Link to="/products" className="link-primary">Productos</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             {product.name}
@@ -85,13 +80,12 @@ export default function ProductDetail() {
         </ol>
       </nav>
 
-      <div className="row g-4">
-        <div className="col-12 col-md-6">
-          <div className="card bg-dark border-primary position-relative">
+      <div className="row g-5 align-items-start">
+        {/* 📸 IMAGEN DEL PRODUCTO */}
+        <div className="col-12 col-lg-6">
+          <div className="card bg-dark border-primary position-relative p-3">
             {product.offer && (
-              <span
-                className={`badge bg-danger position-absolute top-0 start-0 m-2 ${styles.badgeOffer}`}
-              >
+              <span className={`badge bg-danger position-absolute top-0 start-0 m-2 ${styles.badgeOffer}`}>
                 OFERTA
               </span>
             )}
@@ -101,70 +95,38 @@ export default function ProductDetail() {
               role="button"
               data-bs-toggle="modal"
               data-bs-target="#imageZoomModal"
-              aria-label="Ver imagen en grande"
             >
               <img
                 src={product.image || fallbackImg}
                 alt={product.name}
                 className={styles.imageContain}
                 loading="lazy"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = fallbackImg;
-                }}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackImg; }}
               />
               <span className={styles.zoomHint}>Click para ampliar</span>
             </div>
           </div>
-
-          <div
-            className="modal fade"
-            id="imageZoomModal"
-            tabIndex={-1}
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered modal-xl">
-              <div className="modal-content bg-black border border-primary">
-                <div className="modal-body p-0">
-                  <img
-                    src={product.image || fallbackImg}
-                    alt={product.name}
-                    className="w-100"
-                    style={{ objectFit: "contain", maxHeight: "85vh" }}
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = fallbackImg;
-                    }}
-                  />
-                </div>
-                <div className="modal-footer border-0">
-                  <button
-                    type="button"
-                    className="btn btn-outline-light"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <div className="col-12 col-md-6">
-          <h1 className="h3 mb-2">{product.name}</h1>
+        {/* 🧾 INFORMACIÓN DEL PRODUCTO */}
+        <div className="col-12 col-lg-6 d-flex flex-column justify-content-start">
+          {/* 🏷️ Nombre */}
+          <h1 className="display-6 fw-bold mb-3 text-light">{product.name}</h1>
 
+          {/* 💰 Precio */}
           <div className="d-flex align-items-center gap-2 mb-3">
-            <span className="fs-4 fw-bold text-success">
-              {pesoCL(product.price ?? 0)}
-            </span>
-            {!inStock && <span className="badge bg-secondary">Sin stock</span>}
+            <span className="fs-3 fw-bold text-success">{pesoCL(product.price ?? 0)}</span>
+            {!inStock && <span className="badge bg-secondary fs-6">Sin stock</span>}
           </div>
 
+          {/* 📝 Descripción */}
           {product.description && (
-            <p className="text-secondary">{product.description}</p>
+            <p className="text-secondary fs-5 mb-4">{product.description}</p>
           )}
 
-          <div className="d-flex align-items-center gap-3 my-3">
-            <label className="form-label mb-0">Cantidad:</label>
+          {/* 🔢 Cantidad */}
+          <div className="d-flex align-items-center gap-3 mb-4">
+            <label className="form-label mb-0 fw-semibold">Cantidad:</label>
             <input
               type="number"
               min={1}
@@ -175,28 +137,75 @@ export default function ProductDetail() {
                 const max = product.stock ?? 1;
                 setQty(Math.max(1, Math.min(n, max)));
               }}
-              className="form-control"
-              style={{ width: 100 }}
+              className="form-control text-center"
+              style={{ width: "100px" }}
             />
           </div>
 
-          <div className="d-flex flex-wrap gap-2">
+          {/* 🛒 Botones */}
+          <div className="d-flex flex-wrap gap-3 mb-4">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary btn-lg fw-bold"
               onClick={addToCart}
               disabled={!inStock}
             >
               🛒 Añadir al carrito
             </button>
-            <Link to="/products" className="btn btn-outline-light">
+
+            <Link to="/products" className="btn btn-outline-light btn-lg fw-semibold">
               ← Volver al catálogo
             </Link>
           </div>
 
-          <div className="mt-4 small text-secondary">
-            {inStock
-              ? `Stock disponible: ${product.stock}`
-              : "Este producto está temporalmente agotado."}
+          {/* 🧮 Stock */}
+          <div className="small text-secondary mt-2">
+            {inStock ? `Stock disponible: ${product.stock}` : "Este producto está temporalmente agotado."}
+          </div>
+        </div>
+      </div>
+
+      {/* 🔍 MODAL ZOOM */}
+      <div className="modal fade" id="imageZoomModal" tabIndex={-1} aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-xl">
+          <div className="modal-content bg-black border border-primary">
+            <div className="modal-body p-0">
+              <img
+                src={product.image || fallbackImg}
+                alt={product.name}
+                className="w-100"
+                style={{ objectFit: "contain", maxHeight: "85vh" }}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackImg; }}
+              />
+            </div>
+            <div className="modal-footer border-0">
+              <button type="button" className="btn btn-outline-light" data-bs-dismiss="modal">
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ TOAST flotante (Bootstrap) */}
+      <div
+        className="toast-container position-fixed bottom-0 end-0 p-3"
+        style={{ zIndex: 1050 }}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <div
+          className={`toast align-items-center text-bg-success border-0 ${showToast ? "show" : "hide"}`}
+          role="alert"
+        >
+          <div className="d-flex">
+            <div className="toast-body">
+              ✅ <strong>{product.name}</strong> agregado al carrito.
+            </div>
+            <button
+              type="button"
+              className="btn-close btn-close-white me-2 m-auto"
+              onClick={() => setShowToast(false)}
+            />
           </div>
         </div>
       </div>

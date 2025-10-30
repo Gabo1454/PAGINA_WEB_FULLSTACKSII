@@ -1,24 +1,100 @@
+/* Contenedor principal del sidebar */
 .sidebar {
-  background: #1a1a1a;
+  background-color: #1a1a1a;
   border: 1px solid #333;
-  border-radius: 8px;
+  border-radius: 10px; /* Aumenté ligeramente el border-radius para una apariencia más suave */
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Añadí una sombra para hacerlo más moderno */
+  height: fit-content;
 }
 
+/* Título de la sección de filtro */
 .filterTitle {
   color: #00f0ff;
   font-family: "Orbitron", sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
+/* Estilo del checkbox de categorías */
 .categoryCheckbox {
-  accent-color: #00f0ff;
+  accent-color: #00f0ff; /* Este color hace que el checkbox sea más visible */
 }
 
+/* Etiqueta del checkbox de categoría */
 .categoryLabel {
   color: #fff;
   cursor: pointer;
-  transition: color 0.3s ease;
+  display: inline-block;
+  padding: 4px 0;
+  font-size: 1rem;
+  transition: color 0.3s ease, transform 0.2s ease; /* Agregué una transición para un pequeño efecto de hover */
+  line-height: 1.5;
 }
 
+/* Efecto hover en las categorías */
 .categoryLabel:hover {
   color: #39ff14;
+  transform: translateX(4px); /* Agregué un ligero desplazamiento para un efecto visual más interesante */
+}
+
+/* Lista de categorías sin estilo por defecto */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Estilo para las categorías vacías */
+li.text-secondary {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Sección del filtro de precio */
+.rangeFilter {
+  margin-top: 20px;
+}
+
+/* Título del rango de precio */
+.rangeFilter h3 {
+  font-size: 1.125rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #00f0ff;
+}
+
+/* Estilo del input del rango de precio */
+.form-range {
+  width: 100%;
+  margin: 10px 0;
+  accent-color: #39ff14;
+}
+
+/* Estilo para mostrar los valores del rango de precio */
+.rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* Mensaje del filtro de precio */
+.fw-bold {
+  font-weight: bold;
+  color: #39ff14;
+}
+
+/* Estilo del sidebar en pantallas grandes */
+@media (min-width: 768px) {
+  .sidebar {
+    width: 280px; /* Ancho mayor en pantallas más grandes */
+  }
+}
+
+/* Estilo del sidebar en pantallas pequeñas */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 100%; /* Se ajusta al 100% en pantallas pequeñas */
+  }
 }

@@ -1,15 +1,18 @@
-/* Contenedor de imagen con proporción estable (16:9 tipo widescreen) */
+/* Contenedor con relación 16:9 gracias a Bootstrap */
 .imageBox {
   --bs-aspect-ratio: calc(9 / 16 * 100%); /* formato panorámico */
   background: #0b0b0b;
   border-radius: 0.5rem;
   overflow: hidden;
-  max-height: 480px; /* 🔒 límite visual para pantallas grandes */
+  max-height: 480px;
   margin: 0 auto;
+  position: relative;
 }
 
-/* Imagen contenida, sin recortes ni deformación */
+/* Imagen dentro del contenedor ratio */
 .imageContain {
+  position: absolute;  /* ocupa todo el contenedor ratio */
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -17,7 +20,7 @@
   background: #0b0b0b;
 }
 
-/* Badge más legible sobre fondos variables */
+/* Badge de oferta */
 .badgeOffer {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
@@ -34,8 +37,7 @@
 }
 
 @media (min-width: 992px) {
-  /* En desktop, un poco más alto sin romper layout */
   .imageBox {
-    --bs-aspect-ratio: 110%;
+    --bs-aspect-ratio: 110%; /* un poco más alto en desktop */
   }
 }
