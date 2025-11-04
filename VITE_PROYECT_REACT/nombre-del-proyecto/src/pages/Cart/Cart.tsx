@@ -1,3 +1,5 @@
+// src/pages/Cart/Cart.tsx
+import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useProductStore } from "../../context/ProductsContext";
 import { products as productsRepo } from "../../lib/db";
@@ -21,8 +23,8 @@ export default function Cart() {
       const p = all.find((pp) => pp.id === it.productId);
       if (!p) return null;
 
-      const price = p.price ?? 0; //  asegura número
-      const stock = p.stock ?? 0; //  asegura número
+      const price = p.price ?? 0;
+      const stock = p.stock ?? 0;
 
       return {
         id: p.id,
@@ -38,13 +40,36 @@ export default function Cart() {
 
   const total = items.reduce((acc, x) => acc + x.subtotal, 0);
 
+  /**
+   * setQty:
+   * Ajusta la cantidad deseada usando SOLO acciones existentes:
+   * - Si safe > current -> ADD_TO_CART con delta
+   * - Si safe === 0     -> REMOVE_ITEM_FROM_CART
+   * - Si safe < current -> REMOVE y luego ADD con la cantidad final
+   */
   const setQty = (productId: string, qty: number) => {
     const safe = Math.max(0, Math.floor(qty));
-    // 👉 ajusta el type según tu reducer si usas otro nombre:
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: { productId, quantity: safe },
-    });
+    const current = state.cart.find((i) => i.productId === productId)?.qty ?? 0;
+
+    if (safe === current) return;
+
+    if (safe === 0) {
+      dispatch({ type: "REMOVE_ITEM_FROM_CART", payload: { productId } });
+      return;
+    }
+
+    if (safe > current) {
+      const delta = safe - current;
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: { productId, quantity: delta },
+      });
+      return;
+    }
+
+    // safe < current: simulamos "set" removiendo y reinsertando con cantidad final
+    dispatch({ type: "REMOVE_ITEM_FROM_CART", payload: { productId } });
+    dispatch({ type: "ADD_TO_CART", payload: { productId, quantity: safe } });
   };
 
   const inc = (productId: string, current: number, stock: number) => {
@@ -68,8 +93,32 @@ export default function Cart() {
   const clear = () => {
     if (items.length === 0) return;
     if (confirm("¿Vaciar el carrito?")) {
-      dispatch;
+      // No existe CLEAR_CART en tu reducer: vaciamos uno a uno
+      state.cart.forEach((i) =>
+        dispatch({
+          type: "REMOVE_ITEM_FROM_CART",
+          payload: { productId: i.productId },
+        })
+      );
     }
+  };
+
+  // ==== Cupón y totales (solo panel derecho) ====
+  const [coupon, setCoupon] = useState("");
+  const [couponOk, setCouponOk] = useState(false);
+
+  // -10% si el cupón es LEVELUP10
+  const discountAmount = useMemo(
+    () => (couponOk ? Math.floor(total * 0.1) : 0),
+    [couponOk, total]
+  );
+
+  // Total final (sin envío; se calcula en Checkout)
+  const grandTotal = Math.max(0, total - discountAmount);
+
+  const applyCoupon = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCouponOk(coupon.trim().toUpperCase() === "LEVELUP10");
   };
 
   if (items.length === 0) {
@@ -214,11 +263,42 @@ export default function Cart() {
           </div>
         </div>
 
-        {/* Resumen */}
+        {/* Resumen / Panel derecho mejorado */}
         <div className="col-12 col-lg-4">
           <div className="card bg-dark border-primary">
             <div className="card-body">
-              <h2 className="h5">Resumen</h2>
+              <h2 className="h5 text-center mb-3">Resumen</h2>
+
+              {/* Cupón */}
+              <form onSubmit={applyCoupon} className="mb-3">
+                <label htmlFor="coupon" className="form-label mb-2">
+                  Cupón de descuento
+                </label>
+                <div className="input-group">
+                  <input
+                    id="coupon"
+                    className="form-control bg-dark text-white border-secondary"
+                    placeholder="LEVELUP10"
+                    value={coupon}
+                    onChange={(e) => setCoupon(e.target.value)}
+                  />
+                  <button className="btn btn-outline-primary" type="submit">
+                    Aplicar
+                  </button>
+                </div>
+                {couponOk && (
+                  <small className="text-success d-block mt-1">
+                    ✅ Cupón aplicado: -10%
+                  </small>
+                )}
+                {!couponOk && coupon.trim() !== "" && (
+                  <small className="text-secondary d-block mt-1">
+                    Tip: usa <strong>LEVELUP10</strong>
+                  </small>
+                )}
+              </form>
+
+              {/* Totales */}
               <div className="d-flex justify-content-between my-2">
                 <span>Items</span>
                 <span>{state.cart.reduce((acc, i) => acc + i.qty, 0)}</span>
@@ -227,6 +307,12 @@ export default function Cart() {
                 <span>Subtotal</span>
                 <span className="fw-semibold">{pesoCL(total)}</span>
               </div>
+              {discountAmount > 0 && (
+                <div className="d-flex justify-content-between my-2 text-success">
+                  <span>Descuento</span>
+                  <span>-{pesoCL(discountAmount)}</span>
+                </div>
+              )}
               <div className="d-flex justify-content-between my-2">
                 <span>Envío</span>
                 <span className="text-secondary">Calculado en Checkout</span>
@@ -235,9 +321,11 @@ export default function Cart() {
               <div className="d-flex justify-content-between my-2">
                 <span className="fw-bold">Total</span>
                 <span className="fw-bold fs-5 text-success">
-                  {pesoCL(total)}
+                  {pesoCL(grandTotal)}
                 </span>
               </div>
+
+              {/* Botones */}
               <div className="d-grid mt-3">
                 <Link to="/checkout" className="btn btn-primary">
                   Ir a pagar
@@ -251,9 +339,10 @@ export default function Cart() {
             </div>
           </div>
 
-          <div className="small text-secondary mt-3">
-            * Si cambias cantidades aquí, el total se actualiza al instante.
-          </div>
+          <p className="small text-secondary mt-3 text-center mb-0">
+            * Los montos finales pueden variar en Checkout según dirección y
+            courier.
+          </p>
         </div>
       </div>
     </section>

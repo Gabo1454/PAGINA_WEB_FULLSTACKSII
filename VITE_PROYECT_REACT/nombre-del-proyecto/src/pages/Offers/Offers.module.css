@@ -1,0 +1,69 @@
+/* Reutilizamos el mismo estilo visual de las secciones destacadas */
+
+.offersPage {
+  min-height: 80vh;
+  padding-bottom: 3rem;
+}
+
+.titleGlow {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(30, 144, 255, 0.6);
+  font-weight: 800;
+}
+
+.cardGlow {
+  background: linear-gradient(180deg, #0d1117, #0b0f14);
+  border: 1px solid rgba(30, 144, 255, 0.35);
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.cardGlow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 22px rgba(30, 144, 255, 0.4);
+}
+
+.cardImage {
+  object-fit: cover;
+  max-height: 180px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.offerBadge {
+  z-index: 2;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.price {
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+}
+
+.detailBtn {
+  display: inline-block;
+  text-align: center;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(90deg, #1e90ff, #007bff);
+  border: 1px solid rgba(30, 144, 255, 0.4);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none; /* evita subrayado */
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.detailBtn:hover {
+  background: linear-gradient(90deg, #00ff7f, #39ff14);
+  border-color: rgba(57, 255, 20, 0.5);
+  transform: scale(1.04);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+  color: #fff;
+}
+.detailBtn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+}

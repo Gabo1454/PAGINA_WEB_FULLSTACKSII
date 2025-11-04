@@ -6,8 +6,8 @@ import type { Product } from "../../../types/products";
 type Props = {
   title: string;
   items: Product[];
-  seeAllHref?: string; // ej: /products?category=Consolas
-  emptyText?: string; // texto si no hay items
+  seeAllHref?: string; // 👈 ESTE prop debe existir aquí
+  emptyText?: string;
 };
 
 export default function FeaturedSection({
@@ -21,7 +21,7 @@ export default function FeaturedSection({
       <div className="d-flex justify-content-between align-items-end mb-3">
         <h2 className={styles.sectionTitle}>{title}</h2>
         {seeAllHref && (
-          <Link to={seeAllHref} className="btn btn-outline-primary btn-sm">
+          <Link to={seeAllHref} className={`btn ${styles.seeAllBtn}`}>
             Ver todo
           </Link>
         )}
@@ -46,7 +46,7 @@ export default function FeaturedSection({
               {p.image && (
                 <img
                   src={p.image}
-                  alt={p.name ?? p.name ?? "Producto"}
+                  alt={p.name}
                   className="card-img-top"
                   style={{ objectFit: "cover", maxHeight: 180 }}
                   loading="lazy"
@@ -54,7 +54,7 @@ export default function FeaturedSection({
               )}
 
               <div className="card-body d-flex flex-column">
-                <h5 className="card-title mb-1">{p.name ?? p.name}</h5>
+                <h5 className="card-title mb-1">{p.name}</h5>
                 {p.description && (
                   <p className="card-text text-secondary small mb-2">
                     {p.description}
@@ -63,7 +63,10 @@ export default function FeaturedSection({
                 <p className="fw-bold text-success mt-auto mb-0">
                   ${(p.price ?? 0).toLocaleString("es-CL")}
                 </p>
-                <Link to={`/products/${p.id}`} className="btn btn-primary mt-2">
+                <Link
+                  to={`/products/${p.id}`}
+                  className={`btn ${styles.detailBtn} mt-2`}
+                >
                   Ver detalle
                 </Link>
               </div>

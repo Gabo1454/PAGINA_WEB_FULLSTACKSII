@@ -1,18 +1,17 @@
+// src/pages/Products/Products.tsx
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFilteredProducts } from "../../hooks/useFilteredProducts";
+import { useProductStore } from "../../context/ProductsContext";
 import ProductCard from "../../components/catalog/ProductCard/ProductCard";
 import CatalogFilters from "../../components/catalog/CatalogFilters/CatalogFilters";
 import styles from "./Products.module.css";
 import type { Product } from "../../types/products";
 
-function useQuerySearchParam() {
-  return new URLSearchParams(useLocation().search).get("q") ?? "";
-}
-
 export default function ProductsIndex() {
   const navigate = useNavigate();
-  const qParam = useQuerySearchParam();
+  const [params] = useSearchParams();
+  const { state, dispatch } = useProductStore();
 
   const {
     isLoading,
@@ -22,30 +21,41 @@ export default function ProductsIndex() {
     setSearchTerm,
   } = useFilteredProducts();
 
-  // Si vienen con ?q= desde la URL (ej: header navegó), inicializamos el filtro
+  // ?q= -> búsqueda
   useEffect(() => {
-    if (qParam) {
-      setSearchTerm(qParam);
+    const q = params.get("q") ?? "";
+    setSearchTerm(q);
+  }, [params, setSearchTerm]);
+
+  // ?category= -> forzar filtro por UNA sola categoría
+  useEffect(() => {
+    const cat = params.get("category");
+    if (!cat) return;
+
+    const category = decodeURIComponent(cat);
+
+    // Si ya está exactamente esa única categoría activa, no hagas nada
+    const onlyThisActive =
+      state.selectedCategories.length === 1 &&
+      state.selectedCategories[0] === category;
+    if (onlyThisActive) return;
+
+    // 1) limpiar todas las categorías activas
+    if (state.selectedCategories.length) {
+      state.selectedCategories.forEach((c) =>
+        dispatch({ type: "TOGGLE_CATEGORY_FILTER", payload: c })
+      );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [qParam]); // intencional: solo cuando cambia la query string
 
-  // Escucha evento global product-search emitido por Header.
-  // Si llega un término, navegamos a /products?q=... y actualizamos setSearchTerm.
-  useEffect(() => {
-    const onSearch = (e: Event) => {
-      const term = (e as CustomEvent<string>).detail ?? "";
-      // navegamos siempre a /products para mostrar resultados
-      navigate(`/products${term ? `?q=${encodeURIComponent(term)}` : ""}`, {
-        replace: false,
-      });
-      setSearchTerm(term);
-    };
+    // 2) activar la categoría de la URL (siempre)
+    dispatch({ type: "TOGGLE_CATEGORY_FILTER", payload: category });
 
-    window.addEventListener("product-search", onSearch as EventListener);
-    return () =>
-      window.removeEventListener("product-search", onSearch as EventListener);
-  }, [navigate, setSearchTerm]);
+    // 3) opcional: limpiar búsqueda para no “ocultar” resultados
+    setSearchTerm("");
+
+    // 4) subir al inicio
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  }, [params, state.selectedCategories, dispatch, setSearchTerm]);
 
   if (isLoading) {
     return <div className={styles.loadingContainer}>Cargando productos...</div>;

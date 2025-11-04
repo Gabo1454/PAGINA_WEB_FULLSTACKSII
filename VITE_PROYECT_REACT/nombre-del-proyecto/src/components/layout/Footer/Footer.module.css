@@ -97,6 +97,20 @@
   min-height: 1.2rem;
 }
 
+.newsletterBoton {
+  background: linear-gradient(90deg, #00bfff, #1e90ff);
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.newsletterBoton:hover {
+  background: linear-gradient(90deg, #39ff14, #00f0ff);
+  box-shadow: 0 0 12px var(--verde-neon);
+  transform: (1.05);
+}
 /* Copyright */
 .copyright {
   border-top: 1px solid #333;

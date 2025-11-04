@@ -1,20 +1,37 @@
-.section {
-  margin-top: 2.5rem;
-  margin-bottom: 2rem;
+/* Botón "Ver todo" (superior derecho) */
+.seeAllBtn {
+  background: linear-gradient(90deg, #00bfff, #1e90ff);
+  border: 1px solid rgba(30, 144, 255, 0.35);
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.55rem 1.1rem;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 6px 18px rgba(30, 144, 255, 0.22);
 }
 
-.sectionTitle {
-  color: var(--azul-electrico, #1e90ff);
-  font-family: "Orbitron", sans-serif;
-  margin-bottom: 0.5rem;
+.seeAllBtn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 10px 28px rgba(30, 144, 255, 0.4);
 }
 
-.cardGlow {
-  box-shadow: 0 0 0 rgba(57, 255, 20, 0);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+/* Botón interno "Ver detalle" */
+.detailBtn {
+  background: linear-gradient(90deg, #1e90ff, #007bff);
+  border: 1px solid rgba(30, 144, 255, 0.4);
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.25s ease, filter 0.2s ease,
+    background 0.25s ease, border-color 0.25s ease;
 }
 
-.cardGlow:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 18px rgba(57, 255, 20, 0.2);
+/* Efecto hover verde neón (rúbrica) */
+.detailBtn:hover {
+  background: linear-gradient(90deg, #39ff14, #32cd32); /* Verde vibrante */
+  border-color: rgba(57, 255, 20, 0.6);
+  color: #000 !important;
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.4);
 }

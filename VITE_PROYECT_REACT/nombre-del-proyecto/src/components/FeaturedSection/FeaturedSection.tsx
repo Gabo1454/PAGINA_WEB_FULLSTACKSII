@@ -1,4 +1,5 @@
 // src/components/FeaturedSection/FeaturedSection.tsx
+//Seccion de destacados reutilizable
 import { Link } from "react-router-dom";
 import styles from "./FeaturedSection.module.css";
 import type { Product } from "../../types/products";

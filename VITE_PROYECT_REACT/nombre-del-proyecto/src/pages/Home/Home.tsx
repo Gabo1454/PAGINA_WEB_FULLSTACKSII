@@ -1,25 +1,9 @@
 import { Link } from "react-router-dom";
 import { products } from "../../lib/db";
 import FeaturedSection from "../../components/sections/FeaturedSection/FeaturedSection";
-/* Replaced missing CSS module import with a local styles map to avoid
-   "Cannot find module './Home.module.css'" TypeScript error.
-   Replace these class names with your real CSS classes or restore the
-   Home.module.css file when available. */
-const styles = {
-  home: "home",
-  hero: "hero",
-  overlay: "overlay",
-  bannerImage: "bannerImage",
-  heroContent: "heroContent",
-  heroTitle: "heroTitle",
-  highlight: "highlight",
-  heroSubtitle: "heroSubtitle",
-  ctaButton: "ctaButton",
-  section: "section",
-  sectionTitle: "sectionTitle",
-} as const;
-
 const logoPage = "/imgs/elden-ring-banner.jpg";
+import HeroBanner from "../../components/sections/HeroBanner/HeroBanner";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const ofertas = products.offers();
@@ -27,29 +11,19 @@ export default function Home() {
   return (
     <div className={styles.home}>
       {/* HERO BANNER */}
-      <section className={styles.hero}>
-        <div className={styles.overlay}>
-          <img
-            src={logoPage}
-            alt="Elden Ring Banner"
-            className={styles.bannerImage}
-          />
-        </div>
+      <HeroBanner
+        imgSrc={logoPage}
+        title="LEVEL UP YOUR"
+        highlight="GAMING"
+        subtitle="Los mejores juegos, hardware y accesorios para verdaderos gamers"
+        ctaText="Explorar catálogo"
+        ctaHref="/products"
+        height="40vh"
+        minHeight="260px"
+        objectPosition="center"
+      />
 
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>
-            LEVEL UP YOUR <span className={styles.highlight}>GAMING</span>
-          </h1>
-          <p className={styles.heroSubtitle}>
-            Los mejores juegos, hardware y accesorios para verdaderos gamers
-          </p>
-          <a href="/products" className={styles.ctaButton}>
-            Explorar catálogo
-          </a>
-        </div>
-      </section>
-
-      {/* OFERTAS EN EL HOME */}
+      {/* 🔥 OFERTAS EN EL HOME */}
       <section className={`container ${styles.section}`}>
         <div className="d-flex justify-content-between align-items-end mb-3">
           <h2 className={styles.sectionTitle}>🔥 Ofertas especiales</h2>
@@ -104,21 +78,21 @@ export default function Home() {
           )}
         </div>
 
-        {/* SECCIONES DESTACADAS */}
+        {/* 🎮 SECCIONES DESTACADAS */}
         <FeaturedSection
           title="Consolas destacadas"
           items={products.featuredByCategory("Consolas", 8)}
-          seeAllHref="/products?category=Consolas"
+          seeAllHref={`/products?category=${encodeURIComponent("Consolas")}`}
         />
         <FeaturedSection
           title="PCs destacadas"
           items={products.featuredByCategory("PCs", 8)}
-          seeAllHref="/products?category=PCs"
+          seeAllHref={`/products?category=${encodeURIComponent("PCs")}`}
         />
         <FeaturedSection
           title="Juegos destacados"
           items={products.featuredByCategory("Juegos", 8)}
-          seeAllHref="/products?category=Juegos"
+          seeAllHref={`/products?category=${encodeURIComponent("Juegos")}`}
         />
       </section>
     </div>

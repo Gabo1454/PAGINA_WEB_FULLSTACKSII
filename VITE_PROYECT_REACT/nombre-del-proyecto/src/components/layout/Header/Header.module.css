@@ -36,14 +36,18 @@
 /* ✅ CORREGIDO - agregué el punto */
 .searchForm {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 /* Estado CERRADO por defecto */
 .searchInput {
   position: absolute;
   right: 100%;
-  top: 40%;
+  top: 50%;
   transform: translateY(-50%);
+  height: 45px;
+  line-height: 45px;
   width: 0;
   opacity: 0;
   visibility: hidden;
@@ -62,10 +66,10 @@
 
 /* Estado ABIERTO */
 .searchInput.open {
-  width: 220px;
+  width: 260px;
   opacity: 1;
   visibility: visible;
-  padding: 0.6rem;
+  padding: 0.6rem 0.8rem;
   border: 2px solid var(--azul-electrico);
   transition: width 0.25s ease, opacity 0.2s ease, padding 0.2s ease,
     border 0.2s ease, visibility 0s;
@@ -96,6 +100,18 @@
   min-width: 45px;
   min-height: 45px;
   font-size: 1.5rem;
+}
+
+.iconBtn {
+  min-width: 45px;
+  min-height: 45px;
+  width: 45px;
+  height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 5; /* asegura que no quede tapado */
 }
 
 .iconBtn:hover {
