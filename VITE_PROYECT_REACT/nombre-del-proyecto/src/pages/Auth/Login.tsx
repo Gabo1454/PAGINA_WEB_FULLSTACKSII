@@ -1,3 +1,4 @@
+// Login.tsx
 import AuthForm from "./AuthForm";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
@@ -12,9 +13,9 @@ export default function Login() {
     >
       <AuthForm
         mode="login"
-        onSubmit={async ({ email, password }) => {
-          await login(email, password);
-          navigate("/"); // o a /products
+        onSubmit={async ({ username, password }) => {
+          await login(username, password);
+          navigate("/"); // o /products
         }}
       />
       <p className="mt-3 text-muted">

@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import { createContext, useContext, useMemo, useState } from "react";
 import {
   currentUser,
@@ -7,10 +8,9 @@ import {
   type AuthUser,
 } from "../services/auth";
 
-// ✅ ACTUALIZAR el tipo Ctx para que coincida con el servicio
 type Ctx = {
   user: AuthUser | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
   register: (
     username: string,
     email: string,
@@ -29,8 +29,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<Ctx>(
     () => ({
       user,
-      login: async (email: string, password: string) => {
-        const u = doLogin(email, password);
+      login: async (username: string, password: string) => {
+        const u = await doLogin(username, password);
         setUser(u);
       },
       register: async (
@@ -40,8 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         age: number,
         referral: string
       ) => {
-        // ✅ Ahora coincide con el servicio actualizado
-        const u = doRegister(username, email, password, age, referral);
+        const u = await doRegister(username, email, password, age, referral);
         setUser(u);
       },
       logout: () => {

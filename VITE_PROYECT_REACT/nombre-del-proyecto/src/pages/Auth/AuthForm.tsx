@@ -1,4 +1,4 @@
-// AuthForm.tsx - VERSIÓN CORREGIDA
+// AuthForm.tsx
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
@@ -20,7 +20,6 @@ export default function AuthForm({ mode, onSubmit }: Props) {
 
   const password = watch("password");
 
-  // ✅ FUNCIÓN AUXILIAR para manejar errores de tipo
   const getErrorMessage = (error: any): string => {
     if (typeof error?.message === "string") return error.message;
     return "Error de validación";
@@ -38,38 +37,40 @@ export default function AuthForm({ mode, onSubmit }: Props) {
       })}
       noValidate
     >
+      {/* 🔹 Username siempre, tanto login como register */}
+      <div className="mb-3">
+        <label className="form-label">
+          {mode === "login" ? "Nombre de usuario" : "Nombre de usuario"}
+        </label>
+        <input
+          className={`form-control ${errors.username ? "is-invalid" : ""}`}
+          {...register("username", {
+            required: "Usuario requerido",
+            minLength: { value: 3, message: "Mínimo 3 caracteres" },
+          })}
+        />
+        <div className="invalid-feedback">
+          {errors.username && getErrorMessage(errors.username)}
+        </div>
+      </div>
+
+      {/* 🔹 Email SOLO en registro (el backend no lo usa, pero tú sí lo puedes guardar o usar después) */}
       {mode === "register" && (
         <div className="mb-3">
-          <label className="form-label">Nombre de usuario</label>
+          <label className="form-label">Correo electrónico</label>
           <input
-            className={`form-control ${errors.username ? "is-invalid" : ""}`}
-            {...register("username", {
-              required: "Usuario requerido",
-              minLength: { value: 3, message: "Mínimo 3 caracteres" },
+            type="email"
+            className={`form-control ${errors.email ? "is-invalid" : ""}`}
+            {...register("email", {
+              required: "Correo requerido",
+              pattern: { value: /^\S+@\S+$/i, message: "Correo inválido" },
             })}
           />
-          {/* ✅ CORREGIDO: Convierte FieldError a string */}
           <div className="invalid-feedback">
-            {errors.username && getErrorMessage(errors.username)}
+            {errors.email && getErrorMessage(errors.email)}
           </div>
         </div>
       )}
-
-      <div className="mb-3">
-        <label className="form-label">Correo electrónico</label>
-        <input
-          type="email"
-          className={`form-control ${errors.email ? "is-invalid" : ""}`}
-          {...register("email", {
-            required: "Correo requerido",
-            pattern: { value: /^\S+@\S+$/i, message: "Correo inválido" },
-          })}
-        />
-        {/* ✅ CORREGIDO */}
-        <div className="invalid-feedback">
-          {errors.email && getErrorMessage(errors.email)}
-        </div>
-      </div>
 
       {mode === "register" && (
         <div className="mb-3">
@@ -83,7 +84,6 @@ export default function AuthForm({ mode, onSubmit }: Props) {
               valueAsNumber: true,
             })}
           />
-          {/* ✅ CORREGIDO */}
           <div className="invalid-feedback">
             {errors.age && getErrorMessage(errors.age)}
           </div>
@@ -100,7 +100,6 @@ export default function AuthForm({ mode, onSubmit }: Props) {
             minLength: { value: 4, message: "Mínimo 4 caracteres" },
           })}
         />
-        {/* ✅ CORREGIDO */}
         <div className="invalid-feedback">
           {errors.password && getErrorMessage(errors.password)}
         </div>
@@ -117,7 +116,6 @@ export default function AuthForm({ mode, onSubmit }: Props) {
                 value === "Duoc2025" || "Código inválido. Usa: Duoc2025",
             })}
           />
-          {/* ✅ CORREGIDO */}
           <div className="invalid-feedback">
             {errors.referral && getErrorMessage(errors.referral)}
           </div>

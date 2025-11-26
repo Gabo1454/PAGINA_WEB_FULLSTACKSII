@@ -15,7 +15,6 @@ export default function Register() {
       <AuthForm
         mode="register"
         onSubmit={async ({ username, email, password, age, referral }) => {
-          // ✅ Ahora pasa los 5 parámetros que espera el contexto
           await doRegister(username, email, password, Number(age), referral);
           navigate("/");
         }}
