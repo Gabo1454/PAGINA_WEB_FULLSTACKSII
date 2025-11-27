@@ -1,4 +1,4 @@
-// src/components/Header/Header.tsx //ruta antigua
+// src/components/Header/Header.tsx
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 export { default as Header } from "./Header";
@@ -57,12 +57,10 @@ export default function Header() {
     setSearchOpen(false);
   };
 
+  // 🔹 CORREGIDO: usar logout() del contexto y redirigir
   const handleLogout = () => {
-    try {
-      localStorage.removeItem("usuarioActivo");
-    } finally {
-      setUser(null); // ✅ Usa setUser en lugar de logout
-    }
+    logout();
+    navigate("/"); // si quieres mandarlo a inicio; o "/login"
   };
 
   return (
@@ -238,10 +236,20 @@ export default function Header() {
                 >
                   {user.username} ▾
                 </button>
+
                 <div className={styles.userMenu}>
+                  {/* 🔥 SOLO ADMIN: mostrar Panel admin */}
+                  {user.role === "ROLE_ADMIN" && (
+                    <Link to="/admin" className={styles.userMenuItem}>
+                      Panel admin
+                    </Link>
+                  )}
+
+                  {/* Perfil: visible para todos los usuarios logueados */}
                   <Link to="/profile" className={styles.userMenuItem}>
                     Perfil
                   </Link>
+
                   <button
                     className={styles.userMenuItem}
                     onClick={handleLogout}
@@ -271,7 +279,4 @@ export default function Header() {
       </div>
     </header>
   );
-}
-function setUser(arg0: null) {
-  throw new Error("Function not implemented.");
 }

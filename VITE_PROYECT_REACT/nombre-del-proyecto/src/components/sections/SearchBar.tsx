@@ -1,50 +1,65 @@
-import { useEffect, useState } from "react";
+// src/components/sections/SearchBar.tsx
+import { useEffect, useRef, useState } from "react";
+import styles from "./SearchBar.module.css";
 
-interface SearchBarProps {
-  onSearch: (term: string) => void;
+type Props = {
+  onSearch: (q: string) => void;
   placeholder?: string;
-  debounceMs?: number; // default 300
-  className?: string;
-}
+};
 
 export default function SearchBar({
   onSearch,
-  placeholder = "Buscar por nombre...",
-  debounceMs = 300,
-  className,
-}: SearchBarProps) {
-  const [inputValue, setInputValue] = useState("");
+  placeholder = "Nombre del producto...",
+}: Props) {
+  const [value, setValue] = useState("");
+  const debounceRef = useRef<number | null>(null);
 
+  // 🔹 cada vez que cambia el texto, disparamos onSearch con debounce
   useEffect(() => {
-    const t = setTimeout(() => {
-      onSearch(inputValue.trim());
-    }, debounceMs);
+    if (debounceRef.current) {
+      window.clearTimeout(debounceRef.current);
+    }
 
-    return () => clearTimeout(t);
-  }, [inputValue, debounceMs, onSearch]);
+    debounceRef.current = window.setTimeout(() => {
+      onSearch(value.trim());
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) {
+        window.clearTimeout(debounceRef.current);
+      }
+    };
+  }, [value, onSearch]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch(value.trim());
+  };
+
+  const clear = () => {
+    setValue("");
+    onSearch("");
+  };
 
   return (
-    <div className={className} role="search" aria-label="Buscar productos">
-      <label htmlFor="search-input" className="visually-hidden">
-        Buscar productos
-      </label>
-      <div style={{ display: "flex", gap: 4 }}>
-        <input
-          id="search-input"
-          type="search"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder={placeholder}
-          aria-label="Buscar productos"
-        />
+    <form onSubmit={handleSubmit} className={styles.wrapper}>
+      <input
+        type="text"
+        className={styles.input}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      {value && (
         <button
           type="button"
-          aria-label="Buscar"
-          onClick={() => onSearch(inputValue.trim())} // búsqueda inmediata al click
+          className={styles.clearBtn}
+          onClick={clear}
+          aria-label="Limpiar búsqueda"
         >
-          🔍
+          ✕
         </button>
-      </div>
-    </div>
+      )}
+    </form>
   );
 }

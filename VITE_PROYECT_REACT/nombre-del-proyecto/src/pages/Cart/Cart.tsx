@@ -2,7 +2,6 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useProductStore } from "../../context/ProductsContext";
-import { products as productsRepo } from "../../lib/db";
 
 const pesoCL = (n: number) =>
   n.toLocaleString("es-CL", {
@@ -15,19 +14,22 @@ export default function Cart() {
   const { state, dispatch } = useProductStore();
   const navigate = useNavigate();
 
-  // Traemos todos los productos para cruzar con el carrito
-  const all = productsRepo.all();
+  // ✅ Productos reales del backend
+  const all = state.products ?? [];
 
+  // ✅ Cruzamos carrito con productos del backend
   const items = state.cart
     .map((it) => {
-      const p = all.find((pp) => pp.id === it.productId);
+      // productId en el carrito puede ser string o number → normalizamos
+      const pid = Number(it.productId);
+      const p = all.find((pp) => pp.id === pid);
       if (!p) return null;
 
       const price = p.price ?? 0;
       const stock = p.stock ?? 0;
 
       return {
-        id: p.id,
+        id: String(p.id), // usamos string dentro del carrito para las acciones
         name: p.name,
         price,
         image: p.image || "/imgs/placeholder.png",
@@ -49,12 +51,19 @@ export default function Cart() {
    */
   const setQty = (productId: string, qty: number) => {
     const safe = Math.max(0, Math.floor(qty));
-    const current = state.cart.find((i) => i.productId === productId)?.qty ?? 0;
+
+    // Buscamos en el carrito usando igualdad por string
+    const current =
+      state.cart.find((i) => String(i.productId) === String(productId))?.qty ??
+      0;
 
     if (safe === current) return;
 
     if (safe === 0) {
-      dispatch({ type: "REMOVE_ITEM_FROM_CART", payload: { productId } });
+      dispatch({
+        type: "REMOVE_ITEM_FROM_CART",
+        payload: { productId }, // reducer espera string
+      });
       return;
     }
 
@@ -62,14 +71,20 @@ export default function Cart() {
       const delta = safe - current;
       dispatch({
         type: "ADD_TO_CART",
-        payload: { productId, quantity: delta },
+        payload: { productId, quantity: delta }, // ADD acepta string | number
       });
       return;
     }
 
     // safe < current: simulamos "set" removiendo y reinsertando con cantidad final
-    dispatch({ type: "REMOVE_ITEM_FROM_CART", payload: { productId } });
-    dispatch({ type: "ADD_TO_CART", payload: { productId, quantity: safe } });
+    dispatch({
+      type: "REMOVE_ITEM_FROM_CART",
+      payload: { productId },
+    });
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: { productId, quantity: safe },
+    });
   };
 
   const inc = (productId: string, current: number, stock: number) => {
@@ -80,7 +95,10 @@ export default function Cart() {
   const dec = (productId: string, current: number) => {
     const next = current - 1;
     if (next <= 0) {
-      dispatch({ type: "REMOVE_ITEM_FROM_CART", payload: { productId } });
+      dispatch({
+        type: "REMOVE_ITEM_FROM_CART",
+        payload: { productId },
+      });
     } else {
       setQty(productId, next);
     }
@@ -93,11 +111,10 @@ export default function Cart() {
   const clear = () => {
     if (items.length === 0) return;
     if (confirm("¿Vaciar el carrito?")) {
-      // No existe CLEAR_CART en tu reducer: vaciamos uno a uno
       state.cart.forEach((i) =>
         dispatch({
           type: "REMOVE_ITEM_FROM_CART",
-          payload: { productId: i.productId },
+          payload: { productId: String(i.productId) },
         })
       );
     }
@@ -263,7 +280,7 @@ export default function Cart() {
           </div>
         </div>
 
-        {/* Resumen / Panel derecho mejorado */}
+        {/* Resumen / Panel derecho */}
         <div className="col-12 col-lg-4">
           <div className="card bg-dark border-primary">
             <div className="card-body">

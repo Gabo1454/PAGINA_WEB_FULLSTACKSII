@@ -6,14 +6,6 @@
   border-bottom: 2px solid var(--azul-electrico);
 }
 
-.header_principal .container-fluid > .d-flex:first-child,
-.header_principal .container-fluid > .d-none.d-lg-flex {
-  min-width: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
 /* En mobile volvemos al comportamiento normal Bootstrap */
 @media (max-width: 991px) {
   .header_principal .navbar-nav {
@@ -33,7 +25,7 @@
   filter: drop-shadow(0 0 8px var(--verde-neon));
 }
 
-/* ✅ CORREGIDO - agregué el punto */
+/* Search form */
 .searchForm {
   position: relative;
   display: flex;
@@ -111,7 +103,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  z-index: 5; /* asegura que no quede tapado */
+  z-index: 5;
 }
 
 .iconBtn:hover {
@@ -121,7 +113,7 @@
   box-shadow: 0 0 15px var(--verde-neon);
 }
 
-/* Input búsqueda */
+/* Input búsqueda alternativo */
 .inputBusquedaVisible {
   position: absolute;
   right: 100%;
@@ -150,11 +142,12 @@
   }
 }
 
-/* pegar aún más el toggler al logo */
+/* Toggler */
 .navbar-toggler {
   margin-left: -0.25rem;
 }
 
+/* Usuario activo (opcional) */
 .usuarioActivo {
   position: absolute;
   top: 1rem;
@@ -183,6 +176,7 @@
   background-color: #e60000;
 }
 
+/* User dropdown */
 .userWrapper {
   position: relative;
 }
@@ -232,18 +226,34 @@
   padding: 0.4rem 0.8rem;
 }
 
+/* Asegura que el UL del centro esté centrado */
 .centerNav {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* En Header.module.css */
+/* ⭐⭐⭐ CENTRADO REAL DEL MENÚ ⭐⭐⭐ */
+@media (min-width: 992px) {
+  .centerNav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .navbar-collapse {
+    position: relative;
+  }
+}
+
+/* Animaciones del menú mobile */
 .navbar-collapse {
   transition: all 0.3s ease;
 }
 
-/* Opcional: mejorar la apariencia del menú en móvil */
 @media (max-width: 991px) {
   .navbar-collapse {
     background: #000;
@@ -256,4 +266,19 @@
   .navbar-nav {
     padding: 1rem 0;
   }
+}
+
+/* Nombre de usuario: blanco por defecto */
+.userBtn {
+  color: #ffffff !important; /* blanco visible en fondo negro */
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+/* Hover: azul eléctrico */
+.userBtn:hover {
+  color: var(--azul-electrico) !important;
+  text-shadow: 0 0 8px var(--azul-electrico);
 }

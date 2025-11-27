@@ -1,76 +1,93 @@
-import { useState, useMemo } from "react";
+// src/hooks/useFilteredProducts.ts
+import { useMemo, useState } from "react";
 import { useProductStore } from "../context/ProductsContext";
-import type { Product, Category } from "../types/products";
+import type { Product } from "../types/products";
 
-export const useFilteredProducts = () => {
-  // 1. Obtener datos y filtros del estado global
+type SortOption =
+  | "default"
+  | "price-asc"
+  | "price-desc"
+  | "name-asc"
+  | "name-desc";
+
+export function useFilteredProducts() {
   const { state } = useProductStore();
-  const { products, isLoading, selectedCategories, maxPrice } = state;
+  const { products, selectedCategories, maxPrice, initialMaxPrice, isLoading } =
+    state;
 
-  // 2. Estados locales
-  const [sortOption, setSortOption] = useState<string>("default");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("default");
 
-  // 3. Lógica compleja (El useMemo completo)
-  const filteredAndSortedProducts = useMemo(() => {
-    // Asegura que haya datos para procesar.
-    if (!products || products.length === 0) {
-      return [];
+  const filteredAndSortedProducts = useMemo<Product[]>(() => {
+    let list = [...products];
+
+    // 🔍 BÚSQUEDA POR NOMBRE
+    const q = searchTerm.trim().toLowerCase();
+    if (q) {
+      list = list.filter((p) => p.name.toLowerCase().includes(q));
     }
 
-    const effectiveMaxPrice = maxPrice > 0 ? maxPrice : Infinity;
-    let processableProducts: Product[] = [...products];
-
-    // --- FILTRADO POR CATEGORÍA (¡Ajuste de robustez de tipo!) ---
+    // 🏷️ FILTRO POR CATEGORÍAS (AND: el producto debe tener TODAS las seleccionadas)
     if (selectedCategories.length > 0) {
-      processableProducts = processableProducts.filter((product) => {
-        // 💡 Verificación de Robustez: Normaliza product.category a un array de strings.
-        const productCategories = Array.isArray(product.category)
-          ? product.category
-          : typeof product.category === "string"
-          ? [product.category]
-          : [];
+      list = list.filter((p) => {
+        const prodCats = p.categories ?? [];
+        if (prodCats.length === 0) return false;
 
-        // Requiere que TODAS las categorías seleccionadas estén en el producto (Lógica AND).
+        // AND → todas las categorías seleccionadas deben estar en el producto
         return selectedCategories.every((selectedCat) =>
-          productCategories.includes(selectedCat as Category)
+          prodCats.includes(selectedCat)
         );
       });
     }
 
-    // --- FILTRADO POR PRECIO ---
-    processableProducts = processableProducts.filter(
-      (product) => (product.price ?? 0) <= effectiveMaxPrice
-    );
-
-    // --- FILTRADO POR BÚSQUEDA ---
-    if (searchTerm) {
-      processableProducts = processableProducts.filter((product) =>
-        (product.name ?? "").toLowerCase().includes(searchTerm.toLowerCase())
-      );
+    // 💰 FILTRO POR PRECIO MÁXIMO
+    if (
+      maxPrice > 0 &&
+      maxPrice < (initialMaxPrice || Number.MAX_SAFE_INTEGER)
+    ) {
+      list = list.filter((p) => (p.price ?? 0) <= maxPrice);
     }
 
-    // --- ORDENAMIENTO ---
-    if (sortOption === "price-asc") {
-      processableProducts.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-    } else if (sortOption === "price-desc") {
-      processableProducts.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-    } else {
-      processableProducts.sort((a, b) =>
-        (a.name ?? "").localeCompare(b.name ?? "")
-      );
+    // ↕️ ORDENAMIENTO
+    switch (sortOption) {
+      case "price-asc":
+        list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+        break;
+      case "price-desc":
+        list.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+        break;
+      case "name-asc":
+        list.sort((a, b) =>
+          a.name.localeCompare(b.name, "es", { sensitivity: "base" })
+        );
+        break;
+      case "name-desc":
+        list.sort((a, b) =>
+          b.name.localeCompare(a.name, "es", { sensitivity: "base" })
+        );
+        break;
+
+      case "default":
+      default:
+        // sin orden → como viene del backend
+        break;
     }
 
-    return processableProducts;
-  }, [products, sortOption, searchTerm, selectedCategories, maxPrice]); // Dependencias correctas
+    return list;
+  }, [
+    products,
+    searchTerm,
+    selectedCategories,
+    maxPrice,
+    initialMaxPrice,
+    sortOption,
+  ]);
 
-  // 4. Retornar solo lo que el componente necesita
   return {
     isLoading,
     filteredAndSortedProducts,
     sortOption,
     setSortOption,
-    searchTerm,
     setSearchTerm,
   };
-};
+}

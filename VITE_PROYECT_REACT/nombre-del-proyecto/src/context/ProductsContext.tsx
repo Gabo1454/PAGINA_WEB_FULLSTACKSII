@@ -1,4 +1,4 @@
-// src/context/ProductContext.tsx
+// src/context/ProductsContext.tsx
 import React, {
   createContext,
   useContext,
@@ -6,8 +6,10 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
+import { fetchProducts } from "../services/products";
 import type { Product, CartItem } from "../types/products";
 import { initialProducts } from "../mocks/products";
+
 interface ProductStoreState {
   products: Product[];
   cart: CartItem[];
@@ -16,9 +18,13 @@ interface ProductStoreState {
   maxPrice: number;
   initialMaxPrice: number;
 }
+
 type ProductStoreAction =
   | { type: "SET_PRODUCTS"; payload: Product[] }
-  | { type: "ADD_TO_CART"; payload: { productId: string; quantity: number } }
+  | {
+      type: "ADD_TO_CART";
+      payload: { productId: string | number; quantity: number };
+    }
   | { type: "REMOVE_ITEM_FROM_CART"; payload: { productId: string } }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "TOGGLE_CATEGORY_FILTER"; payload: string }
@@ -49,15 +55,18 @@ function productStoreReducer(
         isLoading: false,
       };
     }
+
     case "ADD_TO_CART": {
-      // aceptar payload con { quantity } o { qty } (o ninguno -> 1)
-      const payload = (action as any)?.payload ?? {};
-      const productId: string | undefined = payload.productId;
-      const itemQty: number = Number(payload.qty ?? payload.quantity ?? 1);
+      const payload = action.payload ?? {};
+      const rawId = payload.productId;
+      const itemQty: number = Number(payload.quantity ?? 1);
 
-      if (!productId) return state;
+      if (rawId == null) return state;
 
-      const exists = state.products.some((p) => p.id === productId);
+      // normalizamos el id a string para el carrito
+      const productId = String(rawId);
+
+      const exists = state.products.some((p) => String(p.id) === productId);
       if (!exists) return state;
 
       const existing = state.cart.find((i) => i.productId === productId);
@@ -70,6 +79,7 @@ function productStoreReducer(
 
       return { ...state, cart };
     }
+
     case "REMOVE_ITEM_FROM_CART":
       return {
         ...state,
@@ -77,6 +87,7 @@ function productStoreReducer(
           (i) => i.productId !== action.payload.productId
         ),
       };
+
     case "TOGGLE_CATEGORY_FILTER": {
       const cat = action.payload;
       const selected = state.selectedCategories.includes(cat)
@@ -84,10 +95,13 @@ function productStoreReducer(
         : [...state.selectedCategories, cat];
       return { ...state, selectedCategories: selected };
     }
+
     case "SET_MAX_PRICE_FILTER":
       return { ...state, maxPrice: action.payload };
+
     case "SET_LOADING":
       return { ...state, isLoading: action.payload };
+
     default:
       return state;
   }
@@ -108,12 +122,30 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [state, dispatch] = useReducer(productStoreReducer, initialStoreState);
 
   useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: true });
+    let cancelled = false;
 
-    // Usa initialProducts directamente en lugar de productsRepo.all()
-    const list = initialProducts;
+    const load = async () => {
+      dispatch({ type: "SET_LOADING", payload: true });
 
-    dispatch({ type: "SET_PRODUCTS", payload: list });
+      try {
+        const apiProducts = await fetchProducts(); // ← BACKEND
+        if (!cancelled) {
+          dispatch({ type: "SET_PRODUCTS", payload: apiProducts });
+        }
+      } catch (err) {
+        console.error("Error cargando productos desde API, usando mocks:", err);
+        if (!cancelled) {
+          // fallback a productos locales
+          dispatch({ type: "SET_PRODUCTS", payload: initialProducts });
+        }
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const cartItemCount = useMemo(

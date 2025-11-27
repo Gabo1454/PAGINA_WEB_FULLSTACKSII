@@ -1,7 +1,8 @@
+// src/components/layout/FilterSidebar/FilterSidebar.tsx
 import React, { useMemo } from "react";
 import { useProductStore } from "../../../context/ProductsContext";
-import { FaFilter } from "react-icons/fa"; // Icono de filtro de Bootstrap
-import styles from "./FilterSidebar.module.css"; // Importación del archivo CSS Módulo
+import { FaFilter } from "react-icons/fa";
+import styles from "./FilterSidebar.module.css";
 
 const FilterSidebar: React.FC = () => {
   const { state, dispatch } = useProductStore();
@@ -10,10 +11,10 @@ const FilterSidebar: React.FC = () => {
   // Precio máximo del slider (si no hay datos, usa fallback)
   const sliderMax = initialMaxPrice || 2_000_000;
 
-  // Categorías únicas (ignora productos sin category)
+  // 🔹 Categorías únicas desde p.categories (array)
   const uniqueCategories = useMemo(() => {
     const flat = products.flatMap((p) =>
-      Array.isArray(p.category) ? p.category : []
+      Array.isArray(p.categories) ? p.categories : []
     );
     return Array.from(new Set(flat.filter(Boolean))).sort((a, b) =>
       a.localeCompare(b, "es", { sensitivity: "base" })
@@ -25,7 +26,20 @@ const FilterSidebar: React.FC = () => {
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: "SET_MAX_PRICE_FILTER", payload: Number(e.target.value) });
+    const value = Number(e.target.value);
+
+    // Actualiza el estado global (filtro de precio)
+    dispatch({ type: "SET_MAX_PRICE_FILTER", payload: value });
+
+    // Actualiza visualmente el "llenado" del slider
+    const percentage = (value / sliderMax) * 100;
+    e.target.style.background = `
+      linear-gradient(
+        90deg,
+        var(--azul-electrico) ${percentage}%,
+        #1a1a1a ${percentage}%
+      )
+    `;
   };
 
   const formatPrice = (price: number): string =>
@@ -36,50 +50,43 @@ const FilterSidebar: React.FC = () => {
     });
 
   return (
-    <aside
-      className={`${styles.sidebar} bg-dark text-white p-4 rounded-3 shadow h-100 sticky-top`}
-      style={{ top: "var(--header-h, 80px)" }}
-    >
-      <h2 className={`${styles.filterTitle} h5 mb-4 border-bottom border-primary pb-2 d-flex align-items-center gap-2`}>
-        <FaFilter /> Filtrar por
+    <aside className={styles.sidebar}>
+      <h2 className={styles.title}>
+        <FaFilter />
+        <span>Filtros</span>
       </h2>
 
-      {/* Filtro por Categoría */}
-      <div className="mb-4">
-        <ul className="list-group list-group-flush">
-          {uniqueCategories.map((category) => (
-            <li key={category} className="list-group-item">
-              <div className="form-check">
-                <input
-                  id={`cat-${category}`}
-                  type="checkbox"
-                  className="form-check-input"
-                  checked={selectedCategories.includes(category)}
-                  onChange={() => handleCategoryChange(category)}
-                />
-                <label
-                  htmlFor={`cat-${category}`}
-                  className={`${styles.categoryLabel} form-check-label`}
-                >
-                  {category}
-                </label>
-              </div>
-            </li>
-          ))}
+      {/* 🏷️ CATEGORÍAS */}
+      <div className={styles.section}>
+        <h3 className={styles.sectionLabel}>Categorías</h3>
+        <div className={styles.categoryList}>
+          {uniqueCategories.map((category) => {
+            const active = selectedCategories.includes(category);
+            return (
+              <button
+                key={category}
+                type="button"
+                className={`${styles.categoryPill} ${
+                  active ? styles.categoryPillActive : ""
+                }`}
+                onClick={() => handleCategoryChange(category)}
+              >
+                {category}
+              </button>
+            );
+          })}
+
           {uniqueCategories.length === 0 && (
-            <li className="list-group-item text-secondary small">
-              No hay categorías disponibles.
-            </li>
+            <p className={styles.emptyText}>No hay categorías disponibles.</p>
           )}
-        </ul>
+        </div>
       </div>
 
-      {/* Filtro por Precio */}
-      <div>
-        <h3 className="h6 mb-3">Rango de Precio</h3>
-        <p className={`${styles.fwBold} text-success mb-2`}>
-          Hasta: {formatPrice(maxPrice)}
-        </p>
+      {/* 💰 PRECIO */}
+      <div className={styles.section}>
+        <h3 className={styles.sectionLabel}>Precio máximo</h3>
+        <p className={styles.priceText}>Hasta: {formatPrice(maxPrice)}</p>
+
         <input
           type="range"
           min={0}
@@ -87,10 +94,10 @@ const FilterSidebar: React.FC = () => {
           step={50_000}
           value={maxPrice}
           onChange={handlePriceChange}
-          className="form-range"
-          aria-label="Filtro de precio máximo"
+          className={styles.range}
         />
-        <div className="d-flex justify-content-between text-secondary small">
+
+        <div className={styles.rangeLabels}>
           <span>{formatPrice(0)}</span>
           <span>{formatPrice(sliderMax)}</span>
         </div>

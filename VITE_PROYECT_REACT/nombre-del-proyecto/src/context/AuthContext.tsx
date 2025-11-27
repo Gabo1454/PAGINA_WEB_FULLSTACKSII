@@ -1,5 +1,11 @@
 // src/context/AuthContext.tsx
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   currentUser,
   login as doLogin,
@@ -23,7 +29,7 @@ type Ctx = {
 
 const AuthContext = createContext<Ctx | null>(null);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(currentUser());
 
   const value = useMemo<Ctx>(

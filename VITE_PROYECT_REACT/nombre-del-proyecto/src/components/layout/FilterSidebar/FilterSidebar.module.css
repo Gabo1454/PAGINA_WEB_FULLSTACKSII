@@ -1,100 +1,167 @@
-/* Contenedor principal del sidebar */
+/* src/components/layout/FilterSidebar/FilterSidebar.module.css */
+
+:root {
+  --azul-electrico: #1e90ff;
+  --verde-neon: #39ff14;
+}
+
+/* === CONTENEDOR LATERAL === */
 .sidebar {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 10px; /* Aumenté ligeramente el border-radius para una apariencia más suave */
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Añadí una sombra para hacerlo más moderno */
-  height: fit-content;
+  background: radial-gradient(circle at top, #101827 0, #050608 65%);
+  border-radius: 16px;
+  border: 1px solid rgba(30, 144, 255, 0.5);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7), 0 0 22px rgba(30, 144, 255, 0.35);
+  padding: 1.75rem 1.25rem 1.5rem;
+  color: #e5e7eb;
+  position: sticky;
+  top: calc(var(--header-h, 80px) + 12px);
 }
 
-/* Título de la sección de filtro */
-.filterTitle {
-  color: #00f0ff;
-  font-family: "Orbitron", sans-serif;
-  font-size: 1.25rem;
-  margin-bottom: 10px;
-  font-weight: bold;
+/* === TÍTULO === */
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.4rem;
+  color: #dbeafe;
+  text-shadow: 0 0 12px rgba(30, 144, 255, 0.7);
 }
 
-/* Estilo del checkbox de categorías */
-.categoryCheckbox {
-  accent-color: #00f0ff; /* Este color hace que el checkbox sea más visible */
+.title svg {
+  color: var(--azul-electrico);
 }
 
-/* Etiqueta del checkbox de categoría */
-.categoryLabel {
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  padding: 4px 0;
-  font-size: 1rem;
-  transition: color 0.3s ease, transform 0.2s ease; /* Agregué una transición para un pequeño efecto de hover */
-  line-height: 1.5;
+/* === SECCIONES === */
+.section {
+  margin-bottom: 1.5rem;
 }
 
-/* Efecto hover en las categorías */
-.categoryLabel:hover {
-  color: #39ff14;
-  transform: translateX(4px); /* Agregué un ligero desplazamiento para un efecto visual más interesante */
-}
-
-/* Lista de categorías sin estilo por defecto */
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-/* Estilo para las categorías vacías */
-li.text-secondary {
+.sectionLabel {
   font-size: 0.9rem;
-  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9ccaff;
+  margin-bottom: 0.8rem;
 }
 
-/* Sección del filtro de precio */
-.rangeFilter {
-  margin-top: 20px;
+/* === CATEGORÍAS === */
+.categoryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-/* Título del rango de precio */
-.rangeFilter h3 {
-  font-size: 1.125rem;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #00f0ff;
+.categoryPill {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-/* Estilo del input del rango de precio */
-.form-range {
+.categoryPill:hover {
+  border-color: var(--azul-electrico);
+  box-shadow: 0 0 12px rgba(30, 144, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.categoryPillActive {
+  background: radial-gradient(circle at top, #39ff14 0, #064e3b 45%, #020617);
+  border-color: var(--verde-neon);
+  color: #eaffff;
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.7);
+}
+
+.emptyText {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* === PRECIO === */
+.priceText {
+  font-size: 0.85rem;
+  color: #bbf7d0;
+  margin-bottom: 0.4rem;
+}
+
+/* === SLIDER — 100% VISIBLE Y GAMER === */
+
+.range {
   width: 100%;
-  margin: 10px 0;
-  accent-color: #39ff14;
+  margin-bottom: 0.35rem;
+
+  -webkit-appearance: none;
+  appearance: none;
+
+  height: 6px;
+  border-radius: 999px;
+  background: #111827; /* pista visible */
+  outline: none;
+  cursor: pointer;
 }
 
-/* Estilo para mostrar los valores del rango de precio */
+/* TRACK Firefox */
+.range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: #111827;
+}
+
+/* THUMB Chrome/Edge */
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--verde-neon);
+  border: 2px solid #000;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* THUMB Firefox */
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--verde-neon);
+  border: 2px solid #000;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.range::-moz-range-thumb:hover {
+  transform: scale(1.15);
+}
+
 .rangeLabels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
-  color: #aaa;
+  font-size: 0.75rem;
+  color: #9ca3af;
 }
 
-/* Mensaje del filtro de precio */
-.fw-bold {
-  font-weight: bold;
-  color: #39ff14;
-}
-
-/* Estilo del sidebar en pantallas grandes */
-@media (min-width: 768px) {
+/* === RESPONSIVE === */
+@media (max-width: 991px) {
   .sidebar {
-    width: 280px; /* Ancho mayor en pantallas más grandes */
-  }
-}
-
-/* Estilo del sidebar en pantallas pequeñas */
-@media (max-width: 767px) {
-  .sidebar {
-    width: 100%; /* Se ajusta al 100% en pantallas pequeñas */
+    position: static;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1rem;
   }
 }

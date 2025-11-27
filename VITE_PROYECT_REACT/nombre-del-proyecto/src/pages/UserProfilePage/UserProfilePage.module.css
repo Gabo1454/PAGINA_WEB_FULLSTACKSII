@@ -1,0 +1,188 @@
+.wrapper {
+  min-height: calc(100vh - var(--header-h, 80px));
+  padding: 6rem 1.5rem 3rem;
+  background: radial-gradient(circle at top, #08101f 0, #000 55%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 720px;
+  background: rgba(5, 5, 5, 0.98);
+  border-radius: 16px;
+  border: 1px solid rgba(30, 144, 255, 0.8);
+  box-shadow: 0 0 30px rgba(30, 144, 255, 0.35), 0 0 60px rgba(0, 0, 0, 0.9);
+  padding: 2.5rem 2.25rem 2rem;
+  color: #f8f8ff;
+}
+
+/* Avatar redondo con iniciales */
+.avatarCircle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin: 0 auto 1.25rem;
+  background: radial-gradient(
+    circle at 30% 0,
+    #39ff14 0,
+    #0b4410 45%,
+    #000 85%
+  );
+  border: 3px solid var(--azul-electrico);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.7);
+}
+
+.avatarInitials {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Títulos */
+.title {
+  text-align: center;
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 1.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #aaa;
+  margin-bottom: 2rem;
+}
+
+/* Grid de información */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6c7a8a;
+}
+
+.value {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.valueMuted {
+  font-size: 0.95rem;
+  color: #9ea9b8;
+}
+
+/* Badges de rol */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.badgeUser {
+  background: rgba(30, 144, 255, 0.15);
+  color: var(--azul-electrico);
+  border: 1px solid rgba(30, 144, 255, 0.7);
+}
+
+.badgeAdmin {
+  background: rgba(57, 255, 20, 0.15);
+  color: var(--verde-neon);
+  border: 1px solid rgba(57, 255, 20, 0.7);
+}
+
+/* Texto extra */
+.metaBox {
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  background: radial-gradient(circle at left, #101a2f 0, #050608 70%);
+  border: 1px solid rgba(30, 144, 255, 0.4);
+  margin-bottom: 1.75rem;
+}
+
+.metaText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #c4c9d4;
+}
+
+/* Botones */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-size: 0.9rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.primaryBtn {
+  background: var(--azul-electrico);
+  color: #000;
+  box-shadow: 0 0 15px rgba(30, 144, 255, 0.7);
+}
+
+.primaryBtn:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 0 26px rgba(30, 144, 255, 0.9);
+}
+
+.secondaryBtn {
+  background: transparent;
+  color: #f5f5ff;
+  border-color: rgba(245, 245, 255, 0.4);
+}
+
+.secondaryBtn:hover {
+  border-color: var(--verde-neon);
+  color: var(--verde-neon);
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.6);
+}
+
+/* Responsivo */
+@media (max-width: 575px) {
+  .card {
+    padding: 2rem 1.25rem 1.75rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+}

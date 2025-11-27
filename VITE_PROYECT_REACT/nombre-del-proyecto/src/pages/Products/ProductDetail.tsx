@@ -42,7 +42,10 @@ export default function ProductDetail() {
         <div className="alert alert-warning bg-transparent border-warning text-warning">
           Producto no encontrado.
         </div>
-        <button className="btn btn-outline-primary" onClick={() => navigate(-1)}>
+        <button
+          className="btn btn-outline-primary"
+          onClick={() => navigate(-1)}
+        >
           ← Volver
         </button>
       </div>
@@ -69,10 +72,14 @@ export default function ProductDetail() {
       <nav className="mb-4">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <Link to="/" className="link-primary">Inicio</Link>
+            <Link to="/" className="link-primary">
+              Inicio
+            </Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to="/products" className="link-primary">Productos</Link>
+            <Link to="/products" className="link-primary">
+              Productos
+            </Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             {product.name}
@@ -85,7 +92,9 @@ export default function ProductDetail() {
         <div className="col-12 col-lg-6">
           <div className="card bg-dark border-primary position-relative p-3">
             {product.offer && (
-              <span className={`badge bg-danger position-absolute top-0 start-0 m-2 ${styles.badgeOffer}`}>
+              <span
+                className={`badge bg-danger position-absolute top-0 start-0 m-2 ${styles.badgeOffer}`}
+              >
                 OFERTA
               </span>
             )}
@@ -101,7 +110,9 @@ export default function ProductDetail() {
                 alt={product.name}
                 className={styles.imageContain}
                 loading="lazy"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackImg; }}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = fallbackImg;
+                }}
               />
               <span className={styles.zoomHint}>Click para ampliar</span>
             </div>
@@ -115,8 +126,12 @@ export default function ProductDetail() {
 
           {/* 💰 Precio */}
           <div className="d-flex align-items-center gap-2 mb-3">
-            <span className="fs-3 fw-bold text-success">{pesoCL(product.price ?? 0)}</span>
-            {!inStock && <span className="badge bg-secondary fs-6">Sin stock</span>}
+            <span className="fs-3 fw-bold text-success">
+              {pesoCL(product.price ?? 0)}
+            </span>
+            {!inStock && (
+              <span className="badge bg-secondary fs-6">Sin stock</span>
+            )}
           </div>
 
           {/* 📝 Descripción */}
@@ -152,20 +167,30 @@ export default function ProductDetail() {
               🛒 Añadir al carrito
             </button>
 
-            <Link to="/products" className="btn btn-outline-light btn-lg fw-semibold">
+            <Link
+              to="/products"
+              className="btn btn-outline-light btn-lg fw-semibold"
+            >
               ← Volver al catálogo
             </Link>
           </div>
 
           {/* 🧮 Stock */}
           <div className="small text-secondary mt-2">
-            {inStock ? `Stock disponible: ${product.stock}` : "Este producto está temporalmente agotado."}
+            {inStock
+              ? `Stock disponible: ${product.stock}`
+              : "Este producto está temporalmente agotado."}
           </div>
         </div>
       </div>
 
       {/* 🔍 MODAL ZOOM */}
-      <div className="modal fade" id="imageZoomModal" tabIndex={-1} aria-hidden="true">
+      <div
+        className="modal fade"
+        id="imageZoomModal"
+        tabIndex={-1}
+        aria-hidden="true"
+      >
         <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content bg-black border border-primary">
             <div className="modal-body p-0">
@@ -174,11 +199,17 @@ export default function ProductDetail() {
                 alt={product.name}
                 className="w-100"
                 style={{ objectFit: "contain", maxHeight: "85vh" }}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackImg; }}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = fallbackImg;
+                }}
               />
             </div>
             <div className="modal-footer border-0">
-              <button type="button" className="btn btn-outline-light" data-bs-dismiss="modal">
+              <button
+                type="button"
+                className="btn btn-outline-light"
+                data-bs-dismiss="modal"
+              >
                 Cerrar
               </button>
             </div>
@@ -194,7 +225,9 @@ export default function ProductDetail() {
         aria-atomic="true"
       >
         <div
-          className={`toast align-items-center text-bg-success border-0 ${showToast ? "show" : "hide"}`}
+          className={`toast align-items-center text-bg-success border-0 ${
+            showToast ? "show" : "hide"
+          }`}
           role="alert"
         >
           <div className="d-flex">

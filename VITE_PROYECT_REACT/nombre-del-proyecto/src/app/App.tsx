@@ -15,6 +15,8 @@ import { AuthProvider } from "../context/AuthContext";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Cart from "../pages/Cart/Cart";
+import UserProfilePage from "../pages/UserProfilePage/UserProfilePage";
+import AdminDashboardPage from "../pages/Admin/AdminDashboardPage";
 
 // ✅ NUEVAS IMPORTACIONES Checkout y Payment succes/failed
 import Checkout from "../pages/Checkout/Checkout";
@@ -47,6 +49,8 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<UserProfilePage />} />
+              <Route path="/admin" element={<AdminDashboardPage />} />
             </Routes>
           </main>
           <Footer />

@@ -1,12 +1,12 @@
 // src/components/catalog/CatalogFilters/CatalogFilters.tsx
-import SearchBar from "../../sections/SearchBar";
-import FilterSidebar from "../../layout/FilterSidebar/FilterSidebar";
+import { useMemo } from "react";
+import { useProductStore } from "../../../context/ProductsContext";
 import styles from "./CatalogFilters.module.css";
 
 type Props = {
-  onSearch: (q: string) => void;
+  onSearch: (term: string) => void;
   sortOption: string;
-  onChangeSort: (v: string) => void;
+  onChangeSort: (opt: string) => void;
 };
 
 export default function CatalogFilters({
@@ -14,45 +14,118 @@ export default function CatalogFilters({
   sortOption,
   onChangeSort,
 }: Props) {
-  return (
-    <aside className={`card bg-dark text-white ${styles.panel}`}>
-      <div className="card-body">
-        {/* Buscar + Ordenar */}
-        <div className="row g-3 align-items-center mb-3">
-          <div className="col-12 col-lg">
-            {/* La SearchBar mantiene su lógica; solo toma el estilo del panel */}
-            <SearchBar onSearch={onSearch} />
-          </div>
+  const { state, dispatch } = useProductStore();
+  const { products, selectedCategories, maxPrice, initialMaxPrice } = state;
 
-          <div className="col-12 col-md-auto">
-            <label
-              htmlFor="sort-by"
-              className={`form-label mb-0 me-2 ${styles.sectionLabel}`}
-            >
-              Ordenar por:
-            </label>
-            <select
-              id="sort-by"
-              value={sortOption}
-              onChange={(e) => onChangeSort(e.target.value)}
-              className={`form-select form-select-sm ${styles.select}`}
-            >
-              <option value="default">Relevancia</option>
-              <option value="price-asc">Precio: Más barato</option>
-              <option value="price-desc">Precio: Más caro</option>
-              <option value="name-asc">Nombre (A-Z)</option>
-              <option value="name-desc">Nombre (Z-A)</option>
-            </select>
+  // categorías únicas desde backend
+  const categories = useMemo(() => {
+    const all = products ?? [];
+    const set = new Set<string>();
+
+    all.forEach((p) => {
+      (p.categories ?? []).forEach((c) => {
+        if (c && c.trim()) set.add(c.trim());
+      });
+    });
+
+    return Array.from(set).sort((a, b) => a.localeCompare(b, "es"));
+  }, [products]);
+
+  const sliderMax = initialMaxPrice || 2_000_000;
+
+  const handleCategoryClick = (cat: string) => {
+    dispatch({ type: "TOGGLE_CATEGORY_FILTER", payload: cat });
+  };
+
+  const handlePriceChange = (e: any) => {
+    const value = Number(e.target.value);
+    dispatch({ type: "SET_MAX_PRICE_FILTER", payload: value });
+  };
+
+  const formatPrice = (price: number): string =>
+    price.toLocaleString("es-CL", {
+      style: "currency",
+      currency: "CLP",
+      maximumFractionDigits: 0,
+    });
+
+  return (
+    <div className={styles.filtersCard}>
+      <h5 className={styles.title}>Filtros</h5>
+
+      {/* 🔍 Búsqueda */}
+      <div className={styles.section}>
+        <label className={styles.label}>Buscar</label>
+        <input
+          type="text"
+          className={`form-control ${styles.input}`}
+          placeholder="Nombre del producto..."
+          onChange={(e) => onSearch(e.target.value)}
+        />
+      </div>
+
+      {/* 🏷️ Categorías dinámicas */}
+      {categories.length > 0 && (
+        <div className={styles.section}>
+          <label className={styles.label}>Categorías</label>
+          <div className={styles.categoryList}>
+            {categories.map((cat) => {
+              const active = selectedCategories.includes(cat);
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`${styles.categoryChip} ${
+                    active ? styles.categoryChipActive : ""
+                  }`}
+                  onClick={() => handleCategoryClick(cat)}
+                >
+                  <span className={styles.checkbox} aria-hidden="true" />
+                  <span className={styles.categoryText}>{cat}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
+      )}
 
-        <hr className={styles.divider} />
+      {/* 💰 Precio máximo */}
+      <div className={styles.section}>
+        <label className={styles.label}>Precio máximo</label>
+        <p className={styles.priceText}>Hasta: {formatPrice(maxPrice)}</p>
 
-        {/* Categorías / otros filtros (panel sticky) */}
-        <div className={styles.stickyBox}>
-          <FilterSidebar />
+        <input
+          type="range"
+          min={0}
+          max={sliderMax}
+          step={50_000}
+          value={maxPrice}
+          onChange={handlePriceChange}
+          className={styles.range}
+        />
+
+        <div className={styles.rangeLabels}>
+          <span>{formatPrice(0)}</span>
+          <span>{formatPrice(sliderMax)}</span>
         </div>
       </div>
-    </aside>
+
+      {/* 🔽 Ordenar */}
+      <div className={styles.section}>
+        <label className={styles.label}>Ordenar por</label>
+        <select
+          className={`form-select ${styles.select}`}
+          value={sortOption}
+          onChange={(e) => onChangeSort(e.target.value)}
+        >
+          <option value="default">Sin orden especial</option>
+          <option value="relevance">Relevancia</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="name-asc">Nombre A-Z</option>
+          <option value="name-desc">Nombre Z-A</option>
+        </select>
+      </div>
+    </div>
   );
 }

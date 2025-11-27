@@ -100,9 +100,12 @@ export function logout() {
 }
 
 // (Opcional) helper para futuros fetch (carrito, órdenes, etc.)
-export function authHeader() {
+export function authHeader(): Record<string, string> {
   const u = currentUser();
-  if (!u) return {};
+  if (!u) {
+    return {};
+  }
+
   return {
     Authorization: `Bearer ${u.token}`,
   };
