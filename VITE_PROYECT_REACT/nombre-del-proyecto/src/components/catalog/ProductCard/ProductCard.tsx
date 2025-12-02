@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import type { Product } from "../../../types/products";
 import { useProductStore } from "../../../context/ProductsContext";
 import { FaShoppingCart, FaCheck } from "react-icons/fa";
-export { default as ProductCard } from "./ProductCard";
+// ❌ ELIMINAR ESTA LÍNEA: Ya exportas ProductCard por defecto
+// export { default as ProductCard } from "./ProductCard";
 import styles from "./ProductCard.module.css";
 
 const FALLBACK = "/imgs/placeholder.png";
@@ -19,6 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
+    // 🎯 LÓGICA CORRECTA: Envía el ID y la cantidad 1 al carrito.
     dispatch({
       type: "ADD_TO_CART",
       payload: { productId: product.id, quantity: 1 },
@@ -46,7 +48,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           className={styles.cardImage}
           loading="lazy"
           onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = FALLBACK;
+            // ✅ Simplificación del manejo de errores de imagen
+            e.currentTarget.src = FALLBACK;
           }}
         />
 
@@ -56,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className={styles.cardBody}>
         <div>
           <h3 className={styles.cardTitle}>{product.name}</h3>
-          <p className={styles.cardPrice}>{formattedPrice}</p>
+          <p className={styles.cardPrice}>${formattedPrice}</p>
         </div>
 
         <button

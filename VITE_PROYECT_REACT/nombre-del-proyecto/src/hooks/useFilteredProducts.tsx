@@ -1,16 +1,28 @@
 // src/hooks/useFilteredProducts.ts
-import { useMemo, useState } from "react";
+import { useMemo, useState, Dispatch, SetStateAction } from "react"; // 🎯 Se importa Dispatch y SetStateAction
 import { useProductStore } from "../context/ProductsContext";
-import type { Product } from "../types/products";
+// 🎯 Importamos SortOption del archivo global y Product
+import type { Product, SortOption } from "../types/products";
 
-type SortOption =
-  | "default"
-  | "price-asc"
-  | "price-desc"
-  | "name-asc"
-  | "name-desc";
+// ❌ ELIMINAMOS LA REDEFINICIÓN LOCAL DEL TIPO SortOption
+// type SortOption =
+//    | "default"
+//    | "price-asc"
+//    | "price-desc"
+//    | "name-asc"
+//    | "name-desc";
+// ✅ Ahora usa la importación global
 
-export function useFilteredProducts() {
+// 🎯 Tipado de la función de retorno del hook
+interface UseFilteredProductsResult {
+  isLoading: boolean;
+  filteredAndSortedProducts: Product[];
+  sortOption: SortOption;
+  setSortOption: Dispatch<SetStateAction<SortOption>>; // 🎯 Tipado corregido
+  setSearchTerm: Dispatch<SetStateAction<string>>;
+}
+
+export function useFilteredProducts(): UseFilteredProductsResult {
   const { state } = useProductStore();
   const { products, selectedCategories, maxPrice, initialMaxPrice, isLoading } =
     state;
@@ -30,7 +42,7 @@ export function useFilteredProducts() {
     // 🏷️ FILTRO POR CATEGORÍAS (AND: el producto debe tener TODAS las seleccionadas)
     if (selectedCategories.length > 0) {
       list = list.filter((p) => {
-        const prodCats = p.categories ?? [];
+        const prodCats = p.category ?? [];
         if (prodCats.length === 0) return false;
 
         // AND → todas las categorías seleccionadas deben estar en el producto
@@ -50,18 +62,19 @@ export function useFilteredProducts() {
 
     // ↕️ ORDENAMIENTO
     switch (sortOption) {
-      case "price-asc":
+      // 🎯 CORRECCIÓN CRÍTICA: Usamos CamelCase para coincidir con el tipo global
+      case "priceAsc":
         list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
         break;
-      case "price-desc":
+      case "priceDesc":
         list.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
         break;
-      case "name-asc":
+      case "nameAsc":
         list.sort((a, b) =>
           a.name.localeCompare(b.name, "es", { sensitivity: "base" })
         );
         break;
-      case "name-desc":
+      case "nameDesc":
         list.sort((a, b) =>
           b.name.localeCompare(a.name, "es", { sensitivity: "base" })
         );

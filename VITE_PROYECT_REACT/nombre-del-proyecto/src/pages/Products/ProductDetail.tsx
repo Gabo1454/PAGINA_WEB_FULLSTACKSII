@@ -1,7 +1,9 @@
+// src/pages/Products/ProductDetail/ProductDetail.tsx
 import { useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { products as productsRepo } from "../../lib/db";
+// ELIMINADA: La importación directa de productos (products as productsRepo)
 import { useProductStore } from "../../context/ProductsContext";
+import { useCart } from "../../context/CartContext"; // 💡 Importación asumida de tu contexto de carrito
 import type { Product } from "../../types/products";
 import styles from "./ProductDetail.module.css";
 
@@ -18,15 +20,16 @@ export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const safeId = useMemo(() => decodeURIComponent((id ?? "").trim()), [id]);
   const navigate = useNavigate();
-  const { state, dispatch } = useProductStore();
+  const { state } = useProductStore();
+  // Asumimos que useCart expone addItem para agregar productos
+  const { addToCart: cartAddToCart } = useCart() ?? { addToCart: () => {} };
   const [qty, setQty] = useState(1);
   const [showToast, setShowToast] = useState(false);
 
   const product = useMemo<Product | undefined>(() => {
     if (!safeId) return undefined;
-    const direct = productsRepo.get(safeId);
-    if (direct) return direct;
 
+    // 💡 CORRECCIÓN: Búsqueda solo en la lista del contexto (más consistente)
     const lo = safeId.toLowerCase();
     const all = state.products;
     return (
@@ -54,16 +57,18 @@ export default function ProductDetail() {
 
   const inStock = (product.stock ?? 0) > 0;
 
-  const addToCart = () => {
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: { productId: product.id, quantity: qty },
-    });
+  const handleAddToCart = () => {
+    // 🎯 CORRECCIÓN: Llamar a la función del contexto usando el ID del producto (como string) y la cantidad.
+    // cartAddToCart llama internamente a tu API /api/cart/add.
+    cartAddToCart(String(product.id), qty);
 
     // ✅ Toast 3s
     setShowToast(true);
-    window.clearTimeout((addToCart as any)._t);
-    (addToCart as any)._t = window.setTimeout(() => setShowToast(false), 3000);
+    window.clearTimeout((handleAddToCart as any)._t);
+    (handleAddToCart as any)._t = window.setTimeout(
+      () => setShowToast(false),
+      3000
+    );
   };
 
   return (
@@ -161,7 +166,7 @@ export default function ProductDetail() {
           <div className="d-flex flex-wrap gap-3 mb-4">
             <button
               className="btn btn-primary btn-lg fw-bold"
-              onClick={addToCart}
+              onClick={handleAddToCart}
               disabled={!inStock}
             >
               🛒 Añadir al carrito
@@ -184,7 +189,7 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* 🔍 MODAL ZOOM */}
+      {/* 🔍 MODAL ZOOM (se mantiene) */}
       <div
         className="modal fade"
         id="imageZoomModal"
@@ -217,7 +222,7 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* ✅ TOAST flotante (Bootstrap) */}
+      {/* ✅ TOAST flotante (se mantiene) */}
       <div
         className="toast-container position-fixed bottom-0 end-0 p-3"
         style={{ zIndex: 1050 }}

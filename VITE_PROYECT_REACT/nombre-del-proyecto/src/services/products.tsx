@@ -1,7 +1,7 @@
 // src/services/products.ts
 import type { Product } from "../types/products";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = "/api"; // AHORA, para usar el proxy de Vite
 
 export async function fetchProducts(): Promise<Product[]> {
   const res = await fetch(`${API_URL}/products`);

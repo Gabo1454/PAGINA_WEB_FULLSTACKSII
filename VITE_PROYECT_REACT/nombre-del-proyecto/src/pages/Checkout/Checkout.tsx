@@ -1,7 +1,9 @@
+// src/pages/Checkout/Checkout.tsx  (reemplaza tu archivo actual)
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./Checkout.module.css";
+import { useCart } from "../../context/CartContext"; // adapta la ruta si la tienes distinta
 
 type CheckoutForm = {
   // Información Personal
@@ -29,9 +31,16 @@ type CheckoutForm = {
   newsletter: boolean;
 };
 
+const API_BASE = "http://localhost:8080/api";
+
 export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [hasFunds, setHasFunds] = useState(true); // <-- interruptor: true = tarjeta tiene saldo
   const navigate = useNavigate();
+  const { cart, clearCart } = useCart?.() ?? {
+    cart: { items: [], total: 0 },
+    clearCart: async () => {},
+  };
 
   const {
     register,
@@ -42,56 +51,6 @@ export default function Checkout() {
 
   // Para validación de confirmación de email
   const email = watch("email");
-
-  // Simulación de pago más realista con diferentes escenarios
-  const simulatePayment = async (
-    formData: CheckoutForm
-  ): Promise<{ success: boolean; message: string }> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const random = Math.random();
-
-        // Diferentes escenarios de resultado
-        if (random < 0.6) {
-          // 60% éxito
-          resolve({
-            success: true,
-            message: "Pago procesado exitosamente",
-          });
-        } else if (random < 0.75) {
-          // 15% fondos insuficientes
-          resolve({
-            success: false,
-            message: "Fondos insuficientes en la cuenta",
-          });
-        } else if (random < 0.85) {
-          // 10% tarjeta rechazada
-          resolve({
-            success: false,
-            message: "Tarjeta rechazada por el banco emisor",
-          });
-        } else if (random < 0.92) {
-          // 7% límite excedido
-          resolve({
-            success: false,
-            message: "Límite de la tarjeta excedido",
-          });
-        } else if (random < 0.97) {
-          // 5% error de conexión
-          resolve({
-            success: false,
-            message: "Error de conexión con el procesador de pagos",
-          });
-        } else {
-          // 3% tarjeta vencida
-          resolve({
-            success: false,
-            message: "Tarjeta vencida",
-          });
-        }
-      }, 3000); // Simula 3 segundos de procesamiento
-    });
-  };
 
   // Validación personalizada para DNI/RUT chileno
   const validateDNI = (dni: string) => {
@@ -106,12 +65,10 @@ export default function Checkout() {
   const validateCardNumber = (cardNumber: string) => {
     const cleanNumber = cardNumber.replace(/\s/g, "");
 
-    // Verificar que sean solo números y longitud válida
     if (!/^\d{13,19}$/.test(cleanNumber)) {
       return "Número de tarjeta inválido";
     }
 
-    // Algoritmo de Luhn
     let sum = 0;
     let isEven = false;
 
@@ -132,36 +89,117 @@ export default function Checkout() {
     return sum % 10 === 0 ? true : "Número de tarjeta inválido";
   };
 
+  // Construye headers con posible Authorization (lee del localStorage que usa tu auth)
+  const buildAuthHeaders = () => {
+    try {
+      const raw = localStorage.getItem("levelup-auth");
+      const user = raw ? JSON.parse(raw) : null;
+      const token = user?.token;
+      const base: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) base["Authorization"] = `Bearer ${token}`;
+      return base;
+    } catch {
+      return { "Content-Type": "application/json" };
+    }
+  };
+
   const onSubmit = async (data: CheckoutForm) => {
     setIsProcessing(true);
 
     try {
-      const paymentResult = await simulatePayment(data);
-
-      if (paymentResult.success) {
-        navigate("/payment-success", {
-          state: {
-            orderId: `ORD-${Date.now()}`,
-            customerName: data.fullName,
-            email: data.email,
-            address: `${data.address}, ${data.city}`,
-            total: "45.990", // Podrías calcular esto dinámicamente
-            estimatedDelivery: new Date(
-              Date.now() + 5 * 24 * 60 * 60 * 1000
-            ).toLocaleDateString("es-CL"),
-          },
-        });
-      } else {
+      // Si el interruptor indica que NO hay fondos -> fallo intencional (frontend)
+      if (!hasFunds) {
         navigate("/payment-failed", {
           state: {
-            error: paymentResult.message,
+            error: "Fondos insuficientes (simulación).",
             retryUrl: "/checkout",
             customerName: data.fullName,
-            suggestion: getSuggestion(paymentResult.message),
+            suggestion:
+              "Marca el interruptor 'Tarjeta con saldo' para simular éxito o intenta con otra tarjeta.",
           },
         });
+        return;
       }
+
+      // Opcional: payload con datos de shipping/payment si quieres extender backend
+      const orderPayload = {
+        shippingAddress: {
+          address: data.address,
+          city: data.city,
+          region: data.region,
+          zipCode: data.zipCode,
+          country: data.country || "Chile",
+        },
+        payment: {
+          method: data.cardType,
+          cardholderName: data.cardholderName,
+          last4: (data.cardNumber || "").slice(-4),
+        },
+        items: cart.items.map((it) => ({
+          productId: Number(it.productId),
+          quantity: it.qty,
+          price: it.price ?? null,
+          name: it.name ?? null,
+        })),
+        total: cart.total ?? null,
+      };
+
+      // Llamada al backend: usa el endpoint que ya tienes en tu controlador (/api/orders/checkout)
+      const headers = buildAuthHeaders();
+      const res = await fetch(`${API_BASE}/orders/checkout`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!res.ok) {
+        let errorMsg = `Error procesando la orden: ${res.status}`;
+        try {
+          const errJson = await res.json();
+          if (errJson?.message) errorMsg = errJson.message;
+        } catch {
+          /* ignore */
+        }
+
+        navigate("/payment-failed", {
+          state: {
+            error: errorMsg,
+            retryUrl: "/checkout",
+            customerName: data.fullName,
+            suggestion: "Revisa tus datos o intenta más tarde.",
+          },
+        });
+        return;
+      }
+
+      // Si todo OK, backend devuelve la orden creada (tu Order)
+      const created = await res.json(); // { id, totalAmount, createdAt, items, user, ... }
+
+      // Limpia carrito local y/o pide recarga al contexto
+      try {
+        await clearCart();
+      } catch {
+        // noop
+      }
+
+      navigate("/payment-success", {
+        state: {
+          orderId: created.id ?? `ORD-${Date.now()}`,
+          customerName: created.user?.fullName ?? data.fullName,
+          email: created.user?.username ?? data.email,
+          address: `${data.address}, ${data.city}`,
+          total: created.totalAmount ?? cart.total ?? "0",
+          estimatedDelivery:
+            created.estimatedDelivery ??
+            new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString(
+              "es-CL"
+            ),
+        },
+      });
     } catch (error) {
+      console.error("Checkout error:", error);
       navigate("/payment-failed", {
         state: {
           error: "Error inesperado al procesar el pago",
@@ -173,7 +211,7 @@ export default function Checkout() {
     }
   };
 
-  // Sugerencias específicas según el error
+  // Sugerencias (reutiliza tu función)
   const getSuggestion = (error: string): string => {
     const suggestions: { [key: string]: string } = {
       "Fondos insuficientes en la cuenta":
@@ -503,7 +541,6 @@ export default function Checkout() {
             </div>
           </div>
         </fieldset>
-
         {/* SECCIÓN 4: Términos y Condiciones */}
         <fieldset className={styles.fieldset}>
           <legend>📋 Confirmación</legend>
@@ -545,12 +582,42 @@ export default function Checkout() {
           </div>
         </fieldset>
 
+        {/* SWITCH GAMER */}
+        <div className={styles.switchContainer}>
+          <label className={styles.switchMini}>
+            <input
+              type="checkbox"
+              checked={hasFunds}
+              onChange={(e) => setHasFunds(e.target.checked)}
+            />
+            <span className={styles.switchKnob}></span>
+          </label>
+
+          <span className={styles.switchText}>
+            Tarjeta con saldo (simulación)
+          </span>
+        </div>
+
+        <p
+          style={{
+            fontSize: "0.7rem",
+            opacity: 0.55,
+            marginLeft: 4,
+            marginTop: -4,
+          }}
+        >
+          Si desactivas este switch, la compra fallará y verás la página de
+          error.
+        </p>
+
         <button
           type="submit"
           disabled={isProcessing}
           className={styles.submitButton}
         >
-          {isProcessing ? "⏳ Procesando Pago..." : "💰 Pagar Ahora - $45.990"}
+          {isProcessing
+            ? "⏳ Procesando Pago..."
+            : `💰 Pagar Ahora - $${cart.total ?? "45.990"}`}
         </button>
 
         <div className={styles.securityNote}>

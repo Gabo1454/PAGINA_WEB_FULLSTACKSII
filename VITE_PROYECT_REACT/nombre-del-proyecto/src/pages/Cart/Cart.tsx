@@ -2,6 +2,9 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useProductStore } from "../../context/ProductsContext";
+import { useCart } from "../../context/CartContext";
+// Asumo que estás usando estilos con CSS Modules
+import styles from "./Cart.module.css";
 
 const pesoCL = (n: number) =>
   n.toLocaleString("es-CL", {
@@ -11,16 +14,20 @@ const pesoCL = (n: number) =>
   });
 
 export default function Cart() {
-  const { state, dispatch } = useProductStore();
-  const navigate = useNavigate();
+  const { state } = useProductStore();
+  const {
+    cart,
+    addToCart: cartAddToCart,
+    removeFromCart: cartRemoveFromCart,
+    clearCart: cartClearCart,
+    loading: cartLoading,
+  } = useCart();
 
-  // ✅ Productos reales del backend
+  const navigate = useNavigate();
   const all = state.products ?? [];
 
-  // ✅ Cruzamos carrito con productos del backend
-  const items = state.cart
+  const items = cart.items
     .map((it) => {
-      // productId en el carrito puede ser string o number → normalizamos
       const pid = Number(it.productId);
       const p = all.find((pp) => pp.id === pid);
       if (!p) return null;
@@ -29,7 +36,7 @@ export default function Cart() {
       const stock = p.stock ?? 0;
 
       return {
-        id: String(p.id), // usamos string dentro del carrito para las acciones
+        id: String(p.id),
         name: p.name,
         price,
         image: p.image || "/imgs/placeholder.png",
@@ -40,97 +47,75 @@ export default function Cart() {
     })
     .filter((x): x is NonNullable<typeof x> => x !== null);
 
-  const total = items.reduce((acc, x) => acc + x.subtotal, 0);
+  const total =
+    cart.total > 0 ? cart.total : items.reduce((acc, x) => acc + x.subtotal, 0);
 
   /**
-   * setQty:
-   * Ajusta la cantidad deseada usando SOLO acciones existentes:
-   * - Si safe > current -> ADD_TO_CART con delta
-   * - Si safe === 0     -> REMOVE_ITEM_FROM_CART
-   * - Si safe < current -> REMOVE y luego ADD con la cantidad final
+   * Lógica de setQty para usar ADD o REMOVE.
+   * Se usa una implementación de SET_QTY segura: eliminar completamente el producto
+   * y luego agregar la cantidad correcta, ya que el backend puede no soportar un SET directo.
    */
-  const setQty = (productId: string, qty: number) => {
+  const setQty = async (productId: string, qty: number) => {
     const safe = Math.max(0, Math.floor(qty));
 
-    // Buscamos en el carrito usando igualdad por string
     const current =
-      state.cart.find((i) => String(i.productId) === String(productId))?.qty ??
+      cart.items.find((i) => String(i.productId) === String(productId))?.qty ??
       0;
 
     if (safe === current) return;
 
+    const delta = safe - current;
+
     if (safe === 0) {
-      dispatch({
-        type: "REMOVE_ITEM_FROM_CART",
-        payload: { productId }, // reducer espera string
-      });
+      // Si la nueva cantidad es 0, removemos todo el ítem.
+      await cartRemoveFromCart(productId);
       return;
     }
 
-    if (safe > current) {
-      const delta = safe - current;
-      dispatch({
-        type: "ADD_TO_CART",
-        payload: { productId, quantity: delta }, // ADD acepta string | number
-      });
-      return;
-    }
+    if (delta > 0) {
+      // Si delta es positivo, añadimos la diferencia.
+      await cartAddToCart(productId, delta);
+    } else {
+      // Si delta es negativo, realizamos la operación de SET, eliminando y volviendo a agregar.
+      await cartRemoveFromCart(productId);
 
-    // safe < current: simulamos "set" removiendo y reinsertando con cantidad final
-    dispatch({
-      type: "REMOVE_ITEM_FROM_CART",
-      payload: { productId },
-    });
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: { productId, quantity: safe },
-    });
+      if (safe > 0) {
+        await cartAddToCart(productId, safe);
+      }
+    }
   };
 
+  // Funciones de incremento/decremento
   const inc = (productId: string, current: number, stock: number) => {
     if (current >= stock) return;
     setQty(productId, current + 1);
   };
 
   const dec = (productId: string, current: number) => {
-    const next = current - 1;
-    if (next <= 0) {
-      dispatch({
-        type: "REMOVE_ITEM_FROM_CART",
-        payload: { productId },
-      });
-    } else {
-      setQty(productId, next);
-    }
+    // Asegurarse de que no baje de 0. setQty maneja la eliminación cuando es 0.
+    setQty(productId, Math.max(0, current - 1));
   };
 
-  const remove = (productId: string) => {
-    dispatch({ type: "REMOVE_ITEM_FROM_CART", payload: { productId } });
+  const remove = async (productId: string) => {
+    await cartRemoveFromCart(productId);
   };
 
-  const clear = () => {
+  const clear = async () => {
     if (items.length === 0) return;
     if (confirm("¿Vaciar el carrito?")) {
-      state.cart.forEach((i) =>
-        dispatch({
-          type: "REMOVE_ITEM_FROM_CART",
-          payload: { productId: String(i.productId) },
-        })
-      );
+      await cartClearCart();
     }
   };
 
-  // ==== Cupón y totales (solo panel derecho) ====
+  // ==== Cupón y totales ====
   const [coupon, setCoupon] = useState("");
   const [couponOk, setCouponOk] = useState(false);
 
-  // -10% si el cupón es LEVELUP10
   const discountAmount = useMemo(
     () => (couponOk ? Math.floor(total * 0.1) : 0),
     [couponOk, total]
   );
 
-  // Total final (sin envío; se calcula en Checkout)
   const grandTotal = Math.max(0, total - discountAmount);
 
   const applyCoupon = (e: React.FormEvent) => {
@@ -138,6 +123,7 @@ export default function Cart() {
     setCouponOk(coupon.trim().toUpperCase() === "LEVELUP10");
   };
 
+  // Renderizado condicional si el carrito está vacío
   if (items.length === 0) {
     return (
       <section className="container-fluid px-4 py-5 text-white">
@@ -152,6 +138,7 @@ export default function Cart() {
     );
   }
 
+  // Renderizado del carrito con items
   return (
     <section className="container-fluid px-4 py-4 text-white">
       <div className="d-flex align-items-center justify-content-between mb-3">
@@ -160,10 +147,15 @@ export default function Cart() {
           <button
             className="btn btn-outline-light"
             onClick={() => navigate(-1)}
+            disabled={cartLoading}
           >
             ← Seguir comprando
           </button>
-          <button className="btn btn-outline-danger" onClick={clear}>
+          <button
+            className="btn btn-outline-danger"
+            onClick={clear}
+            disabled={cartLoading}
+          >
             Vaciar
           </button>
         </div>
@@ -217,44 +209,30 @@ export default function Cart() {
                     </td>
                     <td className="text-end">{pesoCL(it.price)}</td>
                     <td className="text-center">
-                      <div
-                        className="btn-group"
-                        role="group"
-                        aria-label="Cantidad"
-                      >
+                      {/* Utilizando el CSS Module personalizado */}
+                      <div className={styles.qtyButtons}>
                         <button
-                          className="btn btn-outline-light"
+                          className={styles.qtyBtn} // Clase personalizada
+                          type="button" // Evitar submit de formulario
                           onClick={() => dec(it.id, it.qty)}
                           title="Disminuir"
+                          disabled={cartLoading || it.qty <= 0}
                         >
                           −
                         </button>
-                        <input
-                          type="number"
-                          min={0}
-                          max={Math.max(it.stock, 0)}
-                          value={it.qty}
-                          onChange={(e) => {
-                            const n = Number(e.target.value || 0);
-                            if (Number.isNaN(n)) return;
-                            const capped = Math.min(
-                              Math.max(0, n),
-                              Math.max(it.stock, 0)
-                            );
-                            setQty(it.id, capped);
-                          }}
-                          className="form-control text-center"
-                          style={{ width: 70 }}
-                        />
+                        <span className={styles.qtyValue}>{it.qty}</span>{" "}
+                        {/* Clase personalizada */}
                         <button
-                          className="btn btn-outline-light"
+                          className={styles.qtyBtn} // Clase personalizada
+                          type="button" // Evitar submit de formulario
                           onClick={() => inc(it.id, it.qty, it.stock)}
-                          disabled={it.qty >= it.stock}
+                          disabled={it.qty >= it.stock || cartLoading}
                           title="Aumentar"
                         >
                           +
                         </button>
                       </div>
+
                       {it.stock > 0 && (
                         <div className="small text-secondary mt-1">
                           Stock: {it.stock}
@@ -267,8 +245,10 @@ export default function Cart() {
                     <td className="text-end">
                       <button
                         className="btn btn-outline-danger"
+                        type="button" // Evitar submit de formulario
                         onClick={() => remove(it.id)}
                         title="Eliminar"
+                        disabled={cartLoading}
                       >
                         ✕
                       </button>
@@ -298,16 +278,23 @@ export default function Cart() {
                     placeholder="LEVELUP10"
                     value={coupon}
                     onChange={(e) => setCoupon(e.target.value)}
+                    disabled={cartLoading}
                   />
-                  <button className="btn btn-outline-primary" type="submit">
+                  <button
+                    className="btn btn-outline-primary"
+                    type="submit"
+                    disabled={cartLoading}
+                  >
                     Aplicar
                   </button>
                 </div>
+
                 {couponOk && (
                   <small className="text-success d-block mt-1">
                     ✅ Cupón aplicado: -10%
                   </small>
                 )}
+
                 {!couponOk && coupon.trim() !== "" && (
                   <small className="text-secondary d-block mt-1">
                     Tip: usa <strong>LEVELUP10</strong>
@@ -318,23 +305,28 @@ export default function Cart() {
               {/* Totales */}
               <div className="d-flex justify-content-between my-2">
                 <span>Items</span>
-                <span>{state.cart.reduce((acc, i) => acc + i.qty, 0)}</span>
+                <span>{cart.items.reduce((acc, i) => acc + i.qty, 0)}</span>
               </div>
+
               <div className="d-flex justify-content-between my-2">
                 <span>Subtotal</span>
                 <span className="fw-semibold">{pesoCL(total)}</span>
               </div>
+
               {discountAmount > 0 && (
                 <div className="d-flex justify-content-between my-2 text-success">
                   <span>Descuento</span>
                   <span>-{pesoCL(discountAmount)}</span>
                 </div>
               )}
+
               <div className="d-flex justify-content-between my-2">
                 <span>Envío</span>
                 <span className="text-secondary">Calculado en Checkout</span>
               </div>
+
               <hr />
+
               <div className="d-flex justify-content-between my-2">
                 <span className="fw-bold">Total</span>
                 <span className="fw-bold fs-5 text-success">
@@ -344,10 +336,18 @@ export default function Cart() {
 
               {/* Botones */}
               <div className="d-grid mt-3">
-                <Link to="/checkout" className="btn btn-primary">
+                <Link
+                  to="/checkout"
+                  className="btn btn-primary"
+                  style={{
+                    pointerEvents:
+                      cartLoading || items.length === 0 ? "none" : "auto",
+                  }}
+                >
                   Ir a pagar
                 </Link>
               </div>
+
               <div className="d-grid mt-2">
                 <Link to="/products" className="btn btn-outline-light">
                   Seguir comprando

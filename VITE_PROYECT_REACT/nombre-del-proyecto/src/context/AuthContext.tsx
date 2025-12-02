@@ -1,5 +1,5 @@
 // src/context/AuthContext.tsx
-import {
+import React, {
   createContext,
   useContext,
   useMemo,
@@ -14,8 +14,9 @@ import {
   type AuthUser,
 } from "../services/auth";
 
-type Ctx = {
+type AuthContextType = {
   user: AuthUser | null;
+  isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
   register: (
     username: string,
@@ -27,14 +28,15 @@ type Ctx = {
   logout: () => void;
 };
 
-const AuthContext = createContext<Ctx | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(currentUser());
 
-  const value = useMemo<Ctx>(
+  const value = useMemo<AuthContextType>(
     () => ({
       user,
+      isAuthenticated: !!user,
       login: async (username: string, password: string) => {
         const u = await doLogin(username, password);
         setUser(u);
@@ -60,8 +62,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
+export function useAuth(): AuthContextType {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be inside AuthProvider");
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
 }

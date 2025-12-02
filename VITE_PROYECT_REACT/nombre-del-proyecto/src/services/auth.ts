@@ -19,32 +19,28 @@ function safeParse<T>(raw: string | null): T | null {
   }
 }
 
-// ✅ Devuelve el usuario actual desde localStorage (para hidratar el contexto)
+// Devuelve el usuario actual desde localStorage
 export function currentUser(): AuthUser | null {
   return safeParse<AuthUser>(localStorage.getItem(STORAGE_KEY));
 }
 
-// ✅ Login contra el backend real
+// Login contra el backend
 export async function login(
   username: string,
   password: string
 ): Promise<AuthUser> {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
 
   if (!res.ok) {
-    if (res.status === 401) {
-      throw new Error("Credenciales inválidas");
-    }
+    if (res.status === 401) throw new Error("Credenciales inválidas");
     throw new Error("Error al iniciar sesión");
   }
 
-  const data = await res.json(); // LoginResponse del backend
+  const data = await res.json();
 
   const user: AuthUser = {
     id: data.userId,
@@ -58,7 +54,7 @@ export async function login(
   return user;
 }
 
-// ✅ Registro contra el backend real
+// Registro contra el backend
 export async function register(
   username: string,
   email: string,
@@ -66,47 +62,29 @@ export async function register(
   age: number,
   referral: string
 ): Promise<AuthUser> {
-  // El backend NO usa email / age / referral. Los pedimos solo para tu UX.
-  // Para el backend usamos username y un fullName sencillo:
-  const body = {
-    username,
-    password,
-    fullName: username, // podrías cambiarlo después a algo más elaborado
-  };
+  const body = { username, password, fullName: username };
 
   const res = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
 
-  if (res.status === 409) {
-    throw new Error("El nombre de usuario ya existe");
-  }
+  if (res.status === 409) throw new Error("El nombre de usuario ya existe");
+  if (!res.ok) throw new Error("Error al registrar usuario");
 
-  if (!res.ok) {
-    throw new Error("Error al registrar usuario");
-  }
-
-  // Después de registrar, iniciamos sesión automáticamente:
+  // Inicia sesión automáticamente después de registrar
   return login(username, password);
 }
 
-// ✅ Logout → borra del localStorage
+// Logout → borra del localStorage
 export function logout() {
   localStorage.removeItem(STORAGE_KEY);
 }
 
-// (Opcional) helper para futuros fetch (carrito, órdenes, etc.)
+// Helper para fetch con Authorization
 export function authHeader(): Record<string, string> {
   const u = currentUser();
-  if (!u) {
-    return {};
-  }
-
-  return {
-    Authorization: `Bearer ${u.token}`,
-  };
+  if (!u) return {};
+  return { Authorization: `Bearer ${u.token}` };
 }

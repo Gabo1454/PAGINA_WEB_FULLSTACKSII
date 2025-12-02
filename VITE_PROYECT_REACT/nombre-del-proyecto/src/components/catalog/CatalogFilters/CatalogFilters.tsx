@@ -2,11 +2,14 @@
 import { useMemo } from "react";
 import { useProductStore } from "../../../context/ProductsContext";
 import styles from "./CatalogFilters.module.css";
+import type { SortOption } from "../../../types/products"; // Importado correctamente
 
 type Props = {
   onSearch: (term: string) => void;
-  sortOption: string;
-  onChangeSort: (opt: string) => void;
+  // sortOption DEBE ser de tipo SortOption
+  sortOption: SortOption;
+  // onChangeSort DEBE esperar un argumento de tipo SortOption
+  onChangeSort: (opt: SortOption) => void;
 };
 
 export default function CatalogFilters({
@@ -23,7 +26,7 @@ export default function CatalogFilters({
     const set = new Set<string>();
 
     all.forEach((p) => {
-      (p.categories ?? []).forEach((c) => {
+      (p.category ?? []).forEach((c) => {
         if (c && c.trim()) set.add(c.trim());
       });
     });
@@ -116,14 +119,21 @@ export default function CatalogFilters({
         <select
           className={`form-select ${styles.select}`}
           value={sortOption}
-          onChange={(e) => onChangeSort(e.target.value)}
+          // 🎯 CORRECCIÓN DE TIPADO Y CAPITALIZACIÓN:
+          // Se llama a onChangeSort con e.target.value casteado a SortOption.
+          onChange={(e) => onChangeSort(e.target.value as SortOption)}
         >
+          {/* 🎯 CORRECCIÓN CRÍTICA: Valores uniformados a CamelCase */}
           <option value="default">Sin orden especial</option>
           <option value="relevance">Relevancia</option>
-          <option value="price-asc">Precio: menor a mayor</option>
-          <option value="price-desc">Precio: mayor a menor</option>
-          <option value="name-asc">Nombre A-Z</option>
-          <option value="name-desc">Nombre Z-A</option>
+          <option value="priceAsc">Precio: menor a mayor</option>{" "}
+          {/* Corregido de price-asc */}
+          <option value="priceDesc">Precio: mayor a menor</option>{" "}
+          {/* Corregido de price-desc */}
+          <option value="nameAsc">Nombre A-Z</option>{" "}
+          {/* Corregido de name-asc */}
+          <option value="nameDesc">Nombre Z-A</option>{" "}
+          {/* Corregido de name-desc */}
         </select>
       </div>
     </div>

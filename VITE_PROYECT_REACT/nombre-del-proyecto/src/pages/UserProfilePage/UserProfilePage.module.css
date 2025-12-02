@@ -1,188 +1,196 @@
 .wrapper {
-  min-height: calc(100vh - var(--header-h, 80px));
-  padding: 6rem 1.5rem 3rem;
-  background: radial-gradient(circle at top, #08101f 0, #000 55%);
   display: flex;
-  align-items: flex-start;
   justify-content: center;
+  padding: 40px 20px;
 }
 
 .card {
+  background: #1e1e1e;
+  padding: 30px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 720px;
-  background: rgba(5, 5, 5, 0.98);
-  border-radius: 16px;
-  border: 1px solid rgba(30, 144, 255, 0.8);
-  box-shadow: 0 0 30px rgba(30, 144, 255, 0.35), 0 0 60px rgba(0, 0, 0, 0.9);
-  padding: 2.5rem 2.25rem 2rem;
-  color: #f8f8ff;
+  max-width: 600px;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Avatar redondo con iniciales */
 .avatarCircle {
-  width: 96px;
-  height: 96px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  margin: 0 auto 1.25rem;
-  background: radial-gradient(
-    circle at 30% 0,
-    #39ff14 0,
-    #0b4410 45%,
-    #000 85%
-  );
-  border: 3px solid var(--azul-electrico);
+  background: #3b82f6;
   display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 0 18px rgba(57, 255, 20, 0.7);
+  align-items: center;
+  margin: 0 auto 15px;
 }
 
 .avatarInitials {
-  font-family: "Orbitron", system-ui, sans-serif;
-  font-size: 2.1rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-size: 32px;
+  font-weight: bold;
 }
 
-/* Títulos */
 .title {
   text-align: center;
-  font-family: "Orbitron", system-ui, sans-serif;
-  font-size: 1.9rem;
-  margin-bottom: 0.25rem;
+  font-size: 28px;
+  margin-bottom: 4px;
 }
 
 .subtitle {
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 14px;
   color: #aaa;
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
 }
 
-/* Grid de información */
 .infoGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.25rem 1.75rem;
-  margin-bottom: 1.75rem;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .infoItem {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
+  justify-content: space-between;
 }
 
 .label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #6c7a8a;
+  font-weight: bold;
+  color: #bbb;
 }
 
 .value {
-  font-size: 1.05rem;
-  font-weight: 600;
+  color: #fff;
 }
 
-.valueMuted {
-  font-size: 0.95rem;
-  color: #9ea9b8;
-}
-
-/* Badges de rol */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem 0.7rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.badgeUser {
-  background: rgba(30, 144, 255, 0.15);
-  color: var(--azul-electrico);
-  border: 1px solid rgba(30, 144, 255, 0.7);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .badgeAdmin {
-  background: rgba(57, 255, 20, 0.15);
-  color: var(--verde-neon);
-  border: 1px solid rgba(57, 255, 20, 0.7);
+  background: #ef4444;
 }
 
-/* Texto extra */
+.badgeUser {
+  background: #10b981;
+}
+
 .metaBox {
-  border-radius: 10px;
-  padding: 0.9rem 1rem;
-  background: radial-gradient(circle at left, #101a2f 0, #050608 70%);
-  border: 1px solid rgba(30, 144, 255, 0.4);
-  margin-bottom: 1.75rem;
+  background: #2a2a2a;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
 }
 
 .metaText {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #c4c9d4;
+  color: #ccc;
+  font-size: 14px;
 }
 
-/* Botones */
-.actions {
+/* ===== HISTORIAL DE COMPRAS ===== */
+
+.sectionTitle {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.noOrders {
+  color: #bbb;
+  margin-bottom: 20px;
+}
+
+.ordersList {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.primaryBtn,
-.secondaryBtn {
-  font-family: "Orbitron", system-ui, sans-serif;
-  font-size: 0.9rem;
-  padding: 0.55rem 1.2rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
+.orderCard {
+  background: #2b2b2b;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.orderId {
+  font-weight: bold;
+}
+
+.orderStatusCompleted {
+  background: #10b981;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.orderStatusPending {
+  background: #f59e0b;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.orderDetails p {
+  margin: 2px 0;
+}
+
+.orderItems summary {
   cursor: pointer;
-  transition: all 0.25s ease;
+  margin-top: 8px;
+  color: #60a5fa;
+}
+
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #444;
+}
+
+/* ===== Botones ===== */
+
+.actions {
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
 }
 
 .primaryBtn {
-  background: var(--azul-electrico);
-  color: #000;
-  box-shadow: 0 0 15px rgba(30, 144, 255, 0.7);
-}
-
-.primaryBtn:hover {
-  transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 0 26px rgba(30, 144, 255, 0.9);
+  flex: 1;
+  background: #3b82f6;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .secondaryBtn {
-  background: transparent;
-  color: #f5f5ff;
-  border-color: rgba(245, 245, 255, 0.4);
+  flex: 1;
+  background: #444;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.primaryBtn:hover {
+  background: #2563eb;
 }
 
 .secondaryBtn:hover {
-  border-color: var(--verde-neon);
-  color: var(--verde-neon);
-  box-shadow: 0 0 18px rgba(57, 255, 20, 0.6);
-}
-
-/* Responsivo */
-@media (max-width: 575px) {
-  .card {
-    padding: 2rem 1.25rem 1.75rem;
-  }
-
-  .title {
-    font-size: 1.6rem;
-  }
-
-  .actions {
-    justify-content: center;
-  }
+  background: #555;
 }

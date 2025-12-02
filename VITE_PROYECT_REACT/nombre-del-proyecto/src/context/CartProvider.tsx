@@ -23,48 +23,66 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const KEY_CART = "cart_ctx_v1";
 
+function safeParseCart(raw: string | null): CartItem[] {
+  try {
+    const parsed = JSON.parse(raw || "[]");
+    if (!Array.isArray(parsed)) return [];
+    // Aseguramos que productId sea string y qty número entero >=1
+    return parsed.map((it) => ({
+      productId: String(it.productId ?? ""),
+      qty: Math.max(0, Math.floor(Number(it.qty ?? 0))),
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem(KEY_CART) || "[]");
-    } catch {
-      return [];
-    }
+    return safeParseCart(localStorage.getItem(KEY_CART));
   });
 
   const persist = (next: CartItem[]) => {
-    setCartItems(next);
-    localStorage.setItem(KEY_CART, JSON.stringify(next));
+    // normalizamos antes de guardar
+    const normalized = next.map((it) => ({
+      productId: String(it.productId),
+      qty: Math.max(0, Math.floor(it.qty)),
+    }));
+    setCartItems(normalized);
+    localStorage.setItem(KEY_CART, JSON.stringify(normalized));
   };
 
   const addToCart = (productId: string, qty = 1) => {
+    const idStr = String(productId);
     persist(
-      cartItems.some((i) => i.productId === productId)
+      cartItems.some((i) => i.productId === idStr)
         ? cartItems.map((i) =>
-            i.productId === productId ? { ...i, qty: i.qty + qty } : i
+            i.productId === idStr ? { ...i, qty: i.qty + qty } : i
           )
-        : [...cartItems, { productId, qty }]
+        : [...cartItems, { productId: idStr, qty }]
     );
   };
 
   const setQty = (productId: string, qty: number) => {
     const safe = Math.max(0, Math.floor(qty));
+    const idStr = String(productId);
     persist(
       cartItems
-        .map((i) => (i.productId === productId ? { ...i, qty: safe } : i))
+        .map((i) => (i.productId === idStr ? { ...i, qty: safe } : i))
         .filter((i) => i.qty > 0)
     );
   };
 
   const removeFromCart = (productId: string) =>
-    persist(cartItems.filter((i) => i.productId !== productId));
+    persist(cartItems.filter((i) => i.productId !== String(productId)));
   const clearCart = () => persist([]);
 
   // calcula total cruzando con la BD (precio garantizado number)
   const total = useMemo(() => {
     const all = productsRepo.all();
     return cartItems.reduce((acc, it) => {
-      const p = all.find((pp) => pp.id === it.productId);
+      // normalizamos ambos lados a string para evitar problemas de tipo
+      const p = all.find((pp) => String(pp.id) === String(it.productId));
       const price = p?.price ?? 0;
       return acc + price * it.qty;
     }, 0);
