@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import type { Product } from "../../../types/products";
-import { useProductStore } from "../../../context/ProductsContext";
 import { FaShoppingCart, FaCheck } from "react-icons/fa";
-// ❌ ELIMINAR ESTA LÍNEA: Ya exportas ProductCard por defecto
-// export { default as ProductCard } from "./ProductCard";
+import type { Product } from "../../../types/products";
+import { useCart } from "../../../context/CartContext"; // 💡 Usamos el contexto de carrito
 import styles from "./ProductCard.module.css";
 
 const FALLBACK = "/imgs/placeholder.png";
@@ -14,17 +12,15 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { dispatch } = useProductStore();
+  const { addToCart } = useCart(); // Función real de tu carrito
   const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    // 🎯 LÓGICA CORRECTA: Envía el ID y la cantidad 1 al carrito.
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: { productId: product.id, quantity: 1 },
-    });
+
+    addToCart(String(product.id), 1); // Cantidad 1 por defecto
+
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
   };
@@ -36,57 +32,60 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const isInStock = (product.stock ?? 0) > 0;
 
   return (
-    <Link to={`/products/${product.id}`} className={styles.card}>
-      <div className={styles.cardImageContainer}>
-        {product.offer && (
-          <span className={`${styles.offerBadge} badge bg-danger`}>OFERTA</span>
-        )}
+    <div className={styles.card}>
+      <Link to={`/products/${product.id}`} className={styles.cardLink}>
+        <div className={styles.cardImageContainer}>
+          {product.offer && (
+            <span className={`${styles.offerBadge} badge bg-danger`}>
+              OFERTA
+            </span>
+          )}
 
-        <img
-          src={product.image || FALLBACK}
-          alt={product.name}
-          className={styles.cardImage}
-          loading="lazy"
-          onError={(e) => {
-            // ✅ Simplificación del manejo de errores de imagen
-            e.currentTarget.src = FALLBACK;
-          }}
-        />
+          <img
+            src={product.image || FALLBACK}
+            alt={product.name}
+            className={styles.cardImage}
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.src = FALLBACK;
+            }}
+          />
 
-        {!isInStock && <span className={styles.outOfStockBadge}>AGOTADO</span>}
-      </div>
+          {!isInStock && (
+            <span className={styles.outOfStockBadge}>AGOTADO</span>
+          )}
+        </div>
 
-      <div className={styles.cardBody}>
         <div>
           <h3 className={styles.cardTitle}>{product.name}</h3>
           <p className={styles.cardPrice}>${formattedPrice}</p>
         </div>
+      </Link>
 
-        <button
-          onClick={handleAddToCart}
-          disabled={!isInStock || isAdded}
-          className={`${styles.addToCartButton} ${
-            !isInStock
-              ? styles.outOfStockButton
-              : isAdded
-              ? styles.added
-              : styles.inStock
-          }`}
-        >
-          {isAdded ? (
-            <>
-              <FaCheck className="me-2" /> Añadido
-            </>
-          ) : isInStock ? (
-            <>
-              <FaShoppingCart className="me-2" /> Añadir al Carrito
-            </>
-          ) : (
-            "Sin Stock"
-          )}
-        </button>
-      </div>
-    </Link>
+      <button
+        onClick={handleAddToCart}
+        disabled={!isInStock || isAdded}
+        className={`${styles.addToCartButton} ${
+          !isInStock
+            ? styles.outOfStockButton
+            : isAdded
+            ? styles.added
+            : styles.inStock
+        }`}
+      >
+        {isAdded ? (
+          <>
+            <FaCheck className="me-2" /> Añadido
+          </>
+        ) : isInStock ? (
+          <>
+            <FaShoppingCart className="me-2" /> Añadir al Carrito
+          </>
+        ) : (
+          "Sin Stock"
+        )}
+      </button>
+    </div>
   );
 };
 

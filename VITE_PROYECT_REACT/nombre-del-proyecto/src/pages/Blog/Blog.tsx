@@ -1,5 +1,5 @@
-// src/pages/Blog/Blog.tsx
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import styles from "./Blog.module.css";
 
 type Article = {
@@ -81,7 +81,6 @@ function Modal({
     if (open) {
       lastActiveRef.current = document.activeElement as HTMLElement | null;
       document.addEventListener("keydown", onKey);
-      // focus en botón cerrar
       setTimeout(() => closeBtnRef.current?.focus(), 0);
       document.body.style.overflow = "hidden";
     } else {
@@ -142,34 +141,21 @@ function Modal({
 export default function Blog() {
   const [articles] = useState<Article[]>(initialArticles);
   const [openArticle, setOpenArticle] = useState<Article | null>(null);
-  const [usuarioNombre, setUsuarioNombre] = useState<string | null>(null);
-  const [usuarioPuntos, setUsuarioPuntos] = useState<number>(0);
 
-  useEffect(() => {
-    // lee sessionStorage (igual que tu script original)
-    try {
-      const usuarioActivo = JSON.parse(
-        sessionStorage.getItem("usuarioActivo") || "null"
-      );
-      if (usuarioActivo) {
-        setUsuarioNombre(usuarioActivo.nombre ?? null);
-        setUsuarioPuntos(Number(usuarioActivo.puntos ?? 0));
-      }
-    } catch {
-      // ignore parse errors
-    }
-  }, []);
+  const { user } = useAuth();
 
   return (
     <main className={`container ${styles.page}`}>
       <header className={styles.header}>
         <h1 className={styles.heading}>
           Bienvenido{" "}
-          <span className={styles.username}>{usuarioNombre ?? "invitado"}</span>{" "}
+          <span className={styles.username}>
+            {user ? user.fullName || user.username : "invitado"}
+          </span>{" "}
           a Level-Up Gamer
         </h1>
         <p className={styles.points}>
-          Puntos LevelUp: <span>{usuarioPuntos}</span>
+          Puntos LevelUp: <span>0</span>
         </p>
       </header>
 

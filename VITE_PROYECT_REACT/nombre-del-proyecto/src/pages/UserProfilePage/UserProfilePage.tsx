@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import styles from "./UserProfilePage.module.css";
 
 export default function UserProfilePage() {
-  const { user, token } = useAuth();
-  const [orders, setOrders] = useState([]);
+  const { user } = useAuth();
+  const [orders, setOrders] = useState<any[]>([]);
 
   if (!user) return <Navigate to="/login" replace />;
 
@@ -27,21 +27,21 @@ export default function UserProfilePage() {
       try {
         const res = await fetch("http://localhost:8080/api/orders/my-orders", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          setOrders(data);
-        }
+        if (!res.ok) return;
+
+        const data = await res.json();
+        setOrders(data);
       } catch (err) {
         console.error("Error obteniendo órdenes:", err);
       }
     };
 
     fetchOrders();
-  }, [token]);
+  }, [user.token]);
 
   return (
     <section className={styles.wrapper}>
@@ -61,32 +61,28 @@ export default function UserProfilePage() {
             <span className={styles.value}>@{user.username}</span>
           </div>
 
-          {user.role && (
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Rol</span>
-              <span
-                className={`${styles.badge} ${
-                  user.role === "ROLE_ADMIN"
-                    ? styles.badgeAdmin
-                    : styles.badgeUser
-                }`}
-              >
-                {user.role === "ROLE_ADMIN" ? "Administrador" : "Cliente"}
-              </span>
-            </div>
-          )}
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Rol</span>
+            <span
+              className={`${styles.badge} ${
+                user.role === "ROLE_ADMIN"
+                  ? styles.badgeAdmin
+                  : styles.badgeUser
+              }`}
+            >
+              {user.role === "ROLE_ADMIN" ? "Administrador" : "Cliente"}
+            </span>
+          </div>
         </div>
 
         <div className={styles.metaBox}>
           <p className={styles.metaText}>
             Esta cuenta está autenticada mediante <strong>JWT</strong> y tus
-            compras quedan asociadas para que puedas revisarlas aquí.
+            compras quedan asociadas a tu usuario.
           </p>
         </div>
 
-        {/* ==============================
-            HISTORIAL DE COMPRAS
-           ============================== */}
+        {/* Historial de compras */}
         <h2 className={styles.sectionTitle}>Mis compras</h2>
 
         {orders.length === 0 ? (
@@ -133,7 +129,7 @@ export default function UserProfilePage() {
           </div>
         )}
 
-        {/* Botones de acción */}
+        {/* Acciones */}
         <div className={styles.actions}>
           <button
             type="button"

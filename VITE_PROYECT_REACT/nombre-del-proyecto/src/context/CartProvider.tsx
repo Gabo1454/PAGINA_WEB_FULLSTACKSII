@@ -1,92 +1,117 @@
-// src/context/CartContext.tsx
+// src/context/Provider.tsx
 import {
   createContext,
   useContext,
-  useMemo,
   useState,
+  useEffect,
   type ReactNode,
 } from "react";
-import { products as productsRepo } from "../lib/db"; // para calcular totales
 
-export type CartItem = { productId: string; qty: number };
+export type CartItem = {
+  productId: string;
+  qty: number;
+  name?: string;
+  price?: number;
+  image?: string;
+  stock?: number;
+};
 
 type CartContextType = {
   cartItems: CartItem[];
-  addToCart: (productId: string, qty?: number) => void;
-  setQty: (productId: string, qty: number) => void;
-  removeFromCart: (productId: string) => void;
-  clearCart: () => void;
+  addToCart: (productId: string, qty?: number) => Promise<void>;
+  setQty: (productId: string, qty: number) => Promise<void>;
+  removeFromCart: (productId: string) => Promise<void>;
+  clearCart: () => Promise<void>;
   total: number;
+  loading: boolean;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const KEY_CART = "cart_ctx_v1";
-
-function safeParseCart(raw: string | null): CartItem[] {
-  try {
-    const parsed = JSON.parse(raw || "[]");
-    if (!Array.isArray(parsed)) return [];
-    // Aseguramos que productId sea string y qty número entero >=1
-    return parsed.map((it) => ({
-      productId: String(it.productId ?? ""),
-      qty: Math.max(0, Math.floor(Number(it.qty ?? 0))),
-    }));
-  } catch {
-    return [];
-  }
-}
-
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    return safeParseCart(localStorage.getItem(KEY_CART));
-  });
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
 
-  const persist = (next: CartItem[]) => {
-    // normalizamos antes de guardar
-    const normalized = next.map((it) => ({
-      productId: String(it.productId),
-      qty: Math.max(0, Math.floor(it.qty)),
-    }));
-    setCartItems(normalized);
-    localStorage.setItem(KEY_CART, JSON.stringify(normalized));
+  // --- Función para sincronizar el carrito con el backend ---
+  const fetchCart = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/cart");
+      const data: { items: CartItem[]; total: number } = await res.json();
+      setCartItems(data.items);
+      setTotal(data.total);
+    } catch (err) {
+      console.error("Error al obtener carrito", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const addToCart = (productId: string, qty = 1) => {
-    const idStr = String(productId);
-    persist(
-      cartItems.some((i) => i.productId === idStr)
-        ? cartItems.map((i) =>
-            i.productId === idStr ? { ...i, qty: i.qty + qty } : i
-          )
-        : [...cartItems, { productId: idStr, qty }]
-    );
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  // --- Acciones del carrito ---
+  const addToCart = async (productId: string, qty = 1) => {
+    setLoading(true);
+    try {
+      await fetch("/api/cart/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, qty }),
+      });
+      await fetchCart(); // refresca el estado
+    } catch (err) {
+      console.error("Error al agregar al carrito", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const setQty = (productId: string, qty: number) => {
-    const safe = Math.max(0, Math.floor(qty));
-    const idStr = String(productId);
-    persist(
-      cartItems
-        .map((i) => (i.productId === idStr ? { ...i, qty: safe } : i))
-        .filter((i) => i.qty > 0)
-    );
+  const setQty = async (productId: string, qty: number) => {
+    setLoading(true);
+    try {
+      await fetch("/api/cart/set-qty", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, qty }),
+      });
+      await fetchCart();
+    } catch (err) {
+      console.error("Error al actualizar cantidad", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeFromCart = (productId: string) =>
-    persist(cartItems.filter((i) => i.productId !== String(productId)));
-  const clearCart = () => persist([]);
+  const removeFromCart = async (productId: string) => {
+    setLoading(true);
+    try {
+      await fetch("/api/cart/remove", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId }),
+      });
+      await fetchCart();
+    } catch (err) {
+      console.error("Error al eliminar del carrito", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // calcula total cruzando con la BD (precio garantizado number)
-  const total = useMemo(() => {
-    const all = productsRepo.all();
-    return cartItems.reduce((acc, it) => {
-      // normalizamos ambos lados a string para evitar problemas de tipo
-      const p = all.find((pp) => String(pp.id) === String(it.productId));
-      const price = p?.price ?? 0;
-      return acc + price * it.qty;
-    }, 0);
-  }, [cartItems]);
+  const clearCart = async () => {
+    setLoading(true);
+    try {
+      await fetch("/api/cart/clear", { method: "DELETE" });
+      await fetchCart();
+    } catch (err) {
+      console.error("Error al vaciar carrito", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const value: CartContextType = {
     cartItems,
@@ -95,7 +120,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     removeFromCart,
     clearCart,
     total,
+    loading,
   };
+
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 

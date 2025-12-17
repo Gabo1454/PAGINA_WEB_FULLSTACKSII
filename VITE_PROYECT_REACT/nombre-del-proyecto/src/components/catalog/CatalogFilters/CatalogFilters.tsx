@@ -26,7 +26,7 @@ export default function CatalogFilters({
     const set = new Set<string>();
 
     all.forEach((p) => {
-      (p.category ?? []).forEach((c) => {
+      (p.categories ?? []).forEach((c) => {
         if (c && c.trim()) set.add(c.trim());
       });
     });

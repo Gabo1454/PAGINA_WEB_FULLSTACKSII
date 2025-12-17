@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useProductStore } from "../../context/ProductsContext";
 import { useCart } from "../../context/CartContext";
-// Asumo que estás usando estilos con CSS Modules
 import styles from "./Cart.module.css";
 
+// Función para formatear a pesos chilenos
 const pesoCL = (n: number) =>
   n.toLocaleString("es-CL", {
     style: "currency",
@@ -26,6 +26,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const all = state.products ?? [];
 
+  // ==== Mapear items del carrito con info real del producto ====
   const items = cart.items
     .map((it) => {
       const pid = Number(it.productId);
@@ -41,20 +42,17 @@ export default function Cart() {
         price,
         image: p.image || "/imgs/placeholder.png",
         stock,
-        qty: it.qty,
-        subtotal: price * it.qty,
+        qty: it.qty, // Cantidad en el carrito
+        subtotal: price * it.qty, // Subtotal por producto
       };
     })
     .filter((x): x is NonNullable<typeof x> => x !== null);
 
+  // ==== Total del carrito ====
   const total =
     cart.total > 0 ? cart.total : items.reduce((acc, x) => acc + x.subtotal, 0);
 
-  /**
-   * Lógica de setQty para usar ADD o REMOVE.
-   * Se usa una implementación de SET_QTY segura: eliminar completamente el producto
-   * y luego agregar la cantidad correcta, ya que el backend puede no soportar un SET directo.
-   */
+  // ==== Función para actualizar cantidad de un producto ====
   const setQty = async (productId: string, qty: number) => {
     const safe = Math.max(0, Math.floor(qty));
 
@@ -67,44 +65,38 @@ export default function Cart() {
     const delta = safe - current;
 
     if (safe === 0) {
-      // Si la nueva cantidad es 0, removemos todo el ítem.
-      await cartRemoveFromCart(productId);
+      await cartRemoveFromCart(productId); // eliminar si qty = 0
       return;
     }
 
     if (delta > 0) {
-      // Si delta es positivo, añadimos la diferencia.
-      await cartAddToCart(productId, delta);
+      await cartAddToCart(productId, delta); // agregar diferencia
     } else {
-      // Si delta es negativo, realizamos la operación de SET, eliminando y volviendo a agregar.
+      // si disminuye, eliminamos y volvemos a agregar la cantidad correcta
       await cartRemoveFromCart(productId);
-
-      if (safe > 0) {
-        await cartAddToCart(productId, safe);
-      }
+      if (safe > 0) await cartAddToCart(productId, safe);
     }
   };
 
-  // Funciones de incremento/decremento
+  // Incrementar y decrementar cantidad
   const inc = (productId: string, current: number, stock: number) => {
     if (current >= stock) return;
     setQty(productId, current + 1);
   };
 
   const dec = (productId: string, current: number) => {
-    // Asegurarse de que no baje de 0. setQty maneja la eliminación cuando es 0.
     setQty(productId, Math.max(0, current - 1));
   };
 
+  // Eliminar producto
   const remove = async (productId: string) => {
     await cartRemoveFromCart(productId);
   };
 
+  // Vaciar carrito
   const clear = async () => {
     if (items.length === 0) return;
-    if (confirm("¿Vaciar el carrito?")) {
-      await cartClearCart();
-    }
+    if (confirm("¿Vaciar el carrito?")) await cartClearCart();
   };
 
   // ==== Cupón y totales ====
@@ -123,7 +115,7 @@ export default function Cart() {
     setCouponOk(coupon.trim().toUpperCase() === "LEVELUP10");
   };
 
-  // Renderizado condicional si el carrito está vacío
+  // ==== Renderizado si el carrito está vacío ====
   if (items.length === 0) {
     return (
       <section className="container-fluid px-4 py-5 text-white">
@@ -138,7 +130,7 @@ export default function Cart() {
     );
   }
 
-  // Renderizado del carrito con items
+  // ==== Renderizado del carrito con items ====
   return (
     <section className="container-fluid px-4 py-4 text-white">
       <div className="d-flex align-items-center justify-content-between mb-3">
@@ -209,22 +201,21 @@ export default function Cart() {
                     </td>
                     <td className="text-end">{pesoCL(it.price)}</td>
                     <td className="text-center">
-                      {/* Utilizando el CSS Module personalizado */}
+                      {/* Botones para cambiar cantidad */}
                       <div className={styles.qtyButtons}>
                         <button
-                          className={styles.qtyBtn} // Clase personalizada
-                          type="button" // Evitar submit de formulario
+                          className={styles.qtyBtn}
+                          type="button"
                           onClick={() => dec(it.id, it.qty)}
                           title="Disminuir"
                           disabled={cartLoading || it.qty <= 0}
                         >
                           −
                         </button>
-                        <span className={styles.qtyValue}>{it.qty}</span>{" "}
-                        {/* Clase personalizada */}
+                        <span className={styles.qtyValue}>{it.qty}</span>
                         <button
-                          className={styles.qtyBtn} // Clase personalizada
-                          type="button" // Evitar submit de formulario
+                          className={styles.qtyBtn}
+                          type="button"
                           onClick={() => inc(it.id, it.qty, it.stock)}
                           disabled={it.qty >= it.stock || cartLoading}
                           title="Aumentar"
@@ -240,12 +231,13 @@ export default function Cart() {
                       )}
                     </td>
                     <td className="text-end fw-bold text-success">
+                      {/* Subtotal por producto */}
                       {pesoCL(it.subtotal)}
                     </td>
                     <td className="text-end">
                       <button
                         className="btn btn-outline-danger"
-                        type="button" // Evitar submit de formulario
+                        type="button"
                         onClick={() => remove(it.id)}
                         title="Eliminar"
                         disabled={cartLoading}

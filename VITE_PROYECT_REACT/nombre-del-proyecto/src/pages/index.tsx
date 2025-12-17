@@ -6,7 +6,6 @@ export * from "./Auth/AuthForm";
 export * from "./Auth/Login";
 export * from "./Auth/Register";
 export * from "./Cart/Cart";
-export * from "./Cart/CartItems";
 export * from "./Products/Products";
 export * from "./Offers/Offers";
 

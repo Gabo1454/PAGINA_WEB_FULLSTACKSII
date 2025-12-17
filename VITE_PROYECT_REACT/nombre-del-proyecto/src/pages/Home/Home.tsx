@@ -19,7 +19,9 @@ export default function Home() {
     // 1. Filtrar por categoría
     // ❌ CORRECCIÓN CRÍTICA: Se añade (p.category ?? []) para evitar que .includes() falle
     // si p.category es undefined (que es la causa del TypeError).
-    const list = products.filter((p) => (p.category ?? []).includes(category));
+    const list = products.filter((p) =>
+      (p.categories ?? []).includes(category)
+    );
 
     // 2. Aplicar lógica de destacados/ofertas (similar a la lógica de db.ts)
     const featured = list.filter((p) => p.featured === true);
