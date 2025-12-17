@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { authHeader } from "../../services/auth";
 import styles from "./AdminDashboardPage.module.css";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = "/api";
 
 type Product = {
   id?: number;
