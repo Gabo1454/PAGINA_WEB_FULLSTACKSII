@@ -1,0 +1,20 @@
+.section {
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  color: var(--azul-electrico, #1e90ff);
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.cardGlow {
+  box-shadow: 0 0 0 rgba(57, 255, 20, 0);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.cardGlow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.2);
+}

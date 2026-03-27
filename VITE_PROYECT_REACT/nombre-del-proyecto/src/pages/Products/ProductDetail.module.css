@@ -1,0 +1,41 @@
+/* Contenedor de imagen con proporción estable (16:9 tipo widescreen) */
+.imageBox {
+  --bs-aspect-ratio: calc(9 / 16 * 100%); /* formato panorámico */
+  background: #0b0b0b;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-height: 480px; /* 🔒 límite visual para pantallas grandes */
+  margin: 0 auto;
+}
+
+/* Imagen contenida, sin recortes ni deformación */
+.imageContain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #0b0b0b;
+}
+
+/* Badge más legible sobre fondos variables */
+.badgeOffer {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Texto “Click para ampliar” */
+.zoomHint {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #bbb;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+}
+
+@media (min-width: 992px) {
+  /* En desktop, un poco más alto sin romper layout */
+  .imageBox {
+    --bs-aspect-ratio: 110%;
+  }
+}

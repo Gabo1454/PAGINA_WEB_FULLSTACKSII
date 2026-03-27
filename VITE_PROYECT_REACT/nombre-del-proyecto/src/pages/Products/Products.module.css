@@ -1,0 +1,132 @@
+/* src/pages/Products/Products.module.css */
+
+.productsPage {
+  background-color: #0d0d0d;
+  min-height: 80vh;
+  padding-inline: clamp(2rem, 5vw, 5rem);
+  padding-block: 2rem;
+  box-sizing: border-box;
+}
+
+.heroBanner {
+  width: 100vw; /* ancho total */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: #000;
+}
+
+.heroImage {
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Evita que las columnas de la fila se estiren a la altura del grid */
+.productsRow {
+  align-items: flex-start; /* <-- clave */
+}
+
+/* Sticky simple, sin recortes */
+.sidebarSticky {
+  position: sticky;
+  top: calc(var(--header-h, 80px) + 12px); /* ajusta a tu header */
+}
+
+/* 💡 LAYOUT DE DOS COLUMNAS (Barra Lateral + Productos) */
+.catalogoLayout {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+/* Manejo responsivo para apilar en móvil */
+@media (max-width: 768px) {
+  .catalogoLayout {
+    flex-direction: column;
+  }
+}
+
+/* Estilo para el contenedor de búsqueda y ordenamiento (superior del main) */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* 💡 ESTILO DEL GRID DE PRODUCTOS */
+.productsGrid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.productCard {
+  border: 1px solid #333; /* Borde sutil */
+  padding: 1rem;
+  border-radius: 8px;
+  /* 💡 FONDO DE TARJETA OSCURO */
+  background: #1a1a1a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  color: white; /* Asegurar texto blanco en tarjeta */
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
+  /* 💡 SOMBRA ROJA AL PASAR EL MOUSE (Acento) */
+  box-shadow: 0 8px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* --- Estilos específicos para la barra lateral y filtros de categoría --- */
+
+.sidebar {
+  /* Aseguramos que la anchura no cambie en desktop */
+  width: 100%;
+  max-width: 256px; /* Equivalente a md:w-64 en Tailwind */
+}
+
+/* Estilo para los títulos dentro del sidebar */
+.filterTitle {
+  color: #f87171; /* Rojo suave */
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilo para los checkboxes de categoría */
+.categoryLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  color: #a0aec0; /* Gris claro */
+  transition: color 0.2s;
+}
+
+.categoryLabel:hover {
+  color: #ef4444; /* Rojo al pasar el ratón (Acento) */
+}
+
+.categoryCheckbox {
+  /* Ocultar el checkbox nativo y estilizar con Tailwind si es necesario, 
+       o simplemente usar el acento rojo */
+  margin-right: 0.5rem;
+  accent-color: #ef4444; /* Rojo para el check */
+}
+
+/* Estilo de Carga */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  font-size: 1.5rem;
+  color: #ef4444; /* Rojo de acento */
+}
